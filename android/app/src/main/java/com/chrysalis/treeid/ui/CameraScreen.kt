@@ -36,7 +36,6 @@ import androidx.compose.foundation.layout.navigationBarsPadding
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -178,8 +177,8 @@ fun CameraScreen(vm: TreeViewModel) {
                     capturing = true
                     takePhoto(
                         context, capture,
-                        onPhoto = { capturing = false; vm.identify(it) },
-                        onError = {
+                        onPhotoReady = { capturing = false; vm.identify(it) },
+                        onFailure = {
                             capturing = false
                             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
                         },
@@ -311,8 +310,8 @@ private val captureExecutor = Executors.newSingleThreadExecutor()
 private fun takePhoto(
     context: Context,
     capture: ImageCapture,
-    onPhoto: (Bitmap) -> Unit,
-    onError: (String) -> Unit,
+    onPhotoReady: (Bitmap) -> Unit,
+    onFailure: (String) -> Unit,
 ) {
     val main = ContextCompat.getMainExecutor(context)
     capture.takePicture(captureExecutor, object : ImageCapture.OnImageCapturedCallback() {
@@ -325,12 +324,12 @@ private fun takePhoto(
                 image.close()
             }
             main.execute {
-                if (bitmap != null) onPhoto(bitmap) else onError("Couldn't read the photo")
+                if (bitmap != null) onPhotoReady(bitmap) else onFailure("Couldn't read the photo")
             }
         }
 
         override fun onError(exception: ImageCaptureException) {
-            main.execute { onError(exception.message ?: "Couldn't take the photo") }
+            main.execute { onFailure(exception.message ?: "Couldn't take the photo") }
         }
     })
 }

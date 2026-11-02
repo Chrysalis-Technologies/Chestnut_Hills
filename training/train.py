@@ -4,8 +4,11 @@
 Modes
 -----
   --mode features   Freeze an ImageNet backbone, cache its embeddings, and train a
-                    classifier head on top. Runs on an ordinary CPU in about an
-                    hour. A solid baseline.
+                    classifier head on top. Fast (~30 min on a CPU) but a weak
+                    baseline: ImageNet features alone don't separate tree species well.
+  --mode partial    Also fine-tune the backbone's last stage. Early layers run once
+                    and are cached, so this is practical on a CPU (~2 h). Much more
+                    accurate than `features`.
   --mode finetune   Fine-tune the whole network end to end with augmentation.
                     Needs a GPU (a free Google Colab T4 is fine, ~1 h). Noticeably
                     more accurate; this is what the shipped model should use.
@@ -22,7 +25,7 @@ Outputs (in --out-dir)
 
 Usage
 -----
-  python training/train.py --mode features --images data/images --out-dir build/model
+  python training/train.py --mode partial  --images data/images --out-dir build/model
   python training/train.py --mode finetune --images data/images --out-dir build/model
 """
 from __future__ import annotations
@@ -253,6 +256,139 @@ def train_features(args, labels, splits, size):
     return assemble(backbone, head, size)
 
 
+# ------------------------------------------------------------------ partial mode
+# Fine-tune only the last stage of the backbone. The frozen early layers run once per
+# photo and their output is cached on disk, so training is affordable on a CPU.
+
+PARTIAL_CUT = {"efficientnetv2b0": "block5e_add"}
+
+
+def extract_maps(trunk, samples, size, augment, batch, path):
+    """Run the frozen trunk over the photos once; cache activations as float16 .npy."""
+    paths = [p for p, _ in samples]
+    digest = hashlib.sha1(("\n".join(paths) + f"|{augment}|{size}").encode()).hexdigest()
+    meta_path = path + ".json"
+    if os.path.exists(meta_path):
+        with open(meta_path) as f:
+            meta = json.load(f)
+        if meta.get("digest") == digest:
+            log(f"  using cached activations {os.path.basename(path)}")
+            return np.load(path, mmap_mode="r")[: meta["n"]], np.load(path + ".labels.npy")
+
+    infer = tf.function(lambda x: trunk(x, training=False), reduce_retracing=True)
+    fn = random_crop if augment else center_crop
+    ds = tf.data.Dataset.from_tensor_slices((paths, np.array([l for _, l in samples], np.int32)))
+    ds = ds.map(lambda p, l: (fn(decode(p), size), l), num_parallel_calls=AUTOTUNE).ignore_errors()
+    ds = ds.batch(batch).prefetch(AUTOTUNE)
+    shape = (len(paths),) + tuple(trunk.output.shape[1:])
+    out = np.lib.format.open_memmap(path, mode="w+", dtype=np.float16, shape=shape)
+    ys, n, t0 = [], 0, time.time()
+    for x, y in ds:
+        a = infer(x).numpy()
+        out[n:n + len(a)] = a.astype(np.float16)
+        ys.append(y.numpy())
+        n += len(a)
+        if (n // batch) % 50 == 0:
+            log(f"  {n:,}/{len(paths):,} images ({n / (time.time() - t0):.0f}/s)")
+    out.flush()
+    del out
+    labels = np.concatenate(ys)
+    np.save(path + ".labels.npy", labels)
+    with open(meta_path, "w") as f:
+        json.dump({"digest": digest, "n": n}, f)
+    return np.load(path, mmap_mode="r")[:n], labels
+
+
+def map_batches(views, labels, num_classes, batch, shuffle, weights=None, seed=0):
+    """tf.data over cached activations; each epoch uses one random view per photo."""
+    n = len(labels)
+    shape = views[0].shape[1:]
+    rng = np.random.default_rng(seed)
+
+    def gen():
+        order = rng.permutation(n) if shuffle else np.arange(n)
+        for i in range(0, n, batch):
+            idx = np.sort(order[i:i + batch])
+            if len(views) > 1:
+                pick = rng.integers(0, len(views), len(idx))
+                x = np.empty((len(idx),) + shape, np.float32)
+                for v, arr in enumerate(views):
+                    m = pick == v
+                    if m.any():
+                        x[m] = arr[idx[m]]
+            else:
+                x = views[0][idx].astype(np.float32)
+            y = np.eye(num_classes, dtype=np.float32)[labels[idx]]
+            if weights is None:
+                yield x, y
+            else:
+                yield x, y, weights[labels[idx]]
+
+    sig = [tf.TensorSpec((None,) + shape, tf.float32), tf.TensorSpec((None, num_classes), tf.float32)]
+    if weights is not None:
+        sig.append(tf.TensorSpec((None,), tf.float32))
+    return tf.data.Dataset.from_generator(gen, output_signature=tuple(sig)).prefetch(4)
+
+
+def train_partial(args, labels, splits, size):
+    n = len(labels)
+    cut_name = args.cut_layer or PARTIAL_CUT.get(args.backbone)
+    if not cut_name:
+        raise SystemExit(f"--mode partial needs --cut-layer for {args.backbone}")
+    backbone = make_backbone(args.backbone, size)
+    cut = backbone.get_layer(cut_name)
+    trunk = keras.Model(backbone.input, cut.output)
+    tail = keras.Model(cut.output, backbone.output)  # shares its layers with `backbone`
+    log(f"fine-tuning layers after {cut_name}: {tail.count_params():,} of "
+        f"{backbone.count_params():,} backbone parameters")
+    os.makedirs(args.work_dir, exist_ok=True)
+    tag = f"{args.backbone}_{size}_{cut_name}"
+
+    log("caching validation activations")
+    xv, yv = extract_maps(trunk, splits["val"], size, False, args.batch,
+                          os.path.join(args.work_dir, f"maps_{tag}_val.npy"))
+    views, ytr = [], None
+    for view in range(args.views):
+        log(f"caching training activations, view {view + 1}/{args.views}"
+            + (" (centre crop)" if view == 0 else " (augmented)"))
+        x, y = extract_maps(trunk, splits["train"], size, view > 0, args.batch,
+                            os.path.join(args.work_dir, f"maps_{tag}_train_v{view}.npy"))
+        if ytr is None:
+            ytr = y
+        elif len(y) != len(ytr) or not np.array_equal(y, ytr):
+            log("WARNING: views disagree (unreadable photos?); using the first view only")
+            break
+        views.append(x)
+
+    w = class_weights(splits["train"], n)
+    head = make_head(backbone.output_shape[-1], n, args.head_hidden, args.dropout)
+    inp = keras.Input(xv.shape[1:])
+    model = keras.Model(inp, head(tail(inp, training=False)))
+    train_ds = map_batches(views, ytr, n, args.batch, True, w, seed=1)
+    val_ds = map_batches([xv], yv, n, 256, False)
+    steps = -(-len(ytr) // args.batch)
+
+    log("stage 1: one epoch training the classifier head only")
+    tail.trainable = False
+    compile_model(model, 1e-3)
+    model.fit(train_ds, validation_data=val_ds, epochs=1, verbose=2)
+
+    log(f"stage 2: fine-tuning the last stage + head for up to {args.epochs} epochs")
+    tail.trainable = True
+    ckpt = os.path.join(args.work_dir, "partial_best.weights.h5")
+    compile_model(model, keras.optimizers.schedules.CosineDecay(args.lr, args.epochs * steps, alpha=0.05))
+    model.fit(
+        train_ds, validation_data=val_ds, epochs=args.epochs, verbose=2,
+        callbacks=[
+            keras.callbacks.ModelCheckpoint(ckpt, monitor="val_acc", mode="max", save_best_only=True,
+                                            save_weights_only=True),
+            keras.callbacks.EarlyStopping(monitor="val_acc", mode="max", patience=2),
+        ],
+    )
+    model.load_weights(ckpt)  # also updates `backbone`, which shares the tail's layers
+    return assemble(backbone, head, size)
+
+
 # ----------------------------------------------------------------- finetune mode
 
 def train_finetune(args, labels, splits, size):
@@ -380,7 +516,11 @@ def export_tflite(model, path: str, quantize: str) -> None:
 
 def check_tflite(path: str, model, samples, size: int, n: int = 64) -> float:
     """Return top-1 agreement between the TFLite file and the Keras model."""
-    interp = tf.lite.Interpreter(model_path=path)
+    try:  # newer TensorFlow releases drop tf.lite.Interpreter in favour of LiteRT
+        from ai_edge_litert.interpreter import Interpreter
+    except ImportError:
+        Interpreter = tf.lite.Interpreter
+    interp = Interpreter(model_path=path)
     interp.allocate_tensors()
     inp, out = interp.get_input_details()[0], interp.get_output_details()[0]
     agree = 0
@@ -396,7 +536,7 @@ def check_tflite(path: str, model, samples, size: int, n: int = 64) -> float:
 
 def main() -> None:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--mode", choices=["features", "finetune"], default="features")
+    ap.add_argument("--mode", choices=["features", "partial", "finetune"], default="partial")
     ap.add_argument("--manifest", default="training/data/manifest.csv.gz")
     ap.add_argument("--species", default="species/nys_trees.json")
     ap.add_argument("--images", default="data/images")
@@ -404,11 +544,13 @@ def main() -> None:
     ap.add_argument("--work-dir", default="build/work", help="feature caches and checkpoints")
     ap.add_argument("--backbone", choices=sorted(BACKBONES), default="efficientnetv2b0")
     ap.add_argument("--size", type=int, default=0, help="input size (default: backbone's native size)")
-    ap.add_argument("--epochs", type=int, default=0, help="default: 80 (features) / 15 (finetune)")
+    ap.add_argument("--epochs", type=int, default=0, help="default: 80 features / 5 partial / 15 finetune")
     ap.add_argument("--head-epochs", type=int, default=2, help="finetune: epochs with frozen backbone first")
-    ap.add_argument("--lr", type=float, default=0.0, help="default: 1e-3 (features) / 3e-4 (finetune)")
+    ap.add_argument("--lr", type=float, default=0.0, help="default: 1e-3 features / 2e-4 partial / 3e-4 finetune")
     ap.add_argument("--batch", type=int, default=64)
-    ap.add_argument("--views", type=int, default=2, help="features: views per training image (1 = centre crop only)")
+    ap.add_argument("--views", type=int, default=2,
+                    help="features/partial: cached views per training photo (1 = centre crop only)")
+    ap.add_argument("--cut-layer", default="", help="partial: fine-tune every layer after this one")
     ap.add_argument("--head-hidden", type=int, default=0, help="hidden units in the classifier head (0 = linear)")
     ap.add_argument("--dropout", type=float, default=0.3)
     ap.add_argument("--min-train", type=int, default=30, help="drop classes with fewer training photos")
@@ -416,8 +558,8 @@ def main() -> None:
     args = ap.parse_args()
 
     size = args.size or BACKBONES[args.backbone][1]
-    args.epochs = args.epochs or (80 if args.mode == "features" else 15)
-    args.lr = args.lr or (1e-3 if args.mode == "features" else 3e-4)
+    args.epochs = args.epochs or {"features": 80, "partial": 5, "finetune": 15}[args.mode]
+    args.lr = args.lr or {"features": 1e-3, "partial": 2e-4, "finetune": 3e-4}[args.mode]
     keras.utils.set_random_seed(42)
 
     species, labels, splits = load_dataset(args.manifest, args.images, args.species, args.min_train)
@@ -425,8 +567,8 @@ def main() -> None:
         raise SystemExit("no training data found: run build_manifest.py and download_images.py first")
 
     t0 = time.time()
-    model = train_features(args, labels, splits, size) if args.mode == "features" \
-        else train_finetune(args, labels, splits, size)
+    trainer = {"features": train_features, "partial": train_partial, "finetune": train_finetune}[args.mode]
+    model = trainer(args, labels, splits, size)
     log(f"training finished in {(time.time() - t0) / 60:.0f} min")
 
     os.makedirs(args.out_dir, exist_ok=True)
