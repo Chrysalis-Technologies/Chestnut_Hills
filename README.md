@@ -13,13 +13,16 @@ suggests the most likely trees, and a built-in field guide shows what to check t
 
 ## Install on a phone
 
-The APK is built by GitHub Actions on every push:
-
-1. Open the repo's **Actions** tab → latest **Build Android app** run → download the
-   `nys-tree-id-apk` artifact and unzip it.
-2. Copy the `.apk` to the phone and open it. Android asks once to allow installs from that
-   app (Files, Chrome, or Drive).
+1. On the phone, open the repo's **Releases** page and download the latest
+   `nys-tree-id-vX.Y.Z.apk`. (Every push also builds an APK, available as the
+   `nys-tree-id-apk` artifact on that run in the **Actions** tab.)
+2. Open the downloaded file. Android asks once to allow installs from your browser or
+   Files app.
 3. Requires Android 8.0 or newer.
+
+To publish a new version, bump `versionCode` and `versionName` in
+`android/app/build.gradle.kts`, then push an annotated tag such as `v0.2.0`. The tag
+message becomes the release notes, and the workflow publishes the release.
 
 Every build is signed with the same test key (`android/app/debug.keystore`), so a new build
 installs over the old one. Before publishing to an app store, switch to a private signing key
