@@ -1,0 +1,1508 @@
+{
+  "version": 1,
+  "region": "New York State",
+  "notes": "Single source of truth for the classes the model is trained on and the in-app field guide. 'inat_taxa' are iNaturalist scientific names; a single word means a genus, and every descendant taxon is included. Field-guide text is a quick reference, not an authority — verify important identifications with a regional guide.",
+  "classes": [
+    {
+      "key": "pinus_strobus",
+      "common_name": "Eastern white pine",
+      "scientific_name": "Pinus strobus",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Pinus strobus"],
+      "features": [
+        "Soft, slender needles in bundles of 5, 3–5 in long",
+        "Long, slender cones (4–8 in) without prickles",
+        "Branches in horizontal whorls; old trunks dark and deeply furrowed"
+      ],
+      "lookalikes": ["pinus_resinosa"]
+    },
+    {
+      "key": "pinus_resinosa",
+      "common_name": "Red pine",
+      "scientific_name": "Pinus resinosa",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Pinus resinosa"],
+      "features": [
+        "Needles in bundles of 2, 4–6 in long, that snap cleanly when bent",
+        "Bark in flat, reddish, scaly plates",
+        "Small egg-shaped cones (about 2 in) without prickles"
+      ],
+      "lookalikes": ["pinus_nigra", "pinus_sylvestris"]
+    },
+    {
+      "key": "pinus_rigida",
+      "common_name": "Pitch pine",
+      "scientific_name": "Pinus rigida",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Pinus rigida"],
+      "features": [
+        "Stiff, yellow-green needles in bundles of 3, 3–5 in long",
+        "Tufts of needles often sprout straight from the trunk",
+        "Prickly cones that stay on the tree for years; thick, blocky bark"
+      ],
+      "lookalikes": ["pinus_resinosa"]
+    },
+    {
+      "key": "pinus_sylvestris",
+      "common_name": "Scots pine",
+      "scientific_name": "Pinus sylvestris",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Introduced",
+      "inat_taxa": ["Pinus sylvestris"],
+      "features": [
+        "Short, twisted, blue-green needles in bundles of 2 (1.5–3 in)",
+        "Upper trunk and branches with bright orange, flaky bark",
+        "Small cones, about 2 in"
+      ],
+      "lookalikes": ["pinus_resinosa", "pinus_nigra"]
+    },
+    {
+      "key": "pinus_nigra",
+      "common_name": "Austrian pine",
+      "scientific_name": "Pinus nigra",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Introduced",
+      "inat_taxa": ["Pinus nigra"],
+      "features": [
+        "Stiff, dark green needles in bundles of 2, 3–6 in long, that bend rather than snap",
+        "Gray-brown to nearly black bark with paler plates",
+        "Cones 2–3 in with a small prickle on each scale"
+      ],
+      "lookalikes": ["pinus_resinosa", "pinus_sylvestris"]
+    },
+    {
+      "key": "tsuga_canadensis",
+      "common_name": "Eastern hemlock",
+      "scientific_name": "Tsuga canadensis",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Tsuga canadensis"],
+      "features": [
+        "Short, flat needles (about ½ in) on tiny stalks, with two white stripes underneath",
+        "Small cones (about ¾ in) hanging from the branch tips",
+        "Drooping top and graceful, feathery branches; check for white woolly adelgid tufts"
+      ],
+      "lookalikes": ["abies_balsamea"]
+    },
+    {
+      "key": "abies_balsamea",
+      "common_name": "Balsam fir",
+      "scientific_name": "Abies balsamea",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Abies balsamea"],
+      "features": [
+        "Flat, blunt needles that leave a round, flat scar when pulled off",
+        "Smooth gray bark with resin blisters full of fragrant pitch",
+        "Upright cones that fall apart on the tree"
+      ],
+      "lookalikes": ["tsuga_canadensis", "picea_rubens"]
+    },
+    {
+      "key": "picea_rubens",
+      "common_name": "Red spruce",
+      "scientific_name": "Picea rubens",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Picea rubens"],
+      "features": [
+        "Sharp, four-sided, shiny yellow-green needles about ½ in long",
+        "Twigs with fine hairs",
+        "Cones 1–2 in; mostly at higher elevations in the Adirondacks and Catskills"
+      ],
+      "lookalikes": ["picea_glauca", "picea_mariana"]
+    },
+    {
+      "key": "picea_glauca",
+      "common_name": "White spruce",
+      "scientific_name": "Picea glauca",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Picea glauca"],
+      "features": [
+        "Blue-green, four-sided needles with a skunky smell when crushed",
+        "Hairless twigs",
+        "Slender cones 1.5–2.5 in with smooth, flexible scales"
+      ],
+      "lookalikes": ["picea_rubens", "picea_mariana", "picea_pungens"]
+    },
+    {
+      "key": "picea_mariana",
+      "common_name": "Black spruce",
+      "scientific_name": "Picea mariana",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Picea mariana"],
+      "features": [
+        "Very short (¼–½ in), blue-green needles",
+        "Small, rounded cones (about 1 in) clustered near the top that stay for years",
+        "Usually in bogs; narrow, spire-like crown, often with a club-shaped top"
+      ],
+      "lookalikes": ["picea_rubens", "larix_laricina"]
+    },
+    {
+      "key": "picea_abies",
+      "common_name": "Norway spruce",
+      "scientific_name": "Picea abies",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Introduced",
+      "inat_taxa": ["Picea abies"],
+      "features": [
+        "Branchlets hang down like curtains from upswept branches",
+        "Very long cones (4–7 in), the biggest of any spruce here",
+        "Dark green, four-sided needles about ¾ in long"
+      ],
+      "lookalikes": ["picea_glauca", "picea_pungens"]
+    },
+    {
+      "key": "picea_pungens",
+      "common_name": "Blue spruce",
+      "scientific_name": "Picea pungens",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Picea pungens"],
+      "features": [
+        "Very stiff, sharp needles, often silvery blue (green on some trees)",
+        "Cones 2–4 in with papery, wavy-edged scales",
+        "Dense, conical yard tree"
+      ],
+      "lookalikes": ["picea_glauca", "picea_abies"]
+    },
+    {
+      "key": "larix_laricina",
+      "common_name": "Tamarack",
+      "scientific_name": "Larix laricina",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Larix laricina"],
+      "features": [
+        "Soft needles in clusters of 10–20 on short spurs; turns gold and drops all needles in fall",
+        "Tiny cones, about ½ in",
+        "Common in bogs and wetlands"
+      ],
+      "lookalikes": ["larix_decidua", "picea_mariana"]
+    },
+    {
+      "key": "larix_decidua",
+      "common_name": "European larch",
+      "scientific_name": "Larix decidua",
+      "family": "Pinaceae",
+      "group": "conifer",
+      "status": "Introduced",
+      "inat_taxa": ["Larix decidua"],
+      "features": [
+        "Needle clusters like tamarack but longer (1–1.5 in)",
+        "Larger cones (1–1.5 in) with more scales",
+        "Planted in plantations and parks; golden in fall, then bare"
+      ],
+      "lookalikes": ["larix_laricina"]
+    },
+    {
+      "key": "thuja_occidentalis",
+      "common_name": "Northern white-cedar (arborvitae)",
+      "scientific_name": "Thuja occidentalis",
+      "family": "Cupressaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Thuja occidentalis"],
+      "features": [
+        "Flat, fan-like sprays of tiny overlapping scale leaves",
+        "Small, upright, oblong cones (about ½ in)",
+        "Fibrous, shreddy reddish-gray bark; a very common hedge plant"
+      ],
+      "lookalikes": ["juniperus_virginiana"]
+    },
+    {
+      "key": "juniperus_virginiana",
+      "common_name": "Eastern redcedar",
+      "scientific_name": "Juniperus virginiana",
+      "family": "Cupressaceae",
+      "group": "conifer",
+      "status": "Native",
+      "inat_taxa": ["Juniperus virginiana"],
+      "features": [
+        "Scale leaves on rounded (not flat) sprays; young growth has sharp needle-like leaves",
+        "Bluish, berry-like cones on female trees",
+        "Thin, reddish, shreddy bark; often in old fields"
+      ],
+      "lookalikes": ["thuja_occidentalis"]
+    },
+    {
+      "key": "ginkgo_biloba",
+      "common_name": "Ginkgo",
+      "scientific_name": "Ginkgo biloba",
+      "family": "Ginkgoaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Ginkgo biloba"],
+      "features": [
+        "Fan-shaped leaves, often notched in the middle",
+        "Leaves bunched on short spur shoots; bright yellow in fall",
+        "Female trees drop foul-smelling fleshy seeds"
+      ],
+      "lookalikes": []
+    },
+    {
+      "key": "acer_saccharum",
+      "common_name": "Sugar maple",
+      "scientific_name": "Acer saccharum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer saccharum", "Acer nigrum"],
+      "features": [
+        "Opposite leaves with 5 lobes, few large teeth, and rounded U-shaped notches",
+        "Brilliant yellow, orange, and red fall color",
+        "Gray bark in long, irregular plates on mature trees",
+        "Includes the very similar black maple (Acer nigrum)"
+      ],
+      "lookalikes": ["acer_platanoides", "acer_rubrum"]
+    },
+    {
+      "key": "acer_rubrum",
+      "common_name": "Red maple",
+      "scientific_name": "Acer rubrum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer rubrum"],
+      "features": [
+        "Opposite leaves with 3 (sometimes 5) sharply toothed lobes and V-shaped notches",
+        "Red twigs, buds, flowers, and leaf stalks",
+        "Smooth light gray bark on young trees, becoming scaly with age"
+      ],
+      "lookalikes": ["acer_saccharinum", "acer_saccharum"]
+    },
+    {
+      "key": "acer_saccharinum",
+      "common_name": "Silver maple",
+      "scientific_name": "Acer saccharinum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer saccharinum"],
+      "features": [
+        "Deeply cut, 5-lobed leaves that are silvery white underneath",
+        "Older trees have shaggy bark peeling in long strips",
+        "Common along rivers and as a street tree"
+      ],
+      "lookalikes": ["acer_rubrum", "populus_alba"]
+    },
+    {
+      "key": "acer_platanoides",
+      "common_name": "Norway maple",
+      "scientific_name": "Acer platanoides",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Acer platanoides"],
+      "features": [
+        "Broad 5-lobed leaves; a broken leaf stalk oozes milky sap",
+        "Winged seeds spread almost straight out (nearly 180°)",
+        "Bark in tight, interlacing ridges; purple-leaved forms are common"
+      ],
+      "lookalikes": ["acer_saccharum", "platanus_hispanica"]
+    },
+    {
+      "key": "acer_negundo",
+      "common_name": "Boxelder",
+      "scientific_name": "Acer negundo",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer negundo"],
+      "features": [
+        "Opposite compound leaves with 3–5 irregularly toothed leaflets",
+        "Green or purplish twigs, often with a whitish bloom",
+        "Hanging clusters of V-shaped winged seeds"
+      ],
+      "lookalikes": ["fraxinus_americana", "fraxinus_pennsylvanica"]
+    },
+    {
+      "key": "acer_pensylvanicum",
+      "common_name": "Striped maple",
+      "scientific_name": "Acer pensylvanicum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer pensylvanicum"],
+      "features": [
+        "Smooth green bark with vertical white stripes",
+        "Large leaves with 3 shallow lobes at the tip (goose-foot shape)",
+        "Small understory tree of cool forests"
+      ],
+      "lookalikes": ["acer_spicatum"]
+    },
+    {
+      "key": "acer_spicatum",
+      "common_name": "Mountain maple",
+      "scientific_name": "Acer spicatum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Acer spicatum"],
+      "features": [
+        "Coarsely toothed leaves with 3 (sometimes 5) lobes and fuzzy undersides",
+        "Upright clusters of small flowers and seeds at the branch tips",
+        "Shrubby understory tree with thin, dull brown bark"
+      ],
+      "lookalikes": ["acer_pensylvanicum", "acer_rubrum"]
+    },
+    {
+      "key": "acer_palmatum",
+      "common_name": "Japanese maple",
+      "scientific_name": "Acer palmatum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Acer palmatum"],
+      "features": [
+        "Small, deeply cut leaves with 5–9 pointed lobes, like an open hand",
+        "Many forms with red, purple, or lacy foliage",
+        "Low, spreading yard tree"
+      ],
+      "lookalikes": ["acer_rubrum"]
+    },
+    {
+      "key": "quercus_rubra",
+      "common_name": "Northern red oak",
+      "scientific_name": "Quercus rubra",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus rubra"],
+      "features": [
+        "Leaves with 7–11 bristle-tipped lobes and moderately deep notches",
+        "Bark with long, flat-topped, shiny ridges (\"ski trails\")",
+        "Large acorns with a shallow, beret-like cap"
+      ],
+      "lookalikes": ["quercus_velutina", "quercus_coccinea", "quercus_palustris"]
+    },
+    {
+      "key": "quercus_velutina",
+      "common_name": "Black oak",
+      "scientific_name": "Quercus velutina",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus velutina"],
+      "features": [
+        "Bristle-tipped lobed leaves, glossy above; fuzzy, angled buds",
+        "Dark, blocky bark; inner bark bright orange-yellow",
+        "Acorn cap bowl-shaped with loose, shaggy scales"
+      ],
+      "lookalikes": ["quercus_rubra", "quercus_coccinea"]
+    },
+    {
+      "key": "quercus_coccinea",
+      "common_name": "Scarlet oak",
+      "scientific_name": "Quercus coccinea",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus coccinea"],
+      "features": [
+        "Deep, C-shaped notches reaching most of the way to the midrib",
+        "Acorns often ringed near the tip; cap covers about half the nut",
+        "Brilliant scarlet fall color"
+      ],
+      "lookalikes": ["quercus_palustris", "quercus_velutina"]
+    },
+    {
+      "key": "quercus_palustris",
+      "common_name": "Pin oak",
+      "scientific_name": "Quercus palustris",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus palustris"],
+      "features": [
+        "Small leaves with deep U-shaped notches and bristle tips",
+        "Lower branches droop, middle ones are level, upper ones rise",
+        "Small acorns with very shallow caps; common street tree"
+      ],
+      "lookalikes": ["quercus_coccinea", "quercus_rubra"]
+    },
+    {
+      "key": "quercus_alba",
+      "common_name": "White oak",
+      "scientific_name": "Quercus alba",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus alba"],
+      "features": [
+        "Leaves with 7–9 rounded lobes and no bristle tips",
+        "Light gray bark in scaly plates, often loose at the edges",
+        "Acorns with warty, bowl-shaped caps covering about ¼ of the nut"
+      ],
+      "lookalikes": ["quercus_macrocarpa", "quercus_bicolor"]
+    },
+    {
+      "key": "quercus_montana",
+      "common_name": "Chestnut oak",
+      "scientific_name": "Quercus montana",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus montana"],
+      "features": [
+        "Leaves with wavy, rounded teeth along the edge instead of lobes",
+        "Very thick, dark bark with deep V-shaped furrows",
+        "Large glossy acorns; typical of dry, rocky ridges"
+      ],
+      "lookalikes": ["quercus_bicolor", "castanea_dentata"]
+    },
+    {
+      "key": "quercus_bicolor",
+      "common_name": "Swamp white oak",
+      "scientific_name": "Quercus bicolor",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus bicolor"],
+      "features": [
+        "Leaves widest toward the tip with shallow lobes or wavy teeth, whitish beneath",
+        "Acorns on long stalks, often in pairs",
+        "Branch bark peels in curly, papery flakes; wet soils and street plantings"
+      ],
+      "lookalikes": ["quercus_montana", "quercus_alba"]
+    },
+    {
+      "key": "quercus_macrocarpa",
+      "common_name": "Bur oak",
+      "scientific_name": "Quercus macrocarpa",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Quercus macrocarpa"],
+      "features": [
+        "Leaves with a pair of deep notches near the middle, almost dividing the leaf in two",
+        "Large acorns with a fringed, mossy cap",
+        "Twigs often have corky ridges"
+      ],
+      "lookalikes": ["quercus_alba", "quercus_bicolor"]
+    },
+    {
+      "key": "quercus_phellos",
+      "common_name": "Willow oak",
+      "scientific_name": "Quercus phellos",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native (rare); widely planted",
+      "inat_taxa": ["Quercus phellos"],
+      "features": [
+        "Narrow, willow-like leaves with smooth edges and a bristle tip",
+        "Small acorns with shallow caps",
+        "Common street tree in New York City"
+      ],
+      "lookalikes": ["salix_nigra"]
+    },
+    {
+      "key": "castanea_dentata",
+      "common_name": "American chestnut",
+      "scientific_name": "Castanea dentata",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Castanea dentata"],
+      "features": [
+        "Long, narrow, hairless leaves with sharp, hooked, bristle-tipped teeth",
+        "Spiny burs holding 2–3 nuts",
+        "Now mostly root sprouts and small trees because of chestnut blight"
+      ],
+      "lookalikes": ["castanea_mollissima", "fagus_grandifolia", "quercus_montana"]
+    },
+    {
+      "key": "castanea_mollissima",
+      "common_name": "Chinese chestnut",
+      "scientific_name": "Castanea mollissima",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Introduced",
+      "inat_taxa": ["Castanea mollissima"],
+      "features": [
+        "Broader leaves than American chestnut, with soft fuzz underneath",
+        "Hairy twigs; teeth less hooked",
+        "Often planted for nuts; low, spreading crown; resists blight"
+      ],
+      "lookalikes": ["castanea_dentata"]
+    },
+    {
+      "key": "fagus_grandifolia",
+      "common_name": "American beech",
+      "scientific_name": "Fagus grandifolia",
+      "family": "Fagaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Fagus grandifolia"],
+      "features": [
+        "Smooth, light gray bark (often carved with initials)",
+        "Oval leaves with straight parallel veins, each ending in a tooth",
+        "Long, cigar-shaped buds; dry tan leaves often hang on all winter"
+      ],
+      "lookalikes": ["castanea_dentata", "carpinus_caroliniana", "ostrya_virginiana"]
+    },
+    {
+      "key": "carya_ovata",
+      "common_name": "Shagbark hickory",
+      "scientific_name": "Carya ovata",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Carya ovata"],
+      "features": [
+        "Bark in long, loose plates curling away from the trunk",
+        "Compound leaves usually with 5 leaflets, the top 3 largest",
+        "Large buds with loose outer scales; thick-husked nuts"
+      ],
+      "lookalikes": ["carya_glabra", "carya_tomentosa"]
+    },
+    {
+      "key": "carya_cordiformis",
+      "common_name": "Bitternut hickory",
+      "scientific_name": "Carya cordiformis",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Carya cordiformis"],
+      "features": [
+        "Bright sulfur-yellow buds, easy to spot in winter",
+        "Compound leaves with 7–11 slender leaflets",
+        "Tight bark with shallow, interlacing ridges"
+      ],
+      "lookalikes": ["juglans_nigra", "carya_glabra"]
+    },
+    {
+      "key": "carya_glabra",
+      "common_name": "Pignut hickory",
+      "scientific_name": "Carya glabra",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Carya glabra"],
+      "features": [
+        "Compound leaves usually with 5 hairless leaflets",
+        "Tight bark with diamond-shaped ridges",
+        "Pear-shaped nuts with thin husks"
+      ],
+      "lookalikes": ["carya_ovata", "carya_tomentosa"]
+    },
+    {
+      "key": "carya_tomentosa",
+      "common_name": "Mockernut hickory",
+      "scientific_name": "Carya tomentosa",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Carya tomentosa"],
+      "features": [
+        "Compound leaves with 7–9 leaflets, fuzzy beneath and fragrant when crushed",
+        "Hairy twigs and large, fuzzy buds",
+        "Tight bark with interlacing ridges"
+      ],
+      "lookalikes": ["carya_glabra", "carya_ovata"]
+    },
+    {
+      "key": "juglans_nigra",
+      "common_name": "Black walnut",
+      "scientific_name": "Juglans nigra",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Juglans nigra"],
+      "features": [
+        "Long compound leaves with 15–23 leaflets; the end leaflet is often missing",
+        "Round green fruit the size of a tennis ball that stains hands brown",
+        "Dark, deeply furrowed bark in a diamond pattern"
+      ],
+      "lookalikes": ["juglans_cinerea", "ailanthus_altissima", "carya_cordiformis"]
+    },
+    {
+      "key": "juglans_cinerea",
+      "common_name": "Butternut",
+      "scientific_name": "Juglans cinerea",
+      "family": "Juglandaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Juglans cinerea"],
+      "features": [
+        "Compound leaves with 11–17 leaflets, including an end leaflet",
+        "Oblong, sticky green fruits",
+        "Light gray bark with flat-topped ridges; threatened by butternut canker"
+      ],
+      "lookalikes": ["juglans_nigra"]
+    },
+    {
+      "key": "betula_papyrifera",
+      "common_name": "Paper birch",
+      "scientific_name": "Betula papyrifera",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Betula papyrifera"],
+      "features": [
+        "White bark that peels in papery sheets",
+        "Oval, doubly toothed leaves with a rounded base",
+        "Most common in northern and upland New York"
+      ],
+      "lookalikes": ["betula_populifolia", "populus_tremuloides"]
+    },
+    {
+      "key": "betula_alleghaniensis",
+      "common_name": "Yellow birch",
+      "scientific_name": "Betula alleghaniensis",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Betula alleghaniensis"],
+      "features": [
+        "Yellowish-bronze bark peeling in thin, curly strips",
+        "Scratched twigs smell faintly of wintergreen",
+        "Often grows from old stumps or rocks, leaving stilt-like roots"
+      ],
+      "lookalikes": ["betula_lenta", "betula_nigra"]
+    },
+    {
+      "key": "betula_lenta",
+      "common_name": "Black birch (sweet birch)",
+      "scientific_name": "Betula lenta",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Betula lenta"],
+      "features": [
+        "Smooth, dark, shiny bark with horizontal lines when young; plated when old",
+        "Strong wintergreen scent from scratched twigs",
+        "Oval, finely toothed leaves"
+      ],
+      "lookalikes": ["prunus_serotina", "betula_alleghaniensis"]
+    },
+    {
+      "key": "betula_populifolia",
+      "common_name": "Gray birch",
+      "scientific_name": "Betula populifolia",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Betula populifolia"],
+      "features": [
+        "Chalky white bark that doesn't peel easily, with dark triangles below branches",
+        "Triangular leaves with long, tapering tips",
+        "Small, often multi-stemmed tree of old fields and roadsides"
+      ],
+      "lookalikes": ["betula_papyrifera"]
+    },
+    {
+      "key": "betula_nigra",
+      "common_name": "River birch",
+      "scientific_name": "Betula nigra",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Betula nigra"],
+      "features": [
+        "Salmon-pink to tan bark peeling in shaggy, papery curls",
+        "Diamond-shaped, doubly toothed leaves",
+        "Grows along rivers and is widely planted"
+      ],
+      "lookalikes": ["betula_alleghaniensis"]
+    },
+    {
+      "key": "ostrya_virginiana",
+      "common_name": "Eastern hophornbeam (ironwood)",
+      "scientific_name": "Ostrya virginiana",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Ostrya virginiana"],
+      "features": [
+        "Bark in thin, shreddy strips that curl at the ends",
+        "Fruit in hop-like clusters of papery sacs",
+        "Doubly toothed oval leaves"
+      ],
+      "lookalikes": ["carpinus_caroliniana", "betula_lenta"]
+    },
+    {
+      "key": "carpinus_caroliniana",
+      "common_name": "American hornbeam (musclewood)",
+      "scientific_name": "Carpinus caroliniana",
+      "family": "Betulaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Carpinus caroliniana"],
+      "features": [
+        "Smooth blue-gray bark with sinewy, muscle-like ridges",
+        "Doubly toothed leaves",
+        "Small nutlets attached to 3-lobed leafy bracts"
+      ],
+      "lookalikes": ["ostrya_virginiana", "fagus_grandifolia"]
+    },
+    {
+      "key": "fraxinus_americana",
+      "common_name": "White ash",
+      "scientific_name": "Fraxinus americana",
+      "family": "Oleaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Fraxinus americana"],
+      "features": [
+        "Opposite compound leaves, usually 7 leaflets, whitish underneath",
+        "Bark with diamond-shaped ridges",
+        "C-shaped leaf scar wrapping around the bud; hit hard by emerald ash borer"
+      ],
+      "lookalikes": ["fraxinus_pennsylvanica", "acer_negundo"]
+    },
+    {
+      "key": "fraxinus_pennsylvanica",
+      "common_name": "Green ash",
+      "scientific_name": "Fraxinus pennsylvanica",
+      "family": "Oleaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Fraxinus pennsylvanica"],
+      "features": [
+        "Opposite compound leaves with 7–9 leaflets, green on both sides",
+        "Leaf scar flat across the top, below the bud",
+        "Diamond-patterned bark; wet areas and street plantings"
+      ],
+      "lookalikes": ["fraxinus_americana", "fraxinus_nigra"]
+    },
+    {
+      "key": "fraxinus_nigra",
+      "common_name": "Black ash",
+      "scientific_name": "Fraxinus nigra",
+      "family": "Oleaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Fraxinus nigra"],
+      "features": [
+        "Opposite compound leaves with 7–11 stalkless leaflets",
+        "Soft, corky bark that rubs off easily",
+        "Grows in swamps and wet woods"
+      ],
+      "lookalikes": ["fraxinus_pennsylvanica"]
+    },
+    {
+      "key": "ulmus_americana",
+      "common_name": "American elm",
+      "scientific_name": "Ulmus americana",
+      "family": "Ulmaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Ulmus americana"],
+      "features": [
+        "Doubly toothed leaves that are lopsided at the base",
+        "Vase-shaped crown with arching branches",
+        "Bark ridges show alternating light and dark layers when cut"
+      ],
+      "lookalikes": ["ulmus_rubra", "ulmus_pumila", "celtis_occidentalis"]
+    },
+    {
+      "key": "ulmus_rubra",
+      "common_name": "Slippery elm",
+      "scientific_name": "Ulmus rubra",
+      "family": "Ulmaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Ulmus rubra"],
+      "features": [
+        "Leaves very rough, like sandpaper, on top",
+        "Fuzzy, rust-colored buds",
+        "Inner bark is slimy"
+      ],
+      "lookalikes": ["ulmus_americana"]
+    },
+    {
+      "key": "ulmus_pumila",
+      "common_name": "Siberian elm",
+      "scientific_name": "Ulmus pumila",
+      "family": "Ulmaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Ulmus pumila"],
+      "features": [
+        "Small leaves (1–3 in), singly toothed, nearly even at the base",
+        "Round, papery seeds in spring",
+        "Weedy, fast-growing tree of vacant lots and roadsides"
+      ],
+      "lookalikes": ["ulmus_americana", "zelkova_serrata"]
+    },
+    {
+      "key": "zelkova_serrata",
+      "common_name": "Japanese zelkova",
+      "scientific_name": "Zelkova serrata",
+      "family": "Ulmaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Zelkova serrata"],
+      "features": [
+        "Leaves with sharp, evenly spaced teeth and an even base",
+        "Smooth gray bark that flakes to show orange patches",
+        "Vase-shaped street tree"
+      ],
+      "lookalikes": ["ulmus_americana", "ulmus_pumila"]
+    },
+    {
+      "key": "celtis_occidentalis",
+      "common_name": "Common hackberry",
+      "scientific_name": "Celtis occidentalis",
+      "family": "Cannabaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Celtis occidentalis"],
+      "features": [
+        "Bark with distinctive warty, corky ridges",
+        "Leaves lopsided at the base with a long pointed tip",
+        "Small, dark purple berries"
+      ],
+      "lookalikes": ["ulmus_americana"]
+    },
+    {
+      "key": "populus_tremuloides",
+      "common_name": "Quaking aspen",
+      "scientific_name": "Populus tremuloides",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Populus tremuloides"],
+      "features": [
+        "Round, finely toothed leaves on flat stalks that tremble in the breeze",
+        "Smooth, greenish-white bark with black scars",
+        "Grows in clonal groves"
+      ],
+      "lookalikes": ["populus_grandidentata", "betula_papyrifera"]
+    },
+    {
+      "key": "populus_grandidentata",
+      "common_name": "Bigtooth aspen",
+      "scientific_name": "Populus grandidentata",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Populus grandidentata"],
+      "features": [
+        "Round leaves with large, coarse teeth",
+        "Smooth greenish-gray to tan bark",
+        "New spring leaves are woolly white"
+      ],
+      "lookalikes": ["populus_tremuloides"]
+    },
+    {
+      "key": "populus_deltoides",
+      "common_name": "Eastern cottonwood",
+      "scientific_name": "Populus deltoides",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Populus deltoides"],
+      "features": [
+        "Large triangular leaves with coarse, curved teeth and flat stalks",
+        "Thick, deeply furrowed gray bark on big trees",
+        "Cottony seeds in early summer; along rivers"
+      ],
+      "lookalikes": ["populus_balsamifera", "populus_grandidentata"]
+    },
+    {
+      "key": "populus_balsamifera",
+      "common_name": "Balsam poplar",
+      "scientific_name": "Populus balsamifera",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Populus balsamifera"],
+      "features": [
+        "Leaves dark green above, pale and often rust-stained below, on round stalks",
+        "Large, sticky, fragrant buds",
+        "River and wetland edges in northern New York"
+      ],
+      "lookalikes": ["populus_deltoides"]
+    },
+    {
+      "key": "populus_alba",
+      "common_name": "White poplar",
+      "scientific_name": "Populus alba",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Populus alba"],
+      "features": [
+        "Leaves with 3–5 lobes, bright white and woolly underneath",
+        "Whitish bark with dark diamond-shaped marks",
+        "Spreads by root suckers"
+      ],
+      "lookalikes": ["acer_saccharinum"]
+    },
+    {
+      "key": "salix_nigra",
+      "common_name": "Black willow",
+      "scientific_name": "Salix nigra",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Salix nigra"],
+      "features": [
+        "Long, narrow, finely toothed leaves, green on both sides",
+        "Dark, deeply furrowed bark; often several leaning trunks",
+        "Along streams and pond edges"
+      ],
+      "lookalikes": ["salix_babylonica", "quercus_phellos"]
+    },
+    {
+      "key": "salix_babylonica",
+      "common_name": "Weeping willow",
+      "scientific_name": "Salix babylonica",
+      "family": "Salicaceae",
+      "group": "broadleaf",
+      "status": "Introduced",
+      "inat_taxa": ["Salix babylonica"],
+      "features": [
+        "Long, drooping branches that hang to the ground",
+        "Narrow, finely toothed leaves",
+        "Planted near ponds and streams"
+      ],
+      "lookalikes": ["salix_nigra"]
+    },
+    {
+      "key": "prunus_serotina",
+      "common_name": "Black cherry",
+      "scientific_name": "Prunus serotina",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Prunus serotina"],
+      "features": [
+        "Older bark in dark, curling plates (\"burnt potato chips\")",
+        "Narrow, glossy leaves with fine incurved teeth and fuzz along the midrib below",
+        "Hanging spikes of white flowers, then dark purple-black cherries"
+      ],
+      "lookalikes": ["prunus_virginiana", "betula_lenta", "prunus_avium"]
+    },
+    {
+      "key": "prunus_pensylvanica",
+      "common_name": "Pin cherry",
+      "scientific_name": "Prunus pensylvanica",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Prunus pensylvanica"],
+      "features": [
+        "Shiny reddish bark with horizontal orange lines (lenticels)",
+        "Narrow, finely toothed leaves",
+        "Small bright red cherries on long stalks in umbrella-like clusters"
+      ],
+      "lookalikes": ["prunus_serotina", "prunus_avium"]
+    },
+    {
+      "key": "prunus_virginiana",
+      "common_name": "Chokecherry",
+      "scientific_name": "Prunus virginiana",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Prunus virginiana"],
+      "features": [
+        "Broader leaves than black cherry, with sharp, spreading teeth",
+        "Smooth gray-brown bark that stays smooth with age",
+        "Spikes of red to dark purple, very sour cherries"
+      ],
+      "lookalikes": ["prunus_serotina", "rhamnus_cathartica"]
+    },
+    {
+      "key": "prunus_avium",
+      "common_name": "Sweet cherry",
+      "scientific_name": "Prunus avium",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Introduced",
+      "inat_taxa": ["Prunus avium"],
+      "features": [
+        "Large, drooping, coarsely toothed leaves with small glands on the stalk",
+        "Shiny reddish bark with prominent horizontal bands",
+        "Clusters of white flowers in spring; red cherries in early summer"
+      ],
+      "lookalikes": ["prunus_serotina", "prunus_flowering"]
+    },
+    {
+      "key": "prunus_flowering",
+      "common_name": "Japanese flowering cherry",
+      "scientific_name": "Prunus serrulata, Prunus × yedoensis",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Prunus serrulata", "Prunus × yedoensis"],
+      "features": [
+        "Showy pink or white blossoms in spring, often double",
+        "Shiny bark with bold horizontal lenticels",
+        "Park and street tree"
+      ],
+      "lookalikes": ["prunus_avium", "malus"]
+    },
+    {
+      "key": "malus",
+      "common_name": "Apples and crabapples",
+      "scientific_name": "Malus",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native and introduced species",
+      "inat_taxa": ["Malus"],
+      "features": [
+        "Oval, toothed leaves; short spur shoots along the branches",
+        "White to pink 5-petaled flowers in spring",
+        "Apples or small crabapples in fall"
+      ],
+      "lookalikes": ["pyrus_calleryana", "crataegus", "prunus_flowering"]
+    },
+    {
+      "key": "pyrus_calleryana",
+      "common_name": "Callery pear",
+      "scientific_name": "Pyrus calleryana",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Pyrus calleryana"],
+      "features": [
+        "Glossy, wavy-edged oval leaves",
+        "Masses of white, bad-smelling flowers in early spring",
+        "Tiny brown fruits; escaped trees may have thorns"
+      ],
+      "lookalikes": ["malus", "amelanchier"]
+    },
+    {
+      "key": "crataegus",
+      "common_name": "Hawthorns",
+      "scientific_name": "Crataegus",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native and introduced species",
+      "inat_taxa": ["Crataegus"],
+      "features": [
+        "Long, sharp thorns on the twigs",
+        "Clusters of white flowers and small red fruits (haws)",
+        "Toothed leaves, often lobed"
+      ],
+      "lookalikes": ["malus"]
+    },
+    {
+      "key": "amelanchier",
+      "common_name": "Serviceberries (shadbush)",
+      "scientific_name": "Amelanchier",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Amelanchier"],
+      "features": [
+        "Early white flowers with strap-like petals as the leaves emerge",
+        "Smooth gray bark with faint vertical stripes",
+        "Small purple berries in early summer"
+      ],
+      "lookalikes": ["pyrus_calleryana", "prunus_serotina"]
+    },
+    {
+      "key": "sorbus",
+      "common_name": "Mountain-ashes",
+      "scientific_name": "Sorbus",
+      "family": "Rosaceae",
+      "group": "broadleaf",
+      "status": "Native and introduced species",
+      "inat_taxa": ["Sorbus"],
+      "features": [
+        "Alternate compound leaves with 11–17 toothed leaflets",
+        "Flat-topped clusters of small white flowers",
+        "Large clusters of bright orange-red berries"
+      ],
+      "lookalikes": ["rhus_typhina", "ailanthus_altissima"]
+    },
+    {
+      "key": "robinia_pseudoacacia",
+      "common_name": "Black locust",
+      "scientific_name": "Robinia pseudoacacia",
+      "family": "Fabaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Robinia pseudoacacia"],
+      "features": [
+        "Compound leaves with 7–19 rounded oval leaflets",
+        "Paired thorns where leaves join young twigs",
+        "Deeply furrowed, rope-like bark; fragrant hanging white flowers"
+      ],
+      "lookalikes": ["gleditsia_triacanthos", "styphnolobium_japonicum"]
+    },
+    {
+      "key": "gleditsia_triacanthos",
+      "common_name": "Honeylocust",
+      "scientific_name": "Gleditsia triacanthos",
+      "family": "Fabaceae",
+      "group": "broadleaf",
+      "status": "Mostly planted",
+      "inat_taxa": ["Gleditsia triacanthos"],
+      "features": [
+        "Fine, feathery leaves with many small leaflets",
+        "Long, twisted brown seed pods",
+        "Wild trees have large branched thorns; street trees are usually thornless"
+      ],
+      "lookalikes": ["robinia_pseudoacacia"]
+    },
+    {
+      "key": "styphnolobium_japonicum",
+      "common_name": "Japanese pagoda tree",
+      "scientific_name": "Styphnolobium japonicum",
+      "family": "Fabaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Styphnolobium japonicum"],
+      "features": [
+        "Compound leaves with 7–17 pointed leaflets",
+        "Creamy white flower clusters in late summer",
+        "Green twigs; bead-like pods resembling a string of pearls"
+      ],
+      "lookalikes": ["robinia_pseudoacacia"]
+    },
+    {
+      "key": "cercis_canadensis",
+      "common_name": "Eastern redbud",
+      "scientific_name": "Cercis canadensis",
+      "family": "Fabaceae",
+      "group": "broadleaf",
+      "status": "Mostly planted",
+      "inat_taxa": ["Cercis canadensis"],
+      "features": [
+        "Heart-shaped leaves with smooth edges",
+        "Magenta-pink flowers along bare branches in early spring",
+        "Flat, pea-like pods"
+      ],
+      "lookalikes": ["tilia_americana"]
+    },
+    {
+      "key": "liriodendron_tulipifera",
+      "common_name": "Tuliptree",
+      "scientific_name": "Liriodendron tulipifera",
+      "family": "Magnoliaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Liriodendron tulipifera"],
+      "features": [
+        "Tulip-shaped leaves with 4 lobes and a flat or notched tip",
+        "Tulip-like yellow-green and orange flowers",
+        "Very tall, straight trunk with furrowed bark"
+      ],
+      "lookalikes": []
+    },
+    {
+      "key": "magnolia",
+      "common_name": "Magnolias",
+      "scientific_name": "Magnolia",
+      "family": "Magnoliaceae",
+      "group": "broadleaf",
+      "status": "Mostly planted; cucumber magnolia is native",
+      "inat_taxa": ["Magnolia"],
+      "features": [
+        "Large leaves with smooth edges",
+        "Big showy flowers, often before the leaves in spring",
+        "Smooth gray bark and fuzzy flower buds"
+      ],
+      "lookalikes": ["cornus_kousa"]
+    },
+    {
+      "key": "tilia_americana",
+      "common_name": "American basswood",
+      "scientific_name": "Tilia americana",
+      "family": "Malvaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Tilia americana"],
+      "features": [
+        "Large, heart-shaped, lopsided leaves with toothed edges",
+        "Fragrant flowers hanging from a leafy, strap-like bract",
+        "Often sprouts several trunks from the base"
+      ],
+      "lookalikes": ["tilia_cordata", "catalpa"]
+    },
+    {
+      "key": "tilia_cordata",
+      "common_name": "Littleleaf linden",
+      "scientific_name": "Tilia cordata",
+      "family": "Malvaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Tilia cordata"],
+      "features": [
+        "Small heart-shaped leaves (1.5–3 in) with hair tufts in the vein angles beneath",
+        "Dense, pyramid-shaped crown; common street tree",
+        "Flowers and nutlets hanging from a strap-like bract"
+      ],
+      "lookalikes": ["tilia_americana"]
+    },
+    {
+      "key": "platanus_occidentalis",
+      "common_name": "American sycamore",
+      "scientific_name": "Platanus occidentalis",
+      "family": "Platanaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Platanus occidentalis"],
+      "features": [
+        "Patchy bark peeling to bright white on the upper trunk and branches",
+        "Large, maple-like leaves with shallow lobes",
+        "Single round seed balls hanging on long stalks"
+      ],
+      "lookalikes": ["platanus_hispanica", "acer_saccharum"]
+    },
+    {
+      "key": "platanus_hispanica",
+      "common_name": "London planetree",
+      "scientific_name": "Platanus × hispanica",
+      "family": "Platanaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Platanus × hispanica"],
+      "features": [
+        "Camouflage bark in olive, cream, and gray patches (less white than sycamore)",
+        "Leaves more deeply lobed than sycamore",
+        "Seed balls usually in pairs; New York City's most common street tree"
+      ],
+      "lookalikes": ["platanus_occidentalis", "acer_platanoides"]
+    },
+    {
+      "key": "ailanthus_altissima",
+      "common_name": "Tree-of-heaven",
+      "scientific_name": "Ailanthus altissima",
+      "family": "Simaroubaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Ailanthus altissima"],
+      "features": [
+        "Very long compound leaves; each leaflet has 1–2 glandular teeth near its base",
+        "Rank, peanut-butter-like smell when leaves are crushed",
+        "Smooth gray bark with pale streaks; big clusters of twisted winged seeds"
+      ],
+      "lookalikes": ["juglans_nigra", "rhus_typhina"]
+    },
+    {
+      "key": "sassafras_albidum",
+      "common_name": "Sassafras",
+      "scientific_name": "Sassafras albidum",
+      "family": "Lauraceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Sassafras albidum"],
+      "features": [
+        "Three leaf shapes on one tree: oval, mitten, and three-lobed",
+        "Green twigs with a spicy, root-beer scent when crushed",
+        "Deeply furrowed reddish-brown bark"
+      ],
+      "lookalikes": ["morus"]
+    },
+    {
+      "key": "nyssa_sylvatica",
+      "common_name": "Black tupelo (blackgum)",
+      "scientific_name": "Nyssa sylvatica",
+      "family": "Nyssaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Nyssa sylvatica"],
+      "features": [
+        "Glossy, smooth-edged oval leaves that turn brilliant scarlet early in fall",
+        "Bark in thick, blocky plates like alligator hide",
+        "Branches often at right angles to the trunk; wet woods"
+      ],
+      "lookalikes": []
+    },
+    {
+      "key": "liquidambar_styraciflua",
+      "common_name": "Sweetgum",
+      "scientific_name": "Liquidambar styraciflua",
+      "family": "Altingiaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Liquidambar styraciflua"],
+      "features": [
+        "Star-shaped leaves with 5–7 pointed lobes",
+        "Spiky, gumball-like seed balls",
+        "Corky wings on some twigs"
+      ],
+      "lookalikes": ["acer_rubrum"]
+    },
+    {
+      "key": "cornus_florida",
+      "common_name": "Flowering dogwood",
+      "scientific_name": "Cornus florida",
+      "family": "Cornaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Cornus florida"],
+      "features": [
+        "Opposite oval leaves with veins curving toward the tip",
+        "Four notched white (or pink) bracts around small flower clusters in spring",
+        "Bark in small squares like alligator skin; bright red berries"
+      ],
+      "lookalikes": ["cornus_kousa", "cornus_alternifolia"]
+    },
+    {
+      "key": "cornus_kousa",
+      "common_name": "Kousa dogwood",
+      "scientific_name": "Cornus kousa",
+      "family": "Cornaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Cornus kousa"],
+      "features": [
+        "Four pointed (not notched) white bracts, blooming after the leaves are out",
+        "Raspberry-like pinkish-red fruits on long stalks",
+        "Mottled, peeling bark"
+      ],
+      "lookalikes": ["cornus_florida"]
+    },
+    {
+      "key": "cornus_alternifolia",
+      "common_name": "Alternate-leaf dogwood",
+      "scientific_name": "Cornus alternifolia",
+      "family": "Cornaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Cornus alternifolia"],
+      "features": [
+        "Alternate leaves (unusual for a dogwood), crowded at the twig tips",
+        "Layered, horizontal branches like a pagoda",
+        "Flat clusters of small white flowers; blue-black fruit on red stalks"
+      ],
+      "lookalikes": ["cornus_florida"]
+    },
+    {
+      "key": "catalpa",
+      "common_name": "Catalpas",
+      "scientific_name": "Catalpa",
+      "family": "Bignoniaceae",
+      "group": "broadleaf",
+      "status": "Introduced",
+      "inat_taxa": ["Catalpa"],
+      "features": [
+        "Very large heart-shaped leaves, often in whorls of 3",
+        "Showy white flowers with purple and yellow spots",
+        "Long, bean-like seed pods"
+      ],
+      "lookalikes": ["paulownia_tomentosa", "tilia_americana"]
+    },
+    {
+      "key": "paulownia_tomentosa",
+      "common_name": "Princess tree",
+      "scientific_name": "Paulownia tomentosa",
+      "family": "Paulowniaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Paulownia tomentosa"],
+      "features": [
+        "Huge, fuzzy, heart-shaped leaves in opposite pairs",
+        "Fragrant purple, trumpet-shaped flowers in spring",
+        "Clusters of brown, pointed, egg-shaped seed capsules"
+      ],
+      "lookalikes": ["catalpa"]
+    },
+    {
+      "key": "aesculus_hippocastanum",
+      "common_name": "Horse-chestnut",
+      "scientific_name": "Aesculus hippocastanum",
+      "family": "Sapindaceae",
+      "group": "broadleaf",
+      "status": "Planted ornamental",
+      "inat_taxa": ["Aesculus hippocastanum"],
+      "features": [
+        "Opposite, hand-like compound leaves with 5–7 leaflets",
+        "Upright spikes of white flowers with red and yellow spots",
+        "Spiny husks with glossy brown nuts (conkers), which are toxic — not edible"
+      ],
+      "lookalikes": ["castanea_dentata"]
+    },
+    {
+      "key": "morus",
+      "common_name": "Mulberries",
+      "scientific_name": "Morus",
+      "family": "Moraceae",
+      "group": "broadleaf",
+      "status": "Native and introduced species",
+      "inat_taxa": ["Morus"],
+      "features": [
+        "Leaf shapes vary on the same tree: unlobed, mitten, or several lobes",
+        "Blackberry-like fruits ripening white, red, or purple",
+        "Orange-tinged bark"
+      ],
+      "lookalikes": ["sassafras_albidum"]
+    },
+    {
+      "key": "hamamelis_virginiana",
+      "common_name": "American witch-hazel",
+      "scientific_name": "Hamamelis virginiana",
+      "family": "Hamamelidaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Hamamelis virginiana"],
+      "features": [
+        "Lopsided leaves with wavy, scalloped edges",
+        "Spidery yellow flowers in late fall, often after the leaves drop",
+        "Small, multi-stemmed understory tree"
+      ],
+      "lookalikes": ["fagus_grandifolia"]
+    },
+    {
+      "key": "rhus_typhina",
+      "common_name": "Staghorn sumac",
+      "scientific_name": "Rhus typhina",
+      "family": "Anacardiaceae",
+      "group": "broadleaf",
+      "status": "Native",
+      "inat_taxa": ["Rhus typhina"],
+      "features": [
+        "Fuzzy branches like deer antlers in velvet",
+        "Long compound leaves with toothed leaflets; scarlet in fall",
+        "Upright, cone-shaped clusters of fuzzy red fruit"
+      ],
+      "lookalikes": ["ailanthus_altissima", "sorbus"]
+    },
+    {
+      "key": "rhamnus_cathartica",
+      "common_name": "Common buckthorn",
+      "scientific_name": "Rhamnus cathartica",
+      "family": "Rhamnaceae",
+      "group": "broadleaf",
+      "status": "Introduced; invasive",
+      "inat_taxa": ["Rhamnus cathartica"],
+      "features": [
+        "Nearly opposite oval leaves with veins curving toward the tip",
+        "Twigs often end in a short thorn",
+        "Clusters of black berries; keeps green leaves late into fall"
+      ],
+      "lookalikes": ["prunus_virginiana", "cornus_alternifolia"]
+    },
+    {
+      "key": "_other",
+      "common_name": "Not a tree in this guide",
+      "scientific_name": "",
+      "family": "",
+      "group": "other",
+      "status": "",
+      "inat_taxa": [],
+      "special": "other_plants",
+      "features": [
+        "Looks more like a plant that isn't one of the trees in this guide",
+        "Try a close-up of a single leaf, needles, bark, flowers, or fruit"
+      ],
+      "lookalikes": []
+    }
+  ]
+}
