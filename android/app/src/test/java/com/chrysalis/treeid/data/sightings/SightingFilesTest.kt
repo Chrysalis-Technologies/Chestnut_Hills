@@ -40,7 +40,7 @@ class SightingFilesTest {
             val file = photos.file(name)
             assertEquals(directory, file.parentFile)
             val bounds = BitmapFactory.Options().apply { inJustDecodeBounds = true }
-            BitmapFactory.decodeFile(file.path, bounds)
+            file.inputStream().use { BitmapFactory.decodeStream(it, null, bounds) }
             assertEquals("image/jpeg", bounds.outMimeType)
             assertEquals(1024, bounds.outWidth)
             assertEquals(512, bounds.outHeight)
