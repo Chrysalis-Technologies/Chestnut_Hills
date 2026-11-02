@@ -475,7 +475,7 @@ def evaluate(model, samples, labels, size, batch, species):
             confusions[(labels[t], labels[p])] += 1
     conf = probs[np.arange(len(y)), top[:, 0]]
     calib = {}
-    for thr in (0.3, 0.5, 0.7, 0.9):
+    for thr in (0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9):
         m = conf >= thr
         calib[str(thr)] = {"coverage": float(m.mean()),
                            "top1_when_confident": float(np.mean(top[m, 0] == y[m])) if m.any() else None}

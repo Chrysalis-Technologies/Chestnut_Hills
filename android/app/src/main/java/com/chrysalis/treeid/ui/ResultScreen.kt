@@ -42,9 +42,14 @@ import com.chrysalis.treeid.data.Species
 import com.chrysalis.treeid.ml.TreeClassifier.Prediction
 import kotlin.math.roundToInt
 
-/** Confidence cut-offs for the wording of a result (see training/eval_report.md for calibration). */
-private const val LIKELY = 0.70f
-private const val POSSIBLE = 0.40f
+/**
+ * Confidence cut-offs for the wording of a result, calibrated on 7,278 held-out test photos
+ * (training/reports/eval_report.md): at >= 60% the top answer was right 92% of the time; between
+ * 35% and 60% it was right about 60% of the time but the answer was in the top 3 nearly 90% of
+ * the time; below that, a closer photo is the best advice.
+ */
+private const val LIKELY = 0.60f
+private const val POSSIBLE = 0.35f
 
 /** Smallest probability worth listing as another possibility. */
 private const val MIN_LISTED = 0.03f
@@ -122,7 +127,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.results(vm: TreeViewM
     val species = catalog[best.key]
     val verdict = when {
         best.confidence >= LIKELY -> "Most likely"
-        best.confidence >= POSSIBLE -> "Possibly"
+        best.confidence >= POSSIBLE -> "Possibly — compare with the other matches below"
         else -> "Not sure — best guess"
     }
     item {

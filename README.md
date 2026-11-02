@@ -28,13 +28,35 @@ kept out of git.
 To build locally instead: open `android/` in Android Studio, or run `./gradlew assembleRelease`
 in `android/` (JDK 17+ and the Android SDK required).
 
+## How accurate is it?
+
+Measured on 7,278 photos the model never saw during training
+([full report](training/reports/eval_report.md)):
+
+| | |
+|---|---|
+| Right tree as the first answer | **55%** |
+| Right tree among the top 3 answers | **74%** |
+| When the app says "Most likely" (confidence ≥ 60%) | right **92%** of the time (about a third of photos) |
+| Real trees wrongly dismissed as "not a tree in this guide" | under 1% |
+
+Those test photos are a mix of leaves, bark, flowers, fruit, and whole trees from iNaturalist.
+A deliberate close-up of a leaf usually does better than the average. The usual mistakes are
+genuine look-alikes: scarlet vs. pin oak, the spruces, the two larches, pignut vs. mockernut
+hickory, sycamore vs. London planetree. The weakest trees are common ones that look very
+different from season to season, like red maple, northern red oak, white ash, and American elm.
+
+This first model was trained on a CPU, fine-tuning only the last part of the network.
+Fine-tuning the whole network on a GPU (`training/finetune_colab.ipynb`, free on Google
+Colab) is the next accuracy step.
+
 ## Getting good results
 
 * Fill the on-screen square with **one leaf** (or one cluster of needles), in good light.
   Leaves are by far the most reliable. Bark, flowers, fruit, and cones help too. Whole trees
   from a distance usually don't work.
-* Read the confidence wording. "Most likely" is usually right, "Possibly" means check the
-  listed features, and "Not sure" means take a closer photo.
+* Read the confidence wording. "Most likely" is right about 9 times in 10. "Possibly" means
+  compare the listed features and the other matches. "Not sure" means take a closer photo.
 * Similar species (red vs. black oak, white vs. green ash, the spruces) are the hardest.
   The result screen lists what to check and the usual look-alikes.
 
@@ -43,7 +65,7 @@ in `android/` (JDK 17+ and the Android SDK required).
 | Path | What's there |
 |---|---|
 | `species/nys_trees.json` | The tree list: names, iNaturalist taxa, field-guide notes, look-alikes. Used by both training and the app. |
-| `training/` | Dataset builder, photo downloader, training/export script, Colab notebook. See [training/README.md](training/README.md). |
+| `training/` | Dataset builder, photo downloader, training/export and evaluation scripts, Colab notebook. See [training/README.md](training/README.md). |
 | `training/data/manifest.csv.gz` | The exact photos the model was trained on (with licence and photographer). |
 | `android/` | Kotlin + Jetpack Compose + CameraX app; runs the model with TensorFlow Lite. |
 | `android/app/src/main/assets/` | The trained model (`tree_model.tflite`), `labels.txt`, `model_info.json`. |
@@ -52,7 +74,7 @@ in `android/` (JDK 17+ and the Android SDK required).
 
 1. ✅ Offline identification + field guide
 2. ⏭️ Save sightings with GPS location and notes (offline), browse them on a list or map
-3. Fine-tuned (more accurate) model trained on a GPU: `training/finetune_colab.ipynb`
+3. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
 
 ## Credits
 

@@ -46,8 +46,10 @@ python training/train.py --mode partial --images data/images --out-dir build/mod
 #     See finetune_colab.ipynb
 python training/train.py --mode finetune --images data/images --out-dir build/model
 
-# 4. Ship it
+# 4. Check the exported file the way the app will run it, then ship it
+python training/evaluate_tflite.py --model-dir build/model --images data/images
 cp build/model/{tree_model.tflite,labels.txt,model_info.json} android/app/src/main/assets/
+cp build/model/eval_report.md training/reports/
 python training/check_species.py
 ```
 
@@ -59,9 +61,9 @@ how accurate the top answer is at each confidence level. The app's "Most likely"
 
 | Mode | What trains | Hardware | Notes |
 |---|---|---|---|
-| `features` | classifier head only (backbone frozen) | CPU, ~30 min | 40% top-1 on our test set: ImageNet features alone don't separate tree species |
-| `partial` | last backbone stage + head (early layers cached) | CPU, ~2 h | the shipped model |
-| `finetune` | everything, with fresh augmentation each epoch | GPU | expected to be the most accurate |
+| `features` | classifier head only (backbone frozen) | CPU, ~30 min | test top-1 39.9% / top-3 58.5%: ImageNet features alone don't separate tree species |
+| `partial` | last backbone stage (4.5M of 5.9M parameters) + head; early layers cached | CPU, ~2 h | test top-1 **55.4%** / top-3 **74.4%**: the shipped model |
+| `finetune` | everything, with fresh augmentation each epoch | GPU, ~1 h | not run yet; expected to be the most accurate |
 
 ## The app/model contract
 
@@ -72,7 +74,8 @@ how accurate the top answer is at each confidence level. The app's "Most likely"
 * output: softmax over the classes in `labels.txt`, in that order
 
 `train.py` checks that the exported `.tflite` makes the same predictions as the Keras model
-before writing anything.
+before writing anything. `evaluate_tflite.py` re-implements the app's preprocessing in
+Python. Its numbers matched training's (55.4% top-1) on all 7,278 test photos.
 
 ## Adding or changing trees
 
