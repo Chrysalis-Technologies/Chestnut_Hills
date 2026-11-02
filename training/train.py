@@ -103,7 +103,10 @@ def load_dataset(manifest: str, images: str, species_path: str, min_train: int):
 
 def decode(path):
     data = tf.io.read_file(path)
-    img = tf.io.decode_jpeg(data, channels=3, try_recover_truncated=True, acceptable_fraction=0.5)
+    # INTEGER_ACCURATE matches Android's (and Pillow's) JPEG decoder; TensorFlow's default fast
+    # decoder differs by a pixel level here and there, enough to flip borderline predictions.
+    img = tf.io.decode_jpeg(data, channels=3, dct_method="INTEGER_ACCURATE",
+                            try_recover_truncated=True, acceptable_fraction=0.5)
     return tf.cast(img, tf.float32)
 
 

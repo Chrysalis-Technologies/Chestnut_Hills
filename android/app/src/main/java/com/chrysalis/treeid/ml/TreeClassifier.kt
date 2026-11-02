@@ -39,15 +39,13 @@ class TreeClassifier private constructor(
     private val input: ByteBuffer =
         ByteBuffer.allocateDirect(4 * inputSize * inputSize * 3).order(ByteOrder.nativeOrder())
     private val output = Array(1) { FloatArray(labels.size) }
-    private val pixels = IntArray(inputSize * inputSize)
 
     /** Returns the [topK] most likely classes, averaging the photo and its mirror image. */
     @Synchronized
     fun classify(photo: Bitmap, topK: Int = 5): List<Prediction> {
-        val square = Images.centerSquare(photo, inputSize)
-        square.getPixels(pixels, 0, inputSize, 0, 0, inputSize, inputSize)
-        val a = run(mirror = false)
-        val b = run(mirror = true)
+        val rgb = Images.centerSquarePixels(photo, inputSize)
+        val a = run(rgb, mirror = false)
+        val b = run(rgb, mirror = true)
         val probs = FloatArray(labels.size) { (a[it] + b[it]) / 2f }
         return probs.indices
             .sortedByDescending { probs[it] }
@@ -55,15 +53,15 @@ class TreeClassifier private constructor(
             .map { Prediction(labels[it], probs[it]) }
     }
 
-    private fun run(mirror: Boolean): FloatArray {
+    private fun run(rgb: FloatArray, mirror: Boolean): FloatArray {
         input.rewind()
         for (y in 0 until inputSize) {
             val row = y * inputSize
             for (x in 0 until inputSize) {
-                val px = pixels[row + if (mirror) inputSize - 1 - x else x]
-                input.putFloat(((px shr 16) and 0xFF).toFloat())
-                input.putFloat(((px shr 8) and 0xFF).toFloat())
-                input.putFloat((px and 0xFF).toFloat())
+                val i = (row + if (mirror) inputSize - 1 - x else x) * 3
+                input.putFloat(rgb[i])
+                input.putFloat(rgb[i + 1])
+                input.putFloat(rgb[i + 2])
             }
         }
         input.rewind()
