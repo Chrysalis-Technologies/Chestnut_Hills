@@ -1,0 +1,19 @@
+{
+ "format_version": 1,
+ "model_version": "20261102-1558",
+ "mode": "partial",
+ "backbone": "efficientnetv2b0",
+ "input_size": 224,
+ "input_range": [
+  0,
+  255
+ ],
+ "input_layout": "NHWC RGB, centre square crop, bilinear resize",
+ "num_classes": 100,
+ "test_top1": 0.5539,
+ "test_top3": 0.7439,
+ "test_photos": 7278,
+ "train_photos": 57712,
+ "quantization": "fp16",
+ "trained_on": "iNaturalist Open Dataset research-grade photos (CC0 / CC-BY / CC-BY-NC)"
+}

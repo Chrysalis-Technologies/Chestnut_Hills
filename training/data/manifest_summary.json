@@ -1,0 +1,2424 @@
+{
+ "source": "iNaturalist Open Dataset (research-grade observations)",
+ "built": "2026-11-02",
+ "params": {
+  "species": "species/nys_trees.json",
+  "max_obs_per_class": 500,
+  "photos_per_obs": 2,
+  "max_obs_per_observer": 25,
+  "other_obs": 1500,
+  "val_pct": 10,
+  "test_pct": 10,
+  "seed": 1234,
+  "max_rows": 0,
+  "resolve_only": false
+ },
+ "resolved_taxa": {
+  "pinus_strobus": [
+   {
+    "name": "Pinus strobus",
+    "taxon_id": 52391,
+    "rank": "species"
+   }
+  ],
+  "pinus_resinosa": [
+   {
+    "name": "Pinus resinosa",
+    "taxon_id": 52383,
+    "rank": "species"
+   }
+  ],
+  "pinus_rigida": [
+   {
+    "name": "Pinus rigida",
+    "taxon_id": 53464,
+    "rank": "species"
+   }
+  ],
+  "pinus_sylvestris": [
+   {
+    "name": "Pinus sylvestris",
+    "taxon_id": 58722,
+    "rank": "species"
+   }
+  ],
+  "pinus_nigra": [
+   {
+    "name": "Pinus nigra",
+    "taxon_id": 135790,
+    "rank": "species"
+   }
+  ],
+  "tsuga_canadensis": [
+   {
+    "name": "Tsuga canadensis",
+    "taxon_id": 48734,
+    "rank": "species"
+   }
+  ],
+  "abies_balsamea": [
+   {
+    "name": "Abies balsamea",
+    "taxon_id": 54261,
+    "rank": "species"
+   }
+  ],
+  "picea_rubens": [
+   {
+    "name": "Picea rubens",
+    "taxon_id": 121931,
+    "rank": "species"
+   }
+  ],
+  "picea_glauca": [
+   {
+    "name": "Picea glauca",
+    "taxon_id": 117326,
+    "rank": "species"
+   }
+  ],
+  "picea_mariana": [
+   {
+    "name": "Picea mariana",
+    "taxon_id": 84296,
+    "rank": "species"
+   }
+  ],
+  "picea_abies": [
+   {
+    "name": "Picea abies",
+    "taxon_id": 63567,
+    "rank": "species"
+   }
+  ],
+  "picea_pungens": [
+   {
+    "name": "Picea pungens",
+    "taxon_id": 119092,
+    "rank": "species"
+   }
+  ],
+  "larix_laricina": [
+   {
+    "name": "Larix laricina",
+    "taxon_id": 58721,
+    "rank": "species"
+   }
+  ],
+  "larix_decidua": [
+   {
+    "name": "Larix decidua",
+    "taxon_id": 59747,
+    "rank": "species"
+   }
+  ],
+  "thuja_occidentalis": [
+   {
+    "name": "Thuja occidentalis",
+    "taxon_id": 54037,
+    "rank": "species"
+   }
+  ],
+  "juniperus_virginiana": [
+   {
+    "name": "Juniperus virginiana",
+    "taxon_id": 49399,
+    "rank": "species"
+   }
+  ],
+  "ginkgo_biloba": [
+   {
+    "name": "Ginkgo biloba",
+    "taxon_id": 64350,
+    "rank": "species"
+   }
+  ],
+  "acer_saccharum": [
+   {
+    "name": "Acer saccharum",
+    "taxon_id": 52543,
+    "rank": "species"
+   },
+   {
+    "name": "Acer nigrum",
+    "taxon_id": 48078,
+    "rank": "species"
+   }
+  ],
+  "acer_rubrum": [
+   {
+    "name": "Acer rubrum",
+    "taxon_id": 48098,
+    "rank": "species"
+   }
+  ],
+  "acer_saccharinum": [
+   {
+    "name": "Acer saccharinum",
+    "taxon_id": 54762,
+    "rank": "species"
+   }
+  ],
+  "acer_platanoides": [
+   {
+    "name": "Acer platanoides",
+    "taxon_id": 54763,
+    "rank": "species"
+   }
+  ],
+  "acer_negundo": [
+   {
+    "name": "Acer negundo",
+    "taxon_id": 47726,
+    "rank": "species"
+   }
+  ],
+  "acer_pensylvanicum": [
+   {
+    "name": "Acer pensylvanicum",
+    "taxon_id": 48095,
+    "rank": "species"
+   }
+  ],
+  "acer_spicatum": [
+   {
+    "name": "Acer spicatum",
+    "taxon_id": 116361,
+    "rank": "species"
+   }
+  ],
+  "acer_palmatum": [
+   {
+    "name": "Acer palmatum",
+    "taxon_id": 63512,
+    "rank": "species"
+   }
+  ],
+  "quercus_rubra": [
+   {
+    "name": "Quercus rubra",
+    "taxon_id": 49005,
+    "rank": "species"
+   }
+  ],
+  "quercus_velutina": [
+   {
+    "name": "Quercus velutina",
+    "taxon_id": 49006,
+    "rank": "species"
+   }
+  ],
+  "quercus_coccinea": [
+   {
+    "name": "Quercus coccinea",
+    "taxon_id": 54784,
+    "rank": "species"
+   }
+  ],
+  "quercus_palustris": [
+   {
+    "name": "Quercus palustris",
+    "taxon_id": 54785,
+    "rank": "species"
+   }
+  ],
+  "quercus_alba": [
+   {
+    "name": "Quercus alba",
+    "taxon_id": 54779,
+    "rank": "species"
+   }
+  ],
+  "quercus_montana": [
+   {
+    "name": "Quercus montana",
+    "taxon_id": 128686,
+    "rank": "species"
+   }
+  ],
+  "quercus_bicolor": [
+   {
+    "name": "Quercus bicolor",
+    "taxon_id": 54780,
+    "rank": "species"
+   }
+  ],
+  "quercus_macrocarpa": [
+   {
+    "name": "Quercus macrocarpa",
+    "taxon_id": 54781,
+    "rank": "species"
+   }
+  ],
+  "quercus_phellos": [
+   {
+    "name": "Quercus phellos",
+    "taxon_id": 119983,
+    "rank": "species"
+   }
+  ],
+  "castanea_dentata": [
+   {
+    "name": "Castanea dentata",
+    "taxon_id": 49186,
+    "rank": "species"
+   }
+  ],
+  "castanea_mollissima": [
+   {
+    "name": "Castanea mollissima",
+    "taxon_id": 49192,
+    "rank": "species"
+   }
+  ],
+  "fagus_grandifolia": [
+   {
+    "name": "Fagus grandifolia",
+    "taxon_id": 49202,
+    "rank": "species"
+   }
+  ],
+  "carya_ovata": [
+   {
+    "name": "Carya ovata",
+    "taxon_id": 54791,
+    "rank": "species"
+   }
+  ],
+  "carya_cordiformis": [
+   {
+    "name": "Carya cordiformis",
+    "taxon_id": 54787,
+    "rank": "species"
+   }
+  ],
+  "carya_glabra": [
+   {
+    "name": "Carya glabra",
+    "taxon_id": 54789,
+    "rank": "species"
+   }
+  ],
+  "carya_tomentosa": [
+   {
+    "name": "Carya tomentosa",
+    "taxon_id": 84305,
+    "rank": "species"
+   }
+  ],
+  "juglans_nigra": [
+   {
+    "name": "Juglans nigra",
+    "taxon_id": 54504,
+    "rank": "species"
+   }
+  ],
+  "juglans_cinerea": [
+   {
+    "name": "Juglans cinerea",
+    "taxon_id": 54792,
+    "rank": "species"
+   }
+  ],
+  "betula_papyrifera": [
+   {
+    "name": "Betula papyrifera",
+    "taxon_id": 49883,
+    "rank": "species"
+   }
+  ],
+  "betula_alleghaniensis": [
+   {
+    "name": "Betula alleghaniensis",
+    "taxon_id": 49882,
+    "rank": "species"
+   }
+  ],
+  "betula_lenta": [
+   {
+    "name": "Betula lenta",
+    "taxon_id": 49157,
+    "rank": "species"
+   }
+  ],
+  "betula_populifolia": [
+   {
+    "name": "Betula populifolia",
+    "taxon_id": 49884,
+    "rank": "species"
+   }
+  ],
+  "betula_nigra": [
+   {
+    "name": "Betula nigra",
+    "taxon_id": 117429,
+    "rank": "species"
+   }
+  ],
+  "ostrya_virginiana": [
+   {
+    "name": "Ostrya virginiana",
+    "taxon_id": 54771,
+    "rank": "species"
+   }
+  ],
+  "carpinus_caroliniana": [
+   {
+    "name": "Carpinus caroliniana",
+    "taxon_id": 54768,
+    "rank": "species"
+   }
+  ],
+  "fraxinus_americana": [
+   {
+    "name": "Fraxinus americana",
+    "taxon_id": 54805,
+    "rank": "species"
+   }
+  ],
+  "fraxinus_pennsylvanica": [
+   {
+    "name": "Fraxinus pennsylvanica",
+    "taxon_id": 54808,
+    "rank": "species"
+   }
+  ],
+  "fraxinus_nigra": [
+   {
+    "name": "Fraxinus nigra",
+    "taxon_id": 54807,
+    "rank": "species"
+   }
+  ],
+  "ulmus_americana": [
+   {
+    "name": "Ulmus americana",
+    "taxon_id": 53547,
+    "rank": "species"
+   }
+  ],
+  "ulmus_rubra": [
+   {
+    "name": "Ulmus rubra",
+    "taxon_id": 54860,
+    "rank": "species"
+   }
+  ],
+  "ulmus_pumila": [
+   {
+    "name": "Ulmus pumila",
+    "taxon_id": 79463,
+    "rank": "species"
+   }
+  ],
+  "zelkova_serrata": [
+   {
+    "name": "Zelkova serrata",
+    "taxon_id": 129055,
+    "rank": "species"
+   }
+  ],
+  "celtis_occidentalis": [
+   {
+    "name": "Celtis occidentalis",
+    "taxon_id": 54857,
+    "rank": "species"
+   }
+  ],
+  "populus_tremuloides": [
+   {
+    "name": "Populus tremuloides",
+    "taxon_id": 54840,
+    "rank": "species"
+   }
+  ],
+  "populus_grandidentata": [
+   {
+    "name": "Populus grandidentata",
+    "taxon_id": 54839,
+    "rank": "species"
+   }
+  ],
+  "populus_deltoides": [
+   {
+    "name": "Populus deltoides",
+    "taxon_id": 52119,
+    "rank": "species"
+   }
+  ],
+  "populus_balsamifera": [
+   {
+    "name": "Populus balsamifera",
+    "taxon_id": 54838,
+    "rank": "species"
+   }
+  ],
+  "populus_alba": [
+   {
+    "name": "Populus alba",
+    "taxon_id": 47570,
+    "rank": "species"
+   }
+  ],
+  "salix_nigra": [
+   {
+    "name": "Salix nigra",
+    "taxon_id": 54847,
+    "rank": "species"
+   }
+  ],
+  "salix_babylonica": [
+   {
+    "name": "Salix babylonica",
+    "taxon_id": 58316,
+    "rank": "species"
+   }
+  ],
+  "prunus_serotina": [
+   {
+    "name": "Prunus serotina",
+    "taxon_id": 54834,
+    "rank": "species"
+   }
+  ],
+  "prunus_pensylvanica": [
+   {
+    "name": "Prunus pensylvanica",
+    "taxon_id": 54833,
+    "rank": "species"
+   }
+  ],
+  "prunus_virginiana": [
+   {
+    "name": "Prunus virginiana",
+    "taxon_id": 54835,
+    "rank": "species"
+   }
+  ],
+  "prunus_avium": [
+   {
+    "name": "Prunus avium",
+    "taxon_id": 61964,
+    "rank": "species"
+   }
+  ],
+  "prunus_flowering": [
+   {
+    "name": "Prunus serrulata",
+    "taxon_id": 125742,
+    "rank": "species"
+   },
+   {
+    "name": "Prunus × yedoensis",
+    "taxon_id": 47352,
+    "rank": "hybrid"
+   }
+  ],
+  "malus": [
+   {
+    "name": "Malus",
+    "taxon_id": 54500,
+    "rank": "genus"
+   }
+  ],
+  "pyrus_calleryana": [
+   {
+    "name": "Pyrus calleryana",
+    "taxon_id": 119793,
+    "rank": "species"
+   }
+  ],
+  "crataegus": [
+   {
+    "name": "Crataegus",
+    "taxon_id": 51148,
+    "rank": "genus"
+   }
+  ],
+  "amelanchier": [
+   {
+    "name": "Amelanchier",
+    "taxon_id": 49230,
+    "rank": "genus"
+   }
+  ],
+  "sorbus": [
+   {
+    "name": "Sorbus",
+    "taxon_id": 48582,
+    "rank": "genus"
+   }
+  ],
+  "robinia_pseudoacacia": [
+   {
+    "name": "Robinia pseudoacacia",
+    "taxon_id": 56088,
+    "rank": "species"
+   }
+  ],
+  "gleditsia_triacanthos": [
+   {
+    "name": "Gleditsia triacanthos",
+    "taxon_id": 54797,
+    "rank": "species"
+   }
+  ],
+  "styphnolobium_japonicum": [
+   {
+    "name": "Styphnolobium japonicum",
+    "taxon_id": 53945,
+    "rank": "species"
+   }
+  ],
+  "cercis_canadensis": [
+   {
+    "name": "Cercis canadensis",
+    "taxon_id": 48502,
+    "rank": "species"
+   }
+  ],
+  "liriodendron_tulipifera": [
+   {
+    "name": "Liriodendron tulipifera",
+    "taxon_id": 53582,
+    "rank": "species"
+   }
+  ],
+  "magnolia": [
+   {
+    "name": "Magnolia",
+    "taxon_id": 82096,
+    "rank": "genus"
+   }
+  ],
+  "tilia_americana": [
+   {
+    "name": "Tilia americana",
+    "taxon_id": 54854,
+    "rank": "species"
+   }
+  ],
+  "tilia_cordata": [
+   {
+    "name": "Tilia cordata",
+    "taxon_id": 132600,
+    "rank": "species"
+   }
+  ],
+  "platanus_occidentalis": [
+   {
+    "name": "Platanus occidentalis",
+    "taxon_id": 49662,
+    "rank": "species"
+   }
+  ],
+  "platanus_hispanica": [
+   {
+    "name": "Platanus × hispanica",
+    "taxon_id": 552449,
+    "rank": "hybrid"
+   }
+  ],
+  "ailanthus_altissima": [
+   {
+    "name": "Ailanthus altissima",
+    "taxon_id": 57278,
+    "rank": "species"
+   }
+  ],
+  "sassafras_albidum": [
+   {
+    "name": "Sassafras albidum",
+    "taxon_id": 54795,
+    "rank": "species"
+   }
+  ],
+  "nyssa_sylvatica": [
+   {
+    "name": "Nyssa sylvatica",
+    "taxon_id": 54802,
+    "rank": "species"
+   }
+  ],
+  "liquidambar_styraciflua": [
+   {
+    "name": "Liquidambar styraciflua",
+    "taxon_id": 49658,
+    "rank": "species"
+   }
+  ],
+  "cornus_florida": [
+   {
+    "name": "Cornus florida",
+    "taxon_id": 54777,
+    "rank": "species"
+   }
+  ],
+  "cornus_kousa": [
+   {
+    "name": "Cornus kousa",
+    "taxon_id": 128614,
+    "rank": "species"
+   }
+  ],
+  "cornus_alternifolia": [
+   {
+    "name": "Cornus alternifolia",
+    "taxon_id": 54775,
+    "rank": "species"
+   }
+  ],
+  "catalpa": [
+   {
+    "name": "Catalpa",
+    "taxon_id": 50861,
+    "rank": "genus"
+   }
+  ],
+  "paulownia_tomentosa": [
+   {
+    "name": "Paulownia tomentosa",
+    "taxon_id": 119792,
+    "rank": "species"
+   }
+  ],
+  "aesculus_hippocastanum": [
+   {
+    "name": "Aesculus hippocastanum",
+    "taxon_id": 84298,
+    "rank": "species"
+   }
+  ],
+  "morus": [
+   {
+    "name": "Morus",
+    "taxon_id": 56091,
+    "rank": "genus"
+   }
+  ],
+  "hamamelis_virginiana": [
+   {
+    "name": "Hamamelis virginiana",
+    "taxon_id": 51970,
+    "rank": "species"
+   }
+  ],
+  "rhus_typhina": [
+   {
+    "name": "Rhus typhina",
+    "taxon_id": 167829,
+    "rank": "species"
+   }
+  ],
+  "rhamnus_cathartica": [
+   {
+    "name": "Rhamnus cathartica",
+    "taxon_id": 54811,
+    "rank": "species"
+   }
+  ]
+ },
+ "classes": {
+  "pinus_strobus": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 35312,
+    "northeast": 35554,
+    "elsewhere": 25786
+   },
+   "photos": {
+    "train": 486,
+    "val": 68,
+    "test": 75
+   }
+  },
+  "pinus_resinosa": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2220,
+    "northeast": 3510,
+    "elsewhere": 5131
+   },
+   "photos": {
+    "train": 633,
+    "test": 65,
+    "val": 50
+   }
+  },
+  "pinus_rigida": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 9525,
+    "northeast": 7374,
+    "elsewhere": 368
+   },
+   "photos": {
+    "train": 616,
+    "val": 84,
+    "test": 68
+   }
+  },
+  "pinus_sylvestris": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1653,
+    "northeast": 2206,
+    "elsewhere": 77310
+   },
+   "photos": {
+    "train": 581,
+    "val": 87,
+    "test": 61
+   }
+  },
+  "pinus_nigra": {
+   "observations_by_region": {
+    "ny": 229,
+    "northeast": 141,
+    "elsewhere": 130
+   },
+   "research_grade_available": {
+    "ny": 229,
+    "northeast": 145,
+    "elsewhere": 3829
+   },
+   "photos": {
+    "train": 542,
+    "val": 77,
+    "test": 81
+   }
+  },
+  "tsuga_canadensis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 23193,
+    "northeast": 21088,
+    "elsewhere": 14319
+   },
+   "photos": {
+    "train": 569,
+    "val": 59,
+    "test": 60
+   }
+  },
+  "abies_balsamea": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 8808,
+    "northeast": 10863,
+    "elsewhere": 16416
+   },
+   "photos": {
+    "train": 557,
+    "test": 71,
+    "val": 72
+   }
+  },
+  "picea_rubens": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2322,
+    "northeast": 3288,
+    "elsewhere": 1570
+   },
+   "photos": {
+    "val": 68,
+    "train": 595,
+    "test": 77
+   }
+  },
+  "picea_glauca": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1087,
+    "northeast": 2859,
+    "elsewhere": 7050
+   },
+   "photos": {
+    "val": 87,
+    "train": 602,
+    "test": 73
+   }
+  },
+  "picea_mariana": {
+   "observations_by_region": {
+    "ny": 458,
+    "northeast": 42,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 485,
+    "northeast": 1271,
+    "elsewhere": 3961
+   },
+   "photos": {
+    "train": 595,
+    "test": 80,
+    "val": 90
+   }
+  },
+  "picea_abies": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2702,
+    "northeast": 2703,
+    "elsewhere": 32434
+   },
+   "photos": {
+    "train": 558,
+    "val": 73,
+    "test": 67
+   }
+  },
+  "picea_pungens": {
+   "observations_by_region": {
+    "ny": 61,
+    "northeast": 116,
+    "elsewhere": 323
+   },
+   "research_grade_available": {
+    "ny": 61,
+    "northeast": 116,
+    "elsewhere": 1777
+   },
+   "photos": {
+    "train": 571,
+    "val": 54,
+    "test": 89
+   }
+  },
+  "larix_laricina": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3354,
+    "northeast": 6011,
+    "elsewhere": 11503
+   },
+   "photos": {
+    "train": 542,
+    "val": 76,
+    "test": 65
+   }
+  },
+  "larix_decidua": {
+   "observations_by_region": {
+    "ny": 258,
+    "northeast": 234,
+    "elsewhere": 8
+   },
+   "research_grade_available": {
+    "ny": 258,
+    "northeast": 234,
+    "elsewhere": 8075
+   },
+   "photos": {
+    "train": 610,
+    "test": 86,
+    "val": 70
+   }
+  },
+  "thuja_occidentalis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 8560,
+    "northeast": 14162,
+    "elsewhere": 10962
+   },
+   "photos": {
+    "train": 522,
+    "val": 66,
+    "test": 45
+   }
+  },
+  "juniperus_virginiana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 10630,
+    "northeast": 15202,
+    "elsewhere": 37712
+   },
+   "photos": {
+    "train": 555,
+    "val": 75,
+    "test": 61
+   }
+  },
+  "ginkgo_biloba": {
+   "observations_by_region": {
+    "ny": 95,
+    "northeast": 84,
+    "elsewhere": 321
+   },
+   "research_grade_available": {
+    "ny": 105,
+    "northeast": 84,
+    "elsewhere": 654
+   },
+   "photos": {
+    "train": 518,
+    "val": 71,
+    "test": 65
+   }
+  },
+  "acer_saccharum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 11733,
+    "northeast": 14267,
+    "elsewhere": 9063
+   },
+   "photos": {
+    "train": 541,
+    "val": 64,
+    "test": 63
+   }
+  },
+  "acer_rubrum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 16242,
+    "northeast": 24139,
+    "elsewhere": 27797
+   },
+   "photos": {
+    "train": 547,
+    "test": 58,
+    "val": 57
+   }
+  },
+  "acer_saccharinum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4931,
+    "northeast": 9249,
+    "elsewhere": 10200
+   },
+   "photos": {
+    "train": 515,
+    "val": 61,
+    "test": 79
+   }
+  },
+  "acer_platanoides": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 9684,
+    "northeast": 12407,
+    "elsewhere": 60009
+   },
+   "photos": {
+    "train": 508,
+    "val": 67,
+    "test": 77
+   }
+  },
+  "acer_negundo": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 12383,
+    "northeast": 24952,
+    "elsewhere": 103118
+   },
+   "photos": {
+    "train": 550,
+    "val": 78,
+    "test": 48
+   }
+  },
+  "acer_pensylvanicum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 12232,
+    "northeast": 11761,
+    "elsewhere": 8025
+   },
+   "photos": {
+    "train": 522,
+    "val": 73,
+    "test": 61
+   }
+  },
+  "acer_spicatum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3130,
+    "northeast": 4409,
+    "elsewhere": 5939
+   },
+   "photos": {
+    "val": 73,
+    "train": 552,
+    "test": 67
+   }
+  },
+  "acer_palmatum": {
+   "observations_by_region": {
+    "ny": 401,
+    "northeast": 99,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 429,
+    "northeast": 689,
+    "elsewhere": 1619
+   },
+   "photos": {
+    "train": 526,
+    "val": 54,
+    "test": 54
+   }
+  },
+  "quercus_rubra": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 11181,
+    "northeast": 13492,
+    "elsewhere": 21145
+   },
+   "photos": {
+    "train": 516,
+    "val": 78,
+    "test": 77
+   }
+  },
+  "quercus_velutina": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2747,
+    "northeast": 3364,
+    "elsewhere": 2517
+   },
+   "photos": {
+    "train": 604,
+    "test": 81,
+    "val": 78
+   }
+  },
+  "quercus_coccinea": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 694,
+    "northeast": 973,
+    "elsewhere": 611
+   },
+   "photos": {
+    "train": 619,
+    "val": 83,
+    "test": 86
+   }
+  },
+  "quercus_palustris": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1237,
+    "northeast": 2230,
+    "elsewhere": 1553
+   },
+   "photos": {
+    "val": 85,
+    "train": 560,
+    "test": 72
+   }
+  },
+  "quercus_alba": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 12333,
+    "northeast": 13769,
+    "elsewhere": 13572
+   },
+   "photos": {
+    "train": 520,
+    "val": 91,
+    "test": 75
+   }
+  },
+  "quercus_montana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3044,
+    "northeast": 4127,
+    "elsewhere": 2055
+   },
+   "photos": {
+    "train": 584,
+    "test": 61,
+    "val": 65
+   }
+  },
+  "quercus_bicolor": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1068,
+    "northeast": 1902,
+    "elsewhere": 1418
+   },
+   "photos": {
+    "train": 627,
+    "val": 73,
+    "test": 88
+   }
+  },
+  "quercus_macrocarpa": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1915,
+    "northeast": 5116,
+    "elsewhere": 18685
+   },
+   "photos": {
+    "train": 591,
+    "test": 79,
+    "val": 58
+   }
+  },
+  "quercus_phellos": {
+   "observations_by_region": {
+    "ny": 138,
+    "northeast": 362,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 138,
+    "northeast": 3625,
+    "elsewhere": 5143
+   },
+   "photos": {
+    "train": 552,
+    "val": 53,
+    "test": 72
+   }
+  },
+  "castanea_dentata": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 7081,
+    "northeast": 6350,
+    "elsewhere": 2185
+   },
+   "photos": {
+    "train": 589,
+    "test": 81,
+    "val": 58
+   }
+  },
+  "castanea_mollissima": {
+   "observations_by_region": {
+    "ny": 209,
+    "northeast": 291,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 209,
+    "northeast": 632,
+    "elsewhere": 765
+   },
+   "photos": {
+    "train": 629,
+    "test": 87,
+    "val": 65
+   }
+  },
+  "fagus_grandifolia": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 25037,
+    "northeast": 33795,
+    "elsewhere": 23814
+   },
+   "photos": {
+    "val": 63,
+    "train": 517,
+    "test": 58
+   }
+  },
+  "carya_ovata": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 5148,
+    "northeast": 5567,
+    "elsewhere": 4700
+   },
+   "photos": {
+    "train": 565,
+    "test": 93,
+    "val": 56
+   }
+  },
+  "carya_cordiformis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3068,
+    "northeast": 5279,
+    "elsewhere": 2646
+   },
+   "photos": {
+    "train": 591,
+    "val": 76,
+    "test": 78
+   }
+  },
+  "carya_glabra": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 554,
+    "northeast": 1092,
+    "elsewhere": 1765
+   },
+   "photos": {
+    "train": 657,
+    "test": 77,
+    "val": 80
+   }
+  },
+  "carya_tomentosa": {
+   "observations_by_region": {
+    "ny": 327,
+    "northeast": 173,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 327,
+    "northeast": 816,
+    "elsewhere": 1641
+   },
+   "photos": {
+    "train": 678,
+    "test": 70,
+    "val": 74
+   }
+  },
+  "juglans_nigra": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 6865,
+    "northeast": 11736,
+    "elsewhere": 12676
+   },
+   "photos": {
+    "test": 67,
+    "train": 555,
+    "val": 57
+   }
+  },
+  "juglans_cinerea": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2974,
+    "northeast": 4965,
+    "elsewhere": 1199
+   },
+   "photos": {
+    "train": 672,
+    "test": 91,
+    "val": 78
+   }
+  },
+  "betula_papyrifera": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 5596,
+    "northeast": 6382,
+    "elsewhere": 10971
+   },
+   "photos": {
+    "train": 546,
+    "test": 66,
+    "val": 51
+   }
+  },
+  "betula_alleghaniensis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 14245,
+    "northeast": 7967,
+    "elsewhere": 6189
+   },
+   "photos": {
+    "train": 551,
+    "test": 58,
+    "val": 65
+   }
+  },
+  "betula_lenta": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4354,
+    "northeast": 1904,
+    "elsewhere": 220
+   },
+   "photos": {
+    "train": 559,
+    "val": 63,
+    "test": 79
+   }
+  },
+  "betula_populifolia": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2444,
+    "northeast": 3553,
+    "elsewhere": 897
+   },
+   "photos": {
+    "test": 64,
+    "train": 556,
+    "val": 80
+   }
+  },
+  "betula_nigra": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 813,
+    "northeast": 2459,
+    "elsewhere": 3880
+   },
+   "photos": {
+    "train": 557,
+    "val": 66,
+    "test": 69
+   }
+  },
+  "ostrya_virginiana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 7172,
+    "northeast": 6119,
+    "elsewhere": 6727
+   },
+   "photos": {
+    "train": 538,
+    "test": 71,
+    "val": 80
+   }
+  },
+  "carpinus_caroliniana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4679,
+    "northeast": 6087,
+    "elsewhere": 5307
+   },
+   "photos": {
+    "train": 586,
+    "test": 66,
+    "val": 77
+   }
+  },
+  "fraxinus_americana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4237,
+    "northeast": 3223,
+    "elsewhere": 2230
+   },
+   "photos": {
+    "train": 552,
+    "test": 94,
+    "val": 78
+   }
+  },
+  "fraxinus_pennsylvanica": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1107,
+    "northeast": 3290,
+    "elsewhere": 12158
+   },
+   "photos": {
+    "val": 77,
+    "test": 59,
+    "train": 652
+   }
+  },
+  "fraxinus_nigra": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2172,
+    "northeast": 3705,
+    "elsewhere": 2784
+   },
+   "photos": {
+    "train": 665,
+    "val": 95,
+    "test": 75
+   }
+  },
+  "ulmus_americana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3473,
+    "northeast": 6813,
+    "elsewhere": 10573
+   },
+   "photos": {
+    "val": 65,
+    "train": 575,
+    "test": 90
+   }
+  },
+  "ulmus_rubra": {
+   "observations_by_region": {
+    "ny": 491,
+    "northeast": 9,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 600,
+    "northeast": 1969,
+    "elsewhere": 1824
+   },
+   "photos": {
+    "train": 690,
+    "test": 67,
+    "val": 90
+   }
+  },
+  "ulmus_pumila": {
+   "observations_by_region": {
+    "ny": 344,
+    "northeast": 156,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 344,
+    "northeast": 1006,
+    "elsewhere": 11442
+   },
+   "photos": {
+    "train": 651,
+    "val": 59,
+    "test": 65
+   }
+  },
+  "zelkova_serrata": {
+   "observations_by_region": {
+    "ny": 85,
+    "northeast": 129,
+    "elsewhere": 286
+   },
+   "research_grade_available": {
+    "ny": 85,
+    "northeast": 129,
+    "elsewhere": 779
+   },
+   "photos": {
+    "train": 579,
+    "test": 67,
+    "val": 54
+   }
+  },
+  "celtis_occidentalis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2267,
+    "northeast": 5532,
+    "elsewhere": 9965
+   },
+   "photos": {
+    "train": 553,
+    "val": 67,
+    "test": 92
+   }
+  },
+  "populus_tremuloides": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 5500,
+    "northeast": 7535,
+    "elsewhere": 41606
+   },
+   "photos": {
+    "train": 530,
+    "val": 45,
+    "test": 77
+   }
+  },
+  "populus_grandidentata": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4338,
+    "northeast": 6746,
+    "elsewhere": 4184
+   },
+   "photos": {
+    "train": 508,
+    "val": 67,
+    "test": 79
+   }
+  },
+  "populus_deltoides": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 5111,
+    "northeast": 7306,
+    "elsewhere": 17580
+   },
+   "photos": {
+    "test": 95,
+    "train": 550,
+    "val": 74
+   }
+  },
+  "populus_balsamifera": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 795,
+    "northeast": 1813,
+    "elsewhere": 5162
+   },
+   "photos": {
+    "test": 85,
+    "train": 568,
+    "val": 68
+   }
+  },
+  "populus_alba": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 869,
+    "northeast": 1366,
+    "elsewhere": 16008
+   },
+   "photos": {
+    "train": 579,
+    "test": 91,
+    "val": 58
+   }
+  },
+  "salix_nigra": {
+   "observations_by_region": {
+    "ny": 425,
+    "northeast": 75,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 425,
+    "northeast": 1177,
+    "elsewhere": 8929
+   },
+   "photos": {
+    "train": 655,
+    "val": 64,
+    "test": 73
+   }
+  },
+  "salix_babylonica": {
+   "observations_by_region": {
+    "ny": 82,
+    "northeast": 135,
+    "elsewhere": 283
+   },
+   "research_grade_available": {
+    "ny": 82,
+    "northeast": 135,
+    "elsewhere": 2335
+   },
+   "photos": {
+    "train": 525,
+    "test": 76,
+    "val": 80
+   }
+  },
+  "prunus_serotina": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 13042,
+    "northeast": 17229,
+    "elsewhere": 25380
+   },
+   "photos": {
+    "train": 552,
+    "val": 51,
+    "test": 61
+   }
+  },
+  "prunus_pensylvanica": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 876,
+    "northeast": 2358,
+    "elsewhere": 3024
+   },
+   "photos": {
+    "train": 606,
+    "test": 65,
+    "val": 81
+   }
+  },
+  "prunus_virginiana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4087,
+    "northeast": 6398,
+    "elsewhere": 26317
+   },
+   "photos": {
+    "train": 545,
+    "val": 78,
+    "test": 73
+   }
+  },
+  "prunus_avium": {
+   "observations_by_region": {
+    "ny": 484,
+    "northeast": 16,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 565,
+    "northeast": 628,
+    "elsewhere": 15103
+   },
+   "photos": {
+    "train": 638,
+    "val": 65,
+    "test": 81
+   }
+  },
+  "prunus_flowering": {
+   "observations_by_region": {
+    "ny": 9,
+    "northeast": 21,
+    "elsewhere": 451
+   },
+   "research_grade_available": {
+    "ny": 9,
+    "northeast": 21,
+    "elsewhere": 466
+   },
+   "photos": {
+    "train": 582,
+    "val": 56,
+    "test": 55
+   }
+  },
+  "malus": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1851,
+    "northeast": 2666,
+    "elsewhere": 24042
+   },
+   "photos": {
+    "train": 551,
+    "test": 70,
+    "val": 75
+   }
+  },
+  "pyrus_calleryana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1555,
+    "northeast": 4389,
+    "elsewhere": 9531
+   },
+   "photos": {
+    "train": 542,
+    "val": 49,
+    "test": 83
+   }
+  },
+  "crataegus": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1476,
+    "northeast": 4778,
+    "elsewhere": 64972
+   },
+   "photos": {
+    "train": 633,
+    "test": 77,
+    "val": 62
+   }
+  },
+  "amelanchier": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1096,
+    "northeast": 2191,
+    "elsewhere": 41497
+   },
+   "photos": {
+    "test": 81,
+    "train": 607,
+    "val": 65
+   }
+  },
+  "sorbus": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1169,
+    "northeast": 2684,
+    "elsewhere": 74361
+   },
+   "photos": {
+    "train": 548,
+    "test": 77,
+    "val": 69
+   }
+  },
+  "robinia_pseudoacacia": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 8994,
+    "northeast": 12903,
+    "elsewhere": 43198
+   },
+   "photos": {
+    "train": 543,
+    "val": 70,
+    "test": 52
+   }
+  },
+  "gleditsia_triacanthos": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3507,
+    "northeast": 5299,
+    "elsewhere": 20220
+   },
+   "photos": {
+    "train": 539,
+    "val": 53,
+    "test": 58
+   }
+  },
+  "styphnolobium_japonicum": {
+   "observations_by_region": {
+    "ny": 79,
+    "northeast": 275,
+    "elsewhere": 146
+   },
+   "research_grade_available": {
+    "ny": 79,
+    "northeast": 275,
+    "elsewhere": 451
+   },
+   "photos": {
+    "train": 591,
+    "test": 71,
+    "val": 59
+   }
+  },
+  "cercis_canadensis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3253,
+    "northeast": 12709,
+    "elsewhere": 38019
+   },
+   "photos": {
+    "train": 513,
+    "val": 52,
+    "test": 61
+   }
+  },
+  "liriodendron_tulipifera": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 10810,
+    "northeast": 24788,
+    "elsewhere": 29000
+   },
+   "photos": {
+    "train": 487,
+    "test": 63,
+    "val": 65
+   }
+  },
+  "magnolia": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1128,
+    "northeast": 6594,
+    "elsewhere": 32377
+   },
+   "photos": {
+    "train": 605,
+    "val": 82,
+    "test": 62
+   }
+  },
+  "tilia_americana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 7368,
+    "northeast": 8478,
+    "elsewhere": 8108
+   },
+   "photos": {
+    "val": 65,
+    "test": 67,
+    "train": 543
+   }
+  },
+  "tilia_cordata": {
+   "observations_by_region": {
+    "ny": 183,
+    "northeast": 317,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 183,
+    "northeast": 511,
+    "elsewhere": 16532
+   },
+   "photos": {
+    "train": 606,
+    "test": 87,
+    "val": 67
+   }
+  },
+  "platanus_occidentalis": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 5383,
+    "northeast": 16705,
+    "elsewhere": 26240
+   },
+   "photos": {
+    "train": 546,
+    "test": 58,
+    "val": 59
+   }
+  },
+  "platanus_hispanica": {
+   "observations_by_region": {
+    "ny": 41,
+    "northeast": 31,
+    "elsewhere": 428
+   },
+   "research_grade_available": {
+    "ny": 41,
+    "northeast": 31,
+    "elsewhere": 1458
+   },
+   "photos": {
+    "train": 569,
+    "test": 82,
+    "val": 83
+   }
+  },
+  "ailanthus_altissima": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 12706,
+    "northeast": 15437,
+    "elsewhere": 63889
+   },
+   "photos": {
+    "train": 499,
+    "val": 55,
+    "test": 79
+   }
+  },
+  "sassafras_albidum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 10473,
+    "northeast": 22990,
+    "elsewhere": 21672
+   },
+   "photos": {
+    "train": 493,
+    "test": 71,
+    "val": 56
+   }
+  },
+  "nyssa_sylvatica": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2230,
+    "northeast": 6314,
+    "elsewhere": 4934
+   },
+   "photos": {
+    "train": 621,
+    "val": 75,
+    "test": 67
+   }
+  },
+  "liquidambar_styraciflua": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4455,
+    "northeast": 14288,
+    "elsewhere": 41233
+   },
+   "photos": {
+    "val": 72,
+    "train": 487,
+    "test": 58
+   }
+  },
+  "cornus_florida": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3236,
+    "northeast": 12169,
+    "elsewhere": 17130
+   },
+   "photos": {
+    "train": 561,
+    "test": 53,
+    "val": 69
+   }
+  },
+  "cornus_kousa": {
+   "observations_by_region": {
+    "ny": 39,
+    "northeast": 239,
+    "elsewhere": 222
+   },
+   "research_grade_available": {
+    "ny": 39,
+    "northeast": 243,
+    "elsewhere": 911
+   },
+   "photos": {
+    "val": 50,
+    "test": 81,
+    "train": 524
+   }
+  },
+  "cornus_alternifolia": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4464,
+    "northeast": 6103,
+    "elsewhere": 4265
+   },
+   "photos": {
+    "test": 66,
+    "train": 562,
+    "val": 64
+   }
+  },
+  "catalpa": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2136,
+    "northeast": 3175,
+    "elsewhere": 4598
+   },
+   "photos": {
+    "train": 530,
+    "val": 80,
+    "test": 94
+   }
+  },
+  "paulownia_tomentosa": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 3982,
+    "northeast": 7111,
+    "elsewhere": 8627
+   },
+   "photos": {
+    "train": 559,
+    "test": 69,
+    "val": 60
+   }
+  },
+  "aesculus_hippocastanum": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 1075,
+    "northeast": 1397,
+    "elsewhere": 24303
+   },
+   "photos": {
+    "train": 567,
+    "test": 61,
+    "val": 78
+   }
+  },
+  "morus": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 4372,
+    "northeast": 6403,
+    "elsewhere": 30435
+   },
+   "photos": {
+    "train": 514,
+    "val": 59,
+    "test": 69
+   }
+  },
+  "hamamelis_virginiana": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 9947,
+    "northeast": 11691,
+    "elsewhere": 7603
+   },
+   "photos": {
+    "train": 561,
+    "test": 56,
+    "val": 66
+   }
+  },
+  "rhus_typhina": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 17337,
+    "northeast": 22501,
+    "elsewhere": 13468
+   },
+   "photos": {
+    "train": 502,
+    "test": 74,
+    "val": 68
+   }
+  },
+  "rhamnus_cathartica": {
+   "observations_by_region": {
+    "ny": 500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 14894,
+    "northeast": 16618,
+    "elsewhere": 22694
+   },
+   "photos": {
+    "val": 45,
+    "train": 522,
+    "test": 65
+   }
+  },
+  "_other": {
+   "observations_by_region": {
+    "ny": 1500,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "research_grade_available": {
+    "ny": 2689251,
+    "northeast": 0,
+    "elsewhere": 0
+   },
+   "photos": {
+    "test": 184,
+    "train": 1600,
+    "val": 196
+   }
+  }
+ },
+ "total_photos": 71937
+}

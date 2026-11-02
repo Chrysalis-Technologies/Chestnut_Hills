@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A simple conifer inside the 66dp adaptive-icon safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <path
+        android:fillColor="#FFF4F1E6"
+        android:pathData="M54,26 L70,46 L63,46 L76,62 L67,62 L80,76 L28,76 L41,62 L32,62 L45,46 L38,46 Z" />
+    <path
+        android:fillColor="#FFC9A66B"
+        android:pathData="M50,76 L58,76 L58,84 L50,84 Z" />
+</vector>
