@@ -2,12 +2,12 @@ package com.chrysalis.treeid.ui
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.util.Size
 import android.widget.Toast
 import androidx.activity.compose.rememberLauncherForActivityResult
-import androidx.activity.result.PickVisualMediaRequest
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.camera.core.CameraSelector
 import androidx.camera.core.ImageCapture
@@ -90,13 +90,14 @@ fun CameraScreen(vm: TreeViewModel) {
     }
     val permissionLauncher =
         rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()) { hasPermission = it }
-    val pickPhoto = rememberLauncherForActivityResult(ActivityResultContracts.PickVisualMedia()) { uri ->
+    // Pick a local original document so gallery GPS metadata can be read when saving.
+    val pickPhoto = rememberLauncherForActivityResult(remember { LocalPhotoContract() }) { uri ->
         if (uri != null) {
             scope.launch {
                 val bitmap = withContext(Dispatchers.IO) {
                     runCatching { Images.decodeUri(context, uri) }.getOrNull()
                 }
-                if (bitmap != null) vm.identify(bitmap)
+                if (bitmap != null) vm.identify(bitmap, sourceUri = uri)
                 else Toast.makeText(context, "Couldn't open that photo", Toast.LENGTH_SHORT).show()
             }
         }
@@ -165,13 +166,9 @@ fun CameraScreen(vm: TreeViewModel) {
             Spacer(Modifier.height(16.dp))
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = 24.dp),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.Center,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
-                FilledTonalButton(onClick = {
-                    pickPhoto.launch(PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly))
-                }) { Text("Photos") }
-
                 ShutterButton(enabled = imageCapture != null && !capturing) {
                     val capture = imageCapture ?: return@ShutterButton
                     capturing = true
@@ -185,10 +182,23 @@ fun CameraScreen(vm: TreeViewModel) {
                     )
                 }
 
+            }
+            Spacer(Modifier.height(12.dp))
+            Row(
+                Modifier.fillMaxWidth().padding(horizontal = 16.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
+            ) {
+                FilledTonalButton(onClick = { pickPhoto.launch(arrayOf("image/*")) }) { Text("Photos") }
                 FilledTonalButton(onClick = { vm.navigate(Screen.Guide) }) { Text("Guide") }
+                FilledTonalButton(onClick = { vm.navigate(Screen.Sightings) }) { Text("Sightings") }
             }
         }
     }
+}
+
+private class LocalPhotoContract : ActivityResultContracts.OpenDocument() {
+    override fun createIntent(context: Context, input: Array<String>): Intent =
+        super.createIntent(context, input).putExtra(Intent.EXTRA_LOCAL_ONLY, true)
 }
 
 @Composable

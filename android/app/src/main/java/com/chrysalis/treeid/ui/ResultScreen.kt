@@ -1,5 +1,10 @@
 package com.chrysalis.treeid.ui
 
+import android.Manifest
+import android.content.pm.PackageManager
+import android.os.Build
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -21,10 +26,12 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.FilterChip
 import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -32,11 +39,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.core.content.ContextCompat
 import com.chrysalis.treeid.Identification
 import com.chrysalis.treeid.Screen
+import com.chrysalis.treeid.SightingSaveState
 import com.chrysalis.treeid.TreeViewModel
 import com.chrysalis.treeid.data.Species
 import com.chrysalis.treeid.ml.TreeClassifier.Prediction
@@ -88,8 +98,15 @@ fun ResultScreen(vm: TreeViewModel) {
                 }
                 else -> results(vm, ident.predictions)
             }
+            if (ident.predictions != null || ident.error != null) {
+                item { SaveSightingCard(vm, ident) }
+            }
             item {
-                Button(onClick = { vm.backToCamera() }, modifier = Modifier.fillMaxWidth()) {
+                Button(
+                    onClick = { vm.backToCamera() },
+                    enabled = vm.sightingSaveState in listOf(SightingSaveState.IDLE, SightingSaveState.SAVED),
+                    modifier = Modifier.fillMaxWidth(),
+                ) {
                     Text("Take another photo")
                 }
             }
@@ -133,7 +150,7 @@ private fun androidx.compose.foundation.lazy.LazyListScope.results(vm: TreeViewM
     item {
         Card(
             colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
-            modifier = Modifier.fillMaxWidth().clickable { vm.navigate(Screen.SpeciesDetail(best.key)) },
+            modifier = Modifier.fillMaxWidth().clickable { vm.selectSightingTree(best.key) },
         ) {
             Column(Modifier.padding(16.dp)) {
                 Text(verdict, style = MaterialTheme.typography.labelLarge)
@@ -161,7 +178,13 @@ private fun androidx.compose.foundation.lazy.LazyListScope.results(vm: TreeViewM
                     )
                 }
                 Spacer(Modifier.height(4.dp))
-                Text("Tap for the full guide entry", style = MaterialTheme.typography.labelSmall)
+                Text(
+                    if (vm.selectedTreeKey == best.key) "Selected for sighting" else "Tap to select for sighting",
+                    style = MaterialTheme.typography.labelSmall,
+                )
+                TextButton(onClick = { vm.navigate(Screen.SpeciesDetail(best.key)) }) {
+                    Text("Full guide entry")
+                }
             }
         }
     }
@@ -197,7 +220,7 @@ private fun PhotoPreview(ident: Identification) {
 @Composable
 private fun CandidateRow(vm: TreeViewModel, p: Prediction) {
     val species: Species? = vm.catalog[p.key]
-    Card(Modifier.fillMaxWidth().clickable { vm.navigate(Screen.SpeciesDetail(p.key)) }) {
+    Card(Modifier.fillMaxWidth().clickable { vm.selectSightingTree(p.key) }) {
         Column(Modifier.padding(horizontal = 16.dp, vertical = 12.dp)) {
             Text(species?.commonName ?: p.key, style = MaterialTheme.typography.titleMedium)
             if (species != null && species.scientificName.isNotEmpty()) {
@@ -205,7 +228,62 @@ private fun CandidateRow(vm: TreeViewModel, p: Prediction) {
             }
             Spacer(Modifier.height(6.dp))
             ConfidenceBar(p.confidence)
+            Text(
+                if (vm.selectedTreeKey == p.key) "Selected for sighting" else "Tap to select for sighting",
+                style = MaterialTheme.typography.labelSmall,
+            )
+            TextButton(onClick = { vm.navigate(Screen.SpeciesDetail(p.key)) }) { Text("Full guide entry") }
         }
+    }
+}
+
+@Composable
+private fun SaveSightingCard(vm: TreeViewModel, ident: Identification) {
+    val context = LocalContext.current
+    val permissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestMultiplePermissions(),
+    ) { vm.saveSightingAfterPermission() }
+    val state = vm.sightingSaveState
+    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+        Text(
+            "Sighting: " + (vm.selectedTreeKey?.let { vm.catalog[it]?.commonName } ?: "Unknown tree"),
+            style = MaterialTheme.typography.titleMedium,
+        )
+        FilterChip(
+            selected = vm.selectedTreeKey == null,
+            onClick = { vm.selectSightingTree(null) },
+            enabled = state == SightingSaveState.IDLE,
+            label = { Text("Unknown tree") },
+        )
+        when (state) {
+            SightingSaveState.IDLE -> {
+                Text("Location is optional. You can deny access and still save this photo.")
+                Button(onClick = {
+                    if (vm.prepareSightingSave()) {
+                        val permissions = mutableListOf(
+                            Manifest.permission.ACCESS_FINE_LOCATION, Manifest.permission.ACCESS_COARSE_LOCATION,
+                        )
+                        if (Build.VERSION.SDK_INT >= 29 && ident.sourceUri != null) {
+                            permissions += Manifest.permission.ACCESS_MEDIA_LOCATION
+                        }
+                        if (permissions.all {
+                                ContextCompat.checkSelfPermission(context, it) == PackageManager.PERMISSION_GRANTED
+                            }) vm.saveSightingAfterPermission()
+                        else permissionLauncher.launch(permissions.toTypedArray())
+                    }
+                }, modifier = Modifier.fillMaxWidth()) { Text("Save sighting") }
+            }
+            SightingSaveState.PERMISSION -> Text("Waiting for permission…")
+            SightingSaveState.LOCATING -> {
+                Text("Getting location…")
+                TextButton(onClick = vm::saveWithoutLocation) { Text("Save without location") }
+            }
+            SightingSaveState.SAVING -> Text("Saving sighting…")
+            SightingSaveState.SAVED -> Button(onClick = {
+                vm.savedSightingId?.let { vm.navigate(Screen.SightingDetail(it)) }
+            }) { Text("View saved sighting") }
+        }
+        vm.sightingsError?.let { Text(it, color = MaterialTheme.colorScheme.error) }
     }
 }
 
