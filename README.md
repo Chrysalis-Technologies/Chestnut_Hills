@@ -21,8 +21,9 @@ suggests the most likely trees, and a built-in field guide shows what to check t
 3. Requires Android 8.0 or newer.
 
 To publish a new version, bump `versionCode` and `versionName` in
-`android/app/build.gradle.kts`, then push an annotated tag such as `v0.2.0`. The tag
-message becomes the release notes, and the workflow publishes the release.
+`android/app/build.gradle.kts` and write `android/release-notes/vX.Y.Z.md`. Then either push
+a `vX.Y.Z` tag, or open **Actions → Build Android app → Run workflow** and tick
+"Publish a GitHub Release".
 
 Every build is signed with the same test key (`android/app/debug.keystore`), so a new build
 installs over the old one. Before publishing to an app store, switch to a private signing key
