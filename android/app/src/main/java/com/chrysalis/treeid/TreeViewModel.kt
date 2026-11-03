@@ -10,6 +10,9 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.viewModelScope
 import com.chrysalis.treeid.data.SpeciesCatalog
+import com.chrysalis.treeid.data.IllustratedGuide
+import com.chrysalis.treeid.data.maps.OfflineMapStore
+import com.chrysalis.treeid.data.maps.MapInfo
 import com.chrysalis.treeid.data.sightings.GpsLocationReader
 import com.chrysalis.treeid.data.sightings.PhotoLocation
 import com.chrysalis.treeid.data.sightings.PrivateSightingPhotos
@@ -43,6 +46,7 @@ sealed interface Screen {
     data class SpeciesDetail(val key: String) : Screen
     data object About : Screen
     data object Sightings : Screen
+    data class SightingMap(val focusId: Long? = null) : Screen
     data class SightingDetail(val id: Long) : Screen
 }
 
@@ -59,6 +63,16 @@ enum class SightingSaveState { IDLE, PERMISSION, LOCATING, SAVING, SAVED }
 class TreeViewModel(app: Application) : AndroidViewModel(app) {
 
     val catalog: SpeciesCatalog = SpeciesCatalog.load(app)
+    val illustratedGuide = IllustratedGuide.load(app)
+    val offlineMaps = OfflineMapStore(app)
+    var mapInfo by mutableStateOf<MapInfo?>(null)
+        private set
+    var mapError by mutableStateOf<String?>(null)
+        private set
+    var importingMap by mutableStateOf(false)
+        private set
+    var mapRevision by mutableStateOf(0)
+        private set
     private val sightingRepository = SightingsRepository(
         SightingsDatabase.get(app).sightings(),
         PrivateSightingPhotos(File(app.filesDir, "sightings")),
@@ -103,6 +117,10 @@ class TreeViewModel(app: Application) : AndroidViewModel(app) {
         private set
 
     init {
+        viewModelScope.launch {
+            try { mapInfo = withContext(Dispatchers.IO) { offlineMaps.openSaved() }; mapRevision++ }
+            catch (e: Exception) { mapError = "Couldn't open saved map: ${e.message}" }
+        }
         viewModelScope.launch {
             classifier.await()
                 .onSuccess { c ->
@@ -276,5 +294,25 @@ class TreeViewModel(app: Application) : AndroidViewModel(app) {
 
     override fun onCleared() {
         loadedClassifier?.close()
+        offlineMaps.close()
+    }
+
+    fun importMap(uri: Uri) {
+        if (importingMap) return
+        importingMap = true; mapError = null
+        viewModelScope.launch {
+            try { mapInfo = offlineMaps.import(uri); mapRevision++ }
+            catch (e: CancellationException) { throw e }
+            catch (e: Exception) { mapError = "Couldn't import map: ${e.message}. The previous map is unchanged." }
+            finally { importingMap = false }
+        }
+    }
+
+    fun removeImportedMap() {
+        if (importingMap) return
+        viewModelScope.launch {
+            try { withContext(Dispatchers.IO) { offlineMaps.useOverview() }; mapInfo = null; mapRevision++; mapError = null }
+            catch (e: Exception) { mapError = "Couldn't remove map: ${e.message}" }
+        }
     }
 }

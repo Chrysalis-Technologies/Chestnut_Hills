@@ -15,6 +15,7 @@ import com.chrysalis.treeid.ui.ResultScreen
 import com.chrysalis.treeid.ui.SpeciesScreen
 import com.chrysalis.treeid.ui.SightingDetailScreen
 import com.chrysalis.treeid.ui.SightingsScreen
+import com.chrysalis.treeid.ui.SightingsMapScreen
 import com.chrysalis.treeid.ui.TreeIdTheme
 
 class MainActivity : ComponentActivity() {
@@ -42,6 +43,7 @@ fun TreeIdApp(vm: TreeViewModel) {
             is Screen.SpeciesDetail -> SpeciesScreen(vm, screen.key)
             Screen.About -> AboutScreen(vm)
             Screen.Sightings -> SightingsScreen(vm)
+            is Screen.SightingMap -> SightingsMapScreen(vm, screen.focusId)
             is Screen.SightingDetail -> SightingDetailScreen(vm, screen.id)
         }
     }

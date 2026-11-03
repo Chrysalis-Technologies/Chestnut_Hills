@@ -80,6 +80,35 @@ export is shared; unlocated sightings have blank CSV coordinates and null GeoJSO
 CSV dates use UTC, coordinates are decimal degrees, and accuracy is in meters. Spreadsheet-like
 formulas in text fields are prefixed with an apostrophe; GeoJSON keeps the original notes.
 
+## Illustrated guide and sightings map (v0.3.0)
+
+Each tree's **Field guide** page includes reference images of bark, leaves/needles,
+branches/buds, fruit/nuts/cones and seasonal changes, plus four seasonal identification
+notes. Tap an image credit to read its license and source offline. Grouped entries show
+named example species; they do not imply every species or cultivar looks identical.
+Seasonal timing varies with weather, elevation and location within New York.
+The collection includes eight labeled botanical illustrations. The weeping-willow
+fruit card explicitly shows a related hybrid comparison; see the content notes below.
+
+Open **Sightings → Map of sightings**, or **Show on map** from an individual sighting.
+Numbered pins correspond to the identification list below the map. Tap a pin to open
+its saved identification; nearby or overlapping sightings can be selected separately.
+**Locate** centers a listed sighting, and **Fit sightings** frames all saved coordinates.
+Sightings without a location remain available in the normal sightings list.
+
+The bundled map is a **New York boundary overview**, without streets or aerial imagery.
+For local detail, use **Import map** and select a raster **MBTiles** file prepared on a
+computer (PNG, JPEG or WebP tiles in the standard Web Mercator/TMS layout, up to 1 GiB).
+The app copies it to private storage; allow enough free space for the new copy alongside
+any previous map during replacement. Vector PBF MBTiles are unsupported. A blank background
+means the file has no tiles at the current place/zoom; the sighting pins still work.
+The map's embedded attribution is displayed. Use map data you have permission to copy.
+**Remove map** removes only the app's copy, keeping the original file and all sightings.
+There are no downloads, map servers or additional location requests in this screen.
+
+Guide imagery and seasonal text are supplemental assets; the model, labels, original
+species list and image preprocessing are unchanged. See [content provenance](docs/field-guide-content.md).
+
 ## How it's built
 
 | Path | What's there |
@@ -94,8 +123,9 @@ formulas in text fields are prefixed with an apostrophe; GeoJSON keeps the origi
 
 1. ✅ Offline identification + field guide
 2. ✅ Save sightings with GPS location and notes (offline), browse/edit/delete, export CSV/GeoJSON
-3. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
-4. Offline maps for sightings (separate future task)
+3. ✅ Illustrated seasonal field guide and offline sightings map, with raster MBTiles import
+4. Field-test v0.3.0 on a device (including upgrade, GPS pins, guide readability and map imports)
+5. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
 
 ## Credits
 
