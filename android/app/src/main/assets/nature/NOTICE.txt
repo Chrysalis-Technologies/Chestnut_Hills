@@ -1,0 +1,31 @@
+Flower and mushroom identification uses iNaturalist Small 2, release v25.01.15.
+Copyright (c) 2025 iNaturalist. Model and taxonomy distributed under the MIT License;
+the complete license is included in LICENSE.txt.
+
+Official source: https://github.com/inaturalist/model-files
+Release: https://github.com/inaturalist/model-files/releases/tag/v25.01.15
+Model: INatVision_Small_2_fact256_8bit.tflite (unmodified; renamed in this app)
+SHA-256: eae277b24efa629b998d5f9c091da0576162cb1aad498786087acd001dc86d2c
+Taxonomy: taxonomy.csv, copied from the same release.
+Common names: English names extracted from commonNames.tar.gz from the same release.
+Retrieved 3 November 2026. catalog.json is derived by tools/prepare_nature_assets.py.
+
+This is the public small model, NOT the full Seek or iNaturalist identification model.
+It has 507 outputs. This app offers 174 flowering plants (including some trees and
+shrubs) and 18 mushroom/fungus taxa. Three lichen taxa and other groups are not
+offered in these two modes. See Supported species for the exact coverage.
+No geographic range model or regional filter is used. GPS is saved with observations
+when requested; it does not affect model scores. No data is sent to iNaturalist.
+
+The separate nature image path follows the upstream Android implementation:
+https://github.com/inaturalist/vision-camera-plugin-inatvision/blob/version-7/android/src/main/java/com/visioncameraplugininatvision/ImageClassifier.java
+Center-square crop, Android bilinear resize to 299x299, x-major RGB float 0..255.
+The model already outputs normalized scores; no second softmax or per-category
+renormalization is applied. Suggestions require the overall top class to belong to
+the selected category and score at least 0.25; up to five matches scoring 0.10 or
+more are shown. These thresholds are heuristics, not measured probabilities.
+
+Mushroom photo suggestions can be wrong. This app cannot determine edibility.
+Never eat a mushroom or use a plant based on these suggestions. Independent expert
+identification is needed for decisions about consumption.
+This is an independent integration; no iNaturalist endorsement is implied.

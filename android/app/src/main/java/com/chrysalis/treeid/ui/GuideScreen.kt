@@ -114,6 +114,8 @@ fun SpeciesScreen(vm: TreeViewModel, key: String) {
             Text("Key features", style = MaterialTheme.typography.titleMedium)
             species.features.forEach { Text("• $it", style = MaterialTheme.typography.bodyLarge) }
 
+            vm.illustratedGuide.entries[key]?.let { IllustratedGuideContent(it) }
+
             val lookalikes = species.lookalikes.mapNotNull { vm.catalog[it] }
             if (lookalikes.isNotEmpty()) {
                 Spacer(Modifier.height(8.dp))

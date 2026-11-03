@@ -69,6 +69,9 @@ fun SightingsScreen(vm: TreeViewModel) {
     var exportError by remember { mutableStateOf<String?>(null) }
     Scaffold(topBar = { BackTopBar("Sightings") { vm.back() } }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
+            TextButton(onClick = { vm.navigate(Screen.SightingMap()) }, modifier = Modifier.padding(horizontal = 16.dp)) {
+                Text("Map of sightings")
+            }
             Box(Modifier.padding(horizontal = 16.dp)) {
                 Button(
                     onClick = { exportMenu = true },

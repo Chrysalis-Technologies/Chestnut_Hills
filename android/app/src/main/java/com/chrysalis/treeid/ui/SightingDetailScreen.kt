@@ -65,6 +65,9 @@ fun SightingDetailScreen(vm: TreeViewModel, id: Long) {
                 }
                 Text(sightingDate(sighting.observedAt))
                 Text(sightingPlace(sighting))
+                if (sighting.latitude != null && sighting.longitude != null) {
+                    TextButton(onClick = { vm.navigate(Screen.SightingMap(sighting.id)) }) { Text("Show on map") }
+                }
             }
             item {
                 TextButton(onClick = { pickingTree = true }, enabled = !vm.editingSighting) { Text("Change tree") }

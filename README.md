@@ -80,6 +80,80 @@ export is shared; unlocated sightings have blank CSV coordinates and null GeoJSO
 CSV dates use UTC, coordinates are decimal degrees, and accuracy is in meters. Spreadsheet-like
 formulas in text fields are prefixed with an apostrophe; GeoJSON keeps the original notes.
 
+## Illustrated guide and sightings map (v0.3.0)
+
+Each tree's **Field guide** page includes reference images of bark, leaves/needles,
+branches/buds, fruit/nuts/cones and seasonal changes, plus four seasonal identification
+notes. Tap an image credit to read its license and source offline. Grouped entries show
+named example species; they do not imply every species or cultivar looks identical.
+Seasonal timing varies with weather, elevation and location within New York.
+The collection includes eight labeled botanical illustrations. The weeping-willow
+fruit card explicitly shows a related hybrid comparison; see the content notes below.
+
+Open **Sightings → Map of sightings**, or **Show on map** from an individual sighting.
+Numbered pins correspond to the identification list below the map. Tap a pin to open
+its saved identification; nearby or overlapping sightings can be selected separately.
+**Locate** centers a listed sighting, and **Fit sightings** frames all saved coordinates.
+Sightings without a location remain available in the normal sightings list.
+
+The bundled map is a **New York boundary overview**, without streets or aerial imagery.
+For local detail, use **Import map** and select a raster **MBTiles** file prepared on a
+computer (PNG, JPEG or WebP tiles in the standard Web Mercator/TMS layout, up to 1 GiB).
+The app copies it to private storage; allow enough free space for the new copy alongside
+any previous map during replacement. Vector PBF MBTiles are unsupported. A blank background
+means the file has no tiles at the current place/zoom; the sighting pins still work.
+The map's embedded attribution is displayed. Use map data you have permission to copy.
+**Remove map** removes only the app's copy, keeping the original file and all sightings.
+There are no downloads, map servers or additional location requests in this screen.
+
+Guide imagery and seasonal text are supplemental assets; the model, labels, original
+species list and image preprocessing are unchanged. See [content provenance](docs/field-guide-content.md).
+
+## Bird calls (v0.4.0)
+
+Open **Bird calls** from the camera screen to record twelve seconds and identify calls
+entirely on the phone with bundled **BirdNET 2.4**. Microphone permission is requested
+when you tap **Record bird call**. GPS is optional; it uses the device GPS during capture.
+Denied location permission or no fix still allows an unlocated observation. Recording
+cancels when you leave the screen or lock the phone; there is no background listening.
+
+Replay the clip, select a suggested species or **Unknown call**, then **Confirm and save**.
+**Saved bird observations** lets you replay recordings, edit notes, correct a species,
+and delete observations. Bird pins appear alongside trees on **Map of sightings**.
+Green pins are trees, blue pins are bird calls, and gray pins have an unknown identification.
+
+Scores rank suggestions and are not calibrated probabilities. Check what you heard and
+the species' range; some other animal calls are included, with no regional filter.
+The model is bundled: there are no downloads, cloud identification, or uploads.
+Recordings and the bird database are private and excluded from backup. Automatic Android
+backup/device transfer is disabled for app data; clearing data or uninstalling removes
+saved records. Unsaved clips do not survive process exit. Existing CSV/GeoJSON exports
+remain **tree sightings only**.
+
+BirdNET model and labels: **CC BY-NC-SA 4.0**, for noncommercial use unless separately
+licensed. Credits, source, hashes and the complete license are bundled and readable from
+**Bird calls → credits and license**. See the [implementation and test checklist](docs/tasks/offline-birdnet.md).
+
+## Flowers and mushrooms (v0.5.0)
+
+Choose **Flowers** or **Mushrooms** above the camera, then take a photo or select **Photos**.
+Identification runs offline using the bundled iNaturalist Small 2 model. This first catalog
+covers **174 flowering plants**, including some trees/shrubs, and **18 mushroom/fungus taxa**.
+Use **See supported species** on the result screen to browse the exact list. This is the
+public small model, not the full Seek/iNaturalist catalog; unsupported species can be
+misidentified and there is no regional filter.
+
+Explicitly choose a suggestion or **Unknown**, add notes and optionally include GPS, then
+save. **Flowers & fungi** opens saved observations for viewing, correction and deletion.
+Their GPS pins appear with trees and birds on the existing offline map. Photos and records
+stay in private storage excluded from backup. Original photos remain untouched. Existing
+CSV/GeoJSON exports still contain tree sightings only.
+
+**Never eat a mushroom based on this app.** Photo suggestions and model scores cannot
+determine edibility. Use independent expert identification for consumption decisions.
+The model and taxonomy are MIT-licensed; credits and license are readable offline from
+the results. See [coverage, implementation and test checklist](docs/tasks/offline-flowers-mushrooms.md).
+
 ## How it's built
 
 | Path | What's there |
@@ -94,8 +168,11 @@ formulas in text fields are prefixed with an apostrophe; GeoJSON keeps the origi
 
 1. ✅ Offline identification + field guide
 2. ✅ Save sightings with GPS location and notes (offline), browse/edit/delete, export CSV/GeoJSON
-3. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
-4. Offline maps for sightings (separate future task)
+3. ✅ Illustrated seasonal field guide and offline sightings map, with raster MBTiles import
+4. ✅ Offline BirdNET call identification, confirmed observations, local recordings and map pins
+5. ✅ Offline flower and mushroom photo suggestions, local observations and map pins (limited catalog)
+6. Field-test v0.5.0 on the XCover: flowers/mushrooms, real bird calls, GPS, accuracy and battery; finish guide/map acceptance
+7. Expand flower/fungus coverage with validated models; improve the tree model with a full GPU fine-tune (`training/finetune_colab.ipynb`)
 
 ## Credits
 

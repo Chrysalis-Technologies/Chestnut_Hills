@@ -1,0 +1,27 @@
+BirdNET 2.4 FP16 acoustic model and English (US) labels
+
+Creators: Stefan Kahl, Connor Wood, and Holger Klinck.
+Cornell Lab of Ornithology and Chemnitz University of Technology.
+Source: https://doi.org/10.5281/zenodo.15050749 (published 19 March 2025)
+Archive: https://zenodo.org/records/15050749/files/BirdNET_v2.4_tflite_fp16.zip
+Files: audio-model-fp16.tflite and labels/en_us.txt, copied without modification.
+Retrieved 3 November 2026. The acoustic model is renamed for packaging only.
+
+License: Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International.
+https://creativecommons.org/licenses/by-nc-sa/4.0/
+The complete license is included as LICENSE-CC-BY-NC-SA-4.0.txt.
+The model and labels retain this license; the app's code license does not replace it.
+Commercial use requires separate permission from the BirdNET rights holders.
+This app is an independent integration; no endorsement by BirdNET or Cornell is implied.
+
+Model SHA-256: 5c64ba3ffab264ccbfafe784896392051a86be63b0cc507e7683db7df114546b
+Labels SHA-256: b50b77b7c3dfe40cd637e8cccdca0173a0a4ddee8867b830ff3c1a566f477f16
+
+Audio input: mono, 48000 Hz, 144000 float32 samples per three-second window,
+range [-1, 1]. Model output: 6522 logits, converted once with sigmoid.
+Four non-overlapping windows per twelve-second recording; suggestions show
+the highest score for each species across the windows, threshold 0.25, top five.
+These scores are not calibrated probabilities. There is no regional range filter.
+Some other animal species are included in the upstream model. The 11 non-event
+classes listed in the BirdNET FAQ are excluded from identification choices.
+https://birdnet-team.github.io/BirdNET-Analyzer/stable/faq.html
