@@ -58,13 +58,13 @@ class NatureRepository(private val dao: NatureDao, val photos: SightingPhotos, p
     private val writes = Mutex()
     fun observeAll() = dao.observeAll()
     suspend fun save(photo: Bitmap, kind: NatureKind, key: String?, score: Float?, time: Long,
-        location: SightingLocation?, notes: String): Long = withContext(Dispatchers.IO + NonCancellable) { writes.withLock {
+        location: SightingLocation?, notes: String, modelVersion: String = NatureClassifier.VERSION): Long = withContext(Dispatchers.IO + NonCancellable) { writes.withLock {
         validate(kind, key)
         require(score == null || (score.isFinite() && score in 0f..1f))
         val name = photos.save(photo)
         try { dao.insert(NatureObservation(kind = kind.key, taxonKey = key, score = score.takeIf { key != null },
             observedAt = time, latitude = location?.latitude, longitude = location?.longitude,
-            accuracyMeters = location?.accuracyMeters, locationSource = location?.source, notes = notes, photoFileName = name)) }
+            accuracyMeters = location?.accuracyMeters, locationSource = location?.source, notes = notes, photoFileName = name, modelVersion = modelVersion)) }
         catch (e: Throwable) { runCatching { photos.delete(name) }.exceptionOrNull()?.let(e::addSuppressed); throw e }
     } }
     suspend fun update(id: Long, key: String?, notes: String) = withContext(Dispatchers.IO) { writes.withLock {
@@ -82,5 +82,5 @@ class NatureRepository(private val dao: NatureDao, val photos: SightingPhotos, p
         photoDirectory.listFiles()?.filter { it.name !in keep && Regex("[0-9a-f-]{36}\\.jpg").matches(it.name) }
             ?.forEach { photos.delete(it.name) }
     } }
-    private fun validate(kind: NatureKind, key: String?) { require(key == null || catalog[key]?.kind == kind) { "Choose a supported ${kind.singular.lowercase()} or Unknown" } }
+    private fun validate(kind: NatureKind, key: String?) { require(key == null || catalog[key]?.supports(kind) == true) { "Choose a supported ${kind.singular.lowercase()} or Unknown" } }
 }

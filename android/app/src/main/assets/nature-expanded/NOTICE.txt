@@ -1,0 +1,66 @@
+NY nature expansion, v0.6.0
+
+All inference and catalog lookup run locally. No network access, model download,
+photo upload, or live occurrence query is performed by the app.
+
+Plants: Iris 9 by Bruno Paiva and contributors
+Source: https://huggingface.co/brunopaiva15/iris
+Pinned revision: 0d5bd2131f62c7ccbb2af2dbf772e391397ab8b7
+Model card: https://github.com/brunopaiva15/iris/blob/main/model-card/README.md
+Weights and metadata: Creative Commons Attribution 4.0 International.
+See LICENSE-CC-BY-4.0.txt and iris-model-card.md.
+plants.tflite SHA-256:
+a919ae6a24f7e7717a36d5213a800a3410f7cee0f694f5014ba8eb07f0a6caa3
+1,569 trained outputs, MobileNetV3-Large with float16 weights. Weights are unmodified.
+Input: float RGB 0..255; center square, area reduction to 448 if larger,
+bilinear resize to 366, center crop to 320. Output is already softmax.
+The publisher reports that its training-image attribution manifest was lost;
+the publisher's full model card is bundled. No source training photos are included
+in this model pack. Our derived catalog adds group tags and NY occurrence counts.
+
+Fungi: FungiTastic DINOv3 ViT-S/16 384 by Paul Bauriegel
+Source: https://huggingface.co/paulbauriegel/fungitastic-dinov3-vits16-384
+Pinned revision: 4043bd34b3704e4bd0b10c5ca1b150ffe1ee39ca
+mushroom_model_fp16.tflite SHA-256:
+b3c129430abb62d22853781cef3302f301ef7e348e453793c0e05c04ad937610
+2,827 trained outputs, float16 weights. Weights are unmodified.
+Input: full image resized to 384 square, float RGB 0..255. Output is logits;
+the app applies stable softmax across all 2,827 classes.
+Training provenance: FungiTastic/Danish Fungi data, with a Denmark/Europe bias.
+Conservative redistribution terms: CC BY-NC-SA 4.0 plus the DINOv3 license.
+Noncommercial use only unless separately licensed. See fungi-model-card.md,
+LICENSE-CC-BY-NC-SA-4.0.txt and LICENSE-DINOv3.md for the complete terms.
+DINOv3: https://github.com/facebookresearch/dinov3
+
+New York catalog
+Source: iNaturalist public aggregate research-grade species counts, place 48
+(New York, US), retrieved 2026-11-03. Exact scientific-name matches only.
+https://api.inaturalist.org/v1/observations/species_counts?place_id=48&iconic_taxa=Plantae&quality_grade=research
+https://api.inaturalist.org/v1/observations/species_counts?place_id=48&iconic_taxa=Fungi&quality_grade=research
+Only names, taxon IDs, ancestor IDs and state-level counts were used. No observation
+coordinates, contributor details or source photos are bundled in the NY snapshot.
+The app includes 808 plant taxa (806 with NY records), including 14 ferns and allies
+and 28 vines, plus 900 mushroom/fungus taxa with NY records. Fern/vine counts overlap
+Plants. Old supported labels remain selectable for compatibility. Lichens are not
+offered as mushrooms. The list is not a complete NY flora/fungi checklist.
+An observation record does not establish nativity, commonness, current nearby
+presence or identification accuracy. Some taxa have only one or two NY records.
+Climbing-plant group references:
+https://extension.umd.edu/resource/vines-maryland-gardens
+https://hgic.clemson.edu/factsheet/vine-selections-for-landscaping/
+https://hgic.clemson.edu/factsheet/clematis/
+
+Scores and limitations
+All model outputs compete before category/NY filtering; scores are never
+renormalized over the displayed subset. Iris uses its published top >= 0.70 and
+top-to-second gap >= 0.25 rule. Fungi uses an uncalibrated heuristic top >= 0.50
+and gap >= 0.20. These are model scores, not measured probabilities of correctness.
+When the primary model is uncertain, the unchanged iNaturalist Small 2 model may
+provide a suggestion using its existing thresholds. Scores are not blended; the
+model used is displayed and saved with each observation. A strong global winner
+outside the selected category/catalog produces Unknown, not a forced local guess.
+Accuracy on New York field photos has not been measured. Ferns and allies include
+horsetails and clubmosses. Unsupported species can still be misidentified.
+Never eat a mushroom based on this app. Photo suggestions cannot determine edibility.
+
+Original tree, BirdNET and iNaturalist Small 2 weights and licenses are unchanged.

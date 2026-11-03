@@ -17,7 +17,8 @@ import kotlinx.coroutines.flow.stateIn
 import java.io.File
 
 data class NatureIdentification(val photo: Bitmap, val kind: NatureKind, val time: Long, val source: Uri?,
-    val predictions: List<NaturePrediction> = emptyList(), val analyzing: Boolean = true, val error: String? = null)
+    val predictions: List<NaturePrediction> = emptyList(), val analyzing: Boolean = true, val error: String? = null,
+    val modelVersion: String = NatureClassifier.VERSION)
 enum class NatureSaveStage { IDLE, PERMISSION, LOCATING, SAVING }
 
 class NatureViewModel(app: Application) : AndroidViewModel(app) {
@@ -52,9 +53,10 @@ class NatureViewModel(app: Application) : AndroidViewModel(app) {
         identifyJob = viewModelScope.launch {
             try {
                 val predictions = withContext(Dispatchers.Default) {
-                    NatureClassifier.load(getApplication(), catalog).use { it.classify(photo, kind) }
+                    ExpandedNatureClassifier.identify(getApplication(), catalog, photo, kind)
                 }
-                if (identification === request) identification = request.copy(predictions = predictions, analyzing = false)
+                if (identification === request) identification = request.copy(predictions = predictions.predictions,
+                    modelVersion = predictions.modelVersion, analyzing = false)
             } catch (e: CancellationException) { throw e }
             catch (e: Exception) {
                 if (identification === request) identification = request.copy(analyzing = false, error = "Couldn't identify this photo: ${e.message}")
@@ -88,7 +90,8 @@ class NatureViewModel(app: Application) : AndroidViewModel(app) {
                 } else null
                 saveStage = NatureSaveStage.SAVING
                 val id = repository.save(request.photo.photo, request.photo.kind, request.key,
-                    request.photo.predictions.find { it.taxon.key == request.key }?.score, request.photo.time, location, request.notes)
+                    request.photo.predictions.find { it.taxon.key == request.key }?.score, request.photo.time, location, request.notes,
+                    request.photo.modelVersion)
                 identification = null
                 done(id)
             } catch (e: CancellationException) { throw e }

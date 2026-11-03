@@ -3,6 +3,7 @@ package com.chrysalis.treeid.nature
 import android.content.Context
 import android.graphics.Bitmap
 import org.json.JSONArray
+import org.json.JSONObject
 import org.tensorflow.lite.DataType
 import org.tensorflow.lite.Interpreter
 import java.io.FileInputStream
@@ -11,28 +12,50 @@ import java.nio.ByteOrder
 import java.nio.channels.FileChannel
 
 enum class NatureKind(val key: String, val title: String, val singular: String) {
-    FLOWER("flower", "Flowers", "Flower"), MUSHROOM("mushroom", "Mushrooms", "Mushroom");
+    FLOWER("flower", "Plants", "Plant"), MUSHROOM("mushroom", "Mushrooms", "Mushroom"),
+    FERN("fern", "Ferns & allies", "Fern or ally"), VINE("vine", "Vines", "Vine");
     companion object { fun fromKey(key: String) = entries.first { it.key == key } }
 }
 
 data class NatureTaxon(val index: Int, val key: String, val scientificName: String,
-    val commonName: String, val kind: NatureKind?)
+    val commonName: String, val kind: NatureKind?, val fern: Boolean = false,
+    val vine: Boolean = false, val nyObservations: Int? = null) {
+    fun supports(group: NatureKind) = when (group) {
+        NatureKind.FLOWER -> kind == NatureKind.FLOWER || fern
+        NatureKind.MUSHROOM -> kind == NatureKind.MUSHROOM
+        NatureKind.FERN -> fern
+        NatureKind.VINE -> vine
+    }
+}
 data class NaturePrediction(val taxon: NatureTaxon, val score: Float)
 
-class NatureCatalog(val taxa: List<NatureTaxon>) {
-    private val byKey = taxa.associateBy { it.key }
+class NatureCatalog(val taxa: List<NatureTaxon>, val plants: List<NatureTaxon> = emptyList(),
+    val fungi: List<NatureTaxon> = emptyList(), val snapshotDate: String = "2026-11-03") {
+    // Existing numeric keys remain valid for saved v0.5 records. Per-model arrays
+    // retain their own output order; canonical lookup is only for labels/editing.
+    private val byKey = (taxa + plants + fungi).associateBy { it.key }
+    private val groups = NatureKind.entries.associateWith { group -> byKey.values.filter { it.supports(group) } }
     operator fun get(key: String?): NatureTaxon? = byKey[key]
-    fun supported(kind: NatureKind) = taxa.filter { it.kind == kind }
+    fun supported(kind: NatureKind, newYorkOnly: Boolean = false) = groups.getValue(kind)
+        .let { rows -> if (newYorkOnly) rows.filter { it.nyObservations != null } else rows }
     companion object {
         fun load(context: Context): NatureCatalog {
-            val json = JSONArray(context.assets.open("nature/catalog.json").bufferedReader().use { it.readText() })
-            val taxa = (0 until json.length()).map { index -> json.getJSONObject(index).let { row ->
+            val original = JSONArray(context.assets.open("nature/catalog.json").bufferedReader().use { it.readText() })
+            val bundle = JSONObject(context.assets.open("nature-expanded/catalog.json").bufferedReader().use { it.readText() })
+            fun read(json: JSONArray, count: Int): List<NatureTaxon> {
+                val rows = (0 until json.length()).map { index -> json.getJSONObject(index).let { row ->
                 NatureTaxon(row.getInt("index"), row.getString("key"), row.getString("scientificName"),
-                    row.getString("commonName"), if (row.isNull("kind")) null else NatureKind.fromKey(row.getString("kind")))
-            } }
-            check(taxa.size == 507 && taxa.map { it.index } == (0 until 507).toList()) { "Nature taxonomy/model mismatch" }
-            check(taxa.map { it.key }.distinct().size == taxa.size) { "Duplicate nature labels" }
-            return NatureCatalog(taxa)
+                    row.getString("commonName"), if (row.isNull("kind")) null else NatureKind.fromKey(row.getString("kind")),
+                    row.optBoolean("fern"), row.optBoolean("vine"), if (row.isNull("nyObservations")) null else row.getInt("nyObservations"))
+                } }
+                check(rows.size == count && rows.map { it.index } == (0 until count).toList()) { "Nature taxonomy/model mismatch" }
+                check(rows.map { it.key }.distinct().size == rows.size) { "Duplicate nature labels" }
+                return rows
+            }
+            val legacy = read(bundle.getJSONArray("legacy"), 507)
+            check(original.length() == legacy.size && legacy.all { original.getJSONObject(it.index).getString("key") == it.key })
+            return NatureCatalog(legacy, read(bundle.getJSONArray("iris"), 1569),
+                read(bundle.getJSONArray("fungi"), 2827), bundle.getString("snapshotDate"))
         }
     }
 }
@@ -74,8 +97,8 @@ object NatureScores {
         val best = scores.indices.maxByOrNull { scores[it] } ?: return emptyList()
         // Compare with ALL 507 outputs first. Selecting Mushrooms must not turn a
         // bird/plant result into an artificially confident mushroom identification.
-        if (catalog.taxa[best].kind != kind || scores[best] < MIN_TOP_SCORE) return emptyList()
-        return catalog.taxa.filter { it.kind == kind && scores[it.index] >= MIN_CANDIDATE_SCORE }
+        if (!catalog.taxa[best].supports(kind) || scores[best] < MIN_TOP_SCORE) return emptyList()
+        return catalog.taxa.filter { it.supports(kind) && scores[it.index] >= MIN_CANDIDATE_SCORE }
             .map { NaturePrediction(it, scores[it.index]) }.sortedByDescending { it.score }.take(5)
     }
 }

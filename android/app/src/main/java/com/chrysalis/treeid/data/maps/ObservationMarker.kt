@@ -12,7 +12,8 @@ import com.chrysalis.treeid.nature.NatureObservation
 
 enum class MarkerKind(val label: String, val color: Long) {
     TREE("Tree", 0xff245c3a), BIRD("Bird call", 0xff245ca0),
-    FLOWER("Flower", 0xff8e3d8e), MUSHROOM("Mushroom", 0xff8b5e3c),
+    FLOWER("Plant", 0xff8e3d8e), MUSHROOM("Mushroom", 0xff8b5e3c),
+    FERN("Fern or ally", 0xff147d75), VINE("Vine", 0xff6a6b25),
 }
 
 data class ObservationMarker(val key: String, val name: String, val time: Long, val latitude: Double?,
@@ -30,6 +31,11 @@ data class ObservationMarker(val key: String, val name: String, val time: Long, 
             row.latitude, row.longitude, MarkerKind.BIRD, row.speciesKey == null, Screen.BirdDetail(row.id))
         fun nature(row: NatureObservation, catalog: NatureCatalog) = ObservationMarker("nature:${row.id}",
             catalog[row.taxonKey]?.commonName ?: "Unknown ${row.kind}", row.observedAt, row.latitude, row.longitude,
-            if (row.kind == NatureKind.FLOWER.key) MarkerKind.FLOWER else MarkerKind.MUSHROOM, row.taxonKey == null, Screen.NatureDetail(row.id))
+            when (NatureKind.fromKey(row.kind)) {
+                NatureKind.FLOWER -> MarkerKind.FLOWER
+                NatureKind.MUSHROOM -> MarkerKind.MUSHROOM
+                NatureKind.FERN -> MarkerKind.FERN
+                NatureKind.VINE -> MarkerKind.VINE
+            }, row.taxonKey == null, Screen.NatureDetail(row.id))
     }
 }

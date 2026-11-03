@@ -154,6 +154,34 @@ determine edibility. Use independent expert identification for consumption decis
 The model and taxonomy are MIT-licensed; credits and license are readable offline from
 the results. See [coverage, implementation and test checklist](docs/tasks/offline-flowers-mushrooms.md).
 
+## New York plants, ferns, vines and fungi (v0.6.0)
+
+**Plants** replaces the Flowers camera label; dedicated **Ferns & allies** and
+**Vines** modes join Mushrooms. The combined catalog now has **808 plant taxa**
+(806 with New York records), including **14 ferns and allies** and **28 vines**,
+plus **900 mushroom/fungus taxa** with NY records. Fern/vine groups overlap Plants.
+Examples include Christmas fern, ostrich fern, sensitive fern, poison ivy and
+Virginia creeper. This is expanded coverage, not a complete NY species checklist.
+
+Iris 9 and FungiTastic DINOv3 models are bundled for entirely offline inference.
+The original Small 2 model can supply a fallback when the primary model is uncertain.
+The app displays and saves the model used. All outputs compete before filtering;
+the app does not inflate scores by restricting them to the local list.
+
+**See supported species** shows a searchable list with a default New York filter
+and state-level research-grade observation counts from the November 3, 2026
+iNaturalist snapshot. Records do not prove nativity, abundance, presence nearby,
+or identification accuracy. FungiTastic has a Denmark/Europe training bias, and
+New York field accuracy is unmeasured. **Never eat a mushroom based on this app.**
+
+Save, edit and delete under **Plants & fungi**; fern and vine GPS pins appear on
+the existing offline map. Old records remain usable. No new internet permission,
+downloads, cloud processing or field-guide illustrations are added; CSV/GeoJSON
+still exports tree sightings only. Iris weights/metadata are CC BY 4.0; the fungi
+model has noncommercial CC BY-NC-SA 4.0 and DINOv3 terms, all bundled offline.
+New model inference and UI checks on the XCover are pending. See the
+[model provenance and manual test checklist](docs/tasks/nys-nature-expansion.md).
+
 ## How it's built
 
 | Path | What's there |
@@ -171,8 +199,9 @@ the results. See [coverage, implementation and test checklist](docs/tasks/offlin
 3. ✅ Illustrated seasonal field guide and offline sightings map, with raster MBTiles import
 4. ✅ Offline BirdNET call identification, confirmed observations, local recordings and map pins
 5. ✅ Offline flower and mushroom photo suggestions, local observations and map pins (limited catalog)
-6. Field-test v0.5.0 on the XCover: flowers/mushrooms, real bird calls, GPS, accuracy and battery; finish guide/map acceptance
-7. Expand flower/fungus coverage with validated models; improve the tree model with a full GPU fine-tune (`training/finetune_colab.ipynb`)
+6. ✅ Expanded offline NY catalog, fern/vine modes, larger plant/fungus models and occurrence annotations (v0.6.0; device testing pending)
+7. Field-test v0.6.0 on the XCover: plants/ferns/vines/fungi, real bird calls, GPS, accuracy and battery; finish guide/map acceptance
+8. Validate and expand regional model coverage; improve the tree model with a full GPU fine-tune (`training/finetune_colab.ipynb`)
 
 ## Credits
 

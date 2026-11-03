@@ -1,0 +1,109 @@
+{
+ "checkpoint": "outputs/full_vits16_v4_384/checkpoints/best.pt",
+ "model": "vit_small_patch16_dinov3.lvd1689m",
+ "img_size": 384,
+ "num_classes": 2827,
+ "batch": 1,
+ "fp16": {
+  "fp16_tensors": 75,
+  "weight_mb_before": 90.6,
+  "weight_mb_after": 45.3,
+  "size_mb": 45.9,
+  "skipped_external_buffers": 0,
+  "kept_fp32_constants": 805,
+  "weights_only": true
+ },
+ "gpu_friendly": true,
+ "input_layout": "NHWC float32 0..255",
+ "output": "logits",
+ "eval_resize": 439,
+ "fp16_safe": true,
+ "fp16_safe_calibration": {
+  "images": 32,
+  "ln_scales": [
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   2.0,
+   2.0,
+   2.0,
+   2.0,
+   4.0,
+   2.0,
+   4.0,
+   2.0,
+   8.0,
+   8.0,
+   8.0,
+   8.0,
+   8.0,
+   8.0,
+   16.0,
+   16.0,
+   16.0,
+   16.0,
+   16.0
+  ],
+  "softmax_scales": [
+   256.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0,
+   1.0
+  ],
+  "ln_centered_max": 1863.8,
+  "attn_logit_max": 2549750.0
+ },
+ "weight_folding": {
+  "blocks": 12,
+  "layer_norms_folded": 25
+ },
+ "method": "litert",
+ "export_time_s": 31.3,
+ "tried": [
+  "litert"
+ ],
+ "errors": {},
+ "fc_rank_fixup": {
+  "fully_connected_fixed": 24
+ },
+ "size_mb": 91.2,
+ "input_shape": [
+  1,
+  384,
+  384,
+  3
+ ],
+ "input_dtype": "float32",
+ "output_shape": [
+  1,
+  2827
+ ],
+ "output_dtype": "float32",
+ "fp16_file": "mushroom_model_fp16.tflite",
+ "converter": {
+  "dir": "outputs/full_vits16_v4_384/export/converter",
+  "versions": {
+   "torch": "2.13.0",
+   "timm": "1.0.29",
+   "litert-torch": "0.9.4",
+   "ai-edge-litert": "2.2.0",
+   "numpy": "2.5.2",
+   "flatbuffers": "25.12.19",
+   "pillow": "12.3.0",
+   "pandas": "3.0.5",
+   "typer": "0.27.2",
+   "pyyaml": "6.0.3"
+  }
+ }
+}
