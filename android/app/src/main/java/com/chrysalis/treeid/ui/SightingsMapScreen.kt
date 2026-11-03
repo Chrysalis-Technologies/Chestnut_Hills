@@ -35,6 +35,7 @@ import com.chrysalis.treeid.Screen
 import com.chrysalis.treeid.TreeViewModel
 import com.chrysalis.treeid.data.maps.*
 import com.chrysalis.treeid.birds.BirdViewModel
+import com.chrysalis.treeid.nature.NatureViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -43,12 +44,14 @@ import kotlin.math.*
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, focusBirdId: Long?) {
+fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, nature: NatureViewModel, focusId: Long?, focusBirdId: Long?, focusNatureId: Long?) {
     val sightings by vm.sightings.collectAsStateWithLifecycle()
     val birdObservations by birds.observations.collectAsStateWithLifecycle()
-    val markers = remember(sightings, birdObservations) {
+    val natureObservations by nature.observations.collectAsStateWithLifecycle()
+    val markers = remember(sightings, birdObservations, natureObservations) {
         (sightings.orEmpty().map { ObservationMarker.tree(it, vm.catalog) } +
-            birdObservations.orEmpty().map { ObservationMarker.bird(it, birds.catalog) }).sortedByDescending { it.time }
+            birdObservations.orEmpty().map { ObservationMarker.bird(it, birds.catalog) } +
+            natureObservations.orEmpty().map { ObservationMarker.nature(it, nature.catalog) }).sortedByDescending { it.time }
     }
     val located = remember(markers) { markers.filter { it.located } }
     val points = remember(located) { located.map { MapGeometry.project(it.latitude!!, it.longitude!!) } }
@@ -63,9 +66,10 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, 
     val viewport = MapViewport(centerX, centerY, zoom)
     fun update(next: MapViewport) { centerX = next.x; centerY = next.y; zoom = next.zoom }
     fun fit() { update(MapGeometry.fit(points, canvasSize.width.toFloat(), canvasSize.height.toFloat())) }
-    LaunchedEffect(sightings, birdObservations, canvasSize) {
-        if (!initialized && sightings != null && birdObservations != null && canvasSize.width > 0) {
-            val focus = located.indexOfFirst { it.key == if (focusBirdId != null) "bird:$focusBirdId" else "tree:$focusId" }
+    LaunchedEffect(sightings, birdObservations, natureObservations, canvasSize) {
+        if (!initialized && sightings != null && birdObservations != null && natureObservations != null && canvasSize.width > 0) {
+            val focusKey = when { focusNatureId != null -> "nature:$focusNatureId"; focusBirdId != null -> "bird:$focusBirdId"; else -> "tree:$focusId" }
+            val focus = located.indexOfFirst { it.key == focusKey }
             if (focus >= 0) update(MapViewport(points[focus].x, points[focus].y, 16.0)) else fit()
             initialized = true
         }
@@ -117,12 +121,12 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, 
                 TextButton(onClick = { update(viewport.move(0.0, 0.0, 0.5)) }) { Text("−") }
                 TextButton(onClick = { update(viewport.move(0.0, 0.0, 2.0)) }) { Text("+") }
             }
-            Text(if (sightings == null || birdObservations == null) "Loading sightings…" else "${located.size} mapped · ${markers.size - located.size} without a location",
+            Text(if (sightings == null || birdObservations == null || natureObservations == null) "Loading sightings…" else "${located.size} mapped · ${markers.size - located.size} without a location",
                 Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
-            Text("Green: trees · Blue: bird calls · Gray: unknown", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
+            Text("Green: trees · Blue: birds · Purple: flowers · Brown: mushrooms · Gray: unknown", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
             Text(vm.mapInfo?.name ?: "New York overview · no street detail", Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.labelMedium)
-            (vm.mapError ?: tileError ?: vm.sightingsError ?: birds.error)?.let {
+            (vm.mapError ?: tileError ?: vm.sightingsError ?: birds.error ?: nature.observationError)?.let {
                 Text(it, Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
             if (vm.mapInfo != null && tiles.isEmpty() && tileError == null) {
@@ -170,7 +174,7 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, 
                     if (point.x in -24.0..(size.width + 24.0) && point.y in -24.0..(size.height + 24.0)) {
                         val p = Offset(point.x.toFloat(), point.y.toFloat())
                         drawCircle(Color.White, 16.dp.toPx(), p)
-                        drawCircle(if (sighting.unknown) Color(0xff686868) else if (sighting.bird) Color(0xff245ca0) else Color(0xff245c3a), 14.dp.toPx(), p)
+                        drawCircle(if (sighting.unknown) Color(0xff686868) else Color(sighting.kind.color), 14.dp.toPx(), p)
                         drawContext.canvas.nativeCanvas.drawText("${index + 1}", p.x, p.y - (paint.ascent() + paint.descent()) / 2, paint)
                     }
                 }
@@ -179,11 +183,11 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, 
                 it.attribution.ifBlank { "Imported map: no attribution supplied in file" }
             }).joinToString("\n"), Modifier.fillMaxWidth().heightIn(max = 70.dp).verticalScroll(rememberScrollState())
                 .padding(horizontal = 12.dp), style = MaterialTheme.typography.labelSmall)
-            if (located.isEmpty()) Text("Save a tree sighting or bird observation with GPS to add a pin. Unlocated records remain in their lists.", Modifier.padding(16.dp))
+            if (located.isEmpty()) Text("Save a tree, bird, flower or mushroom observation with GPS to add a pin. Unlocated records remain in their lists.", Modifier.padding(16.dp))
             else LazyColumn(Modifier.fillMaxWidth().heightIn(max = 180.dp)) {
                 itemsIndexed(located, key = { _, s -> s.key }) { index, sighting ->
                     ListItem(headlineContent = { Text("${index + 1}. ${sighting.name}") },
-                        supportingContent = { Text("${if (sighting.bird) "Bird call" else "Tree"} · ${sightingDate(sighting.time)}") },
+                        supportingContent = { Text("${sighting.kind.label} · ${sightingDate(sighting.time)}") },
                         trailingContent = { TextButton(onClick = { update(MapViewport(points[index].x, points[index].y, 16.0)) }) { Text("Locate") } },
                         modifier = Modifier.clickable { vm.navigate(sighting.destination) })
                 }
@@ -196,7 +200,7 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, 
             LazyColumn(Modifier.heightIn(max = 360.dp)) {
                 itemsIndexed(tapped, key = { _, s -> s.key }) { _, sighting ->
                     TextButton(onClick = { tappedIds = emptyList(); vm.navigate(sighting.destination) }) {
-                        Text("${sighting.name}\n${if (sighting.bird) "Bird call" else "Tree"} · ${sightingDate(sighting.time)}\n${sighting.place}")
+                        Text("${sighting.name}\n${sighting.kind.label} · ${sightingDate(sighting.time)}\n${sighting.place}")
                     }
                 }
             }

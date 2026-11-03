@@ -42,6 +42,8 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Info
 import androidx.compose.material3.Button
 import androidx.compose.material3.FilledTonalButton
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
@@ -55,6 +57,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -71,6 +74,8 @@ import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.compose.LocalLifecycleOwner
 import com.chrysalis.treeid.Screen
 import com.chrysalis.treeid.TreeViewModel
+import com.chrysalis.treeid.nature.NatureViewModel
+import com.chrysalis.treeid.nature.NatureKind
 import com.chrysalis.treeid.util.Images
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -79,9 +84,11 @@ import java.util.concurrent.Executors
 import kotlin.math.min
 
 @Composable
-fun CameraScreen(vm: TreeViewModel) {
+fun CameraScreen(vm: TreeViewModel, nature: NatureViewModel) {
     val context = LocalContext.current
     val scope = rememberCoroutineScope()
+    var photoMode by rememberSaveable { mutableStateOf("tree") }
+    val natureKind = NatureKind.entries.firstOrNull { it.key == photoMode }
     var hasPermission by remember {
         mutableStateOf(
             ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) ==
@@ -97,7 +104,10 @@ fun CameraScreen(vm: TreeViewModel) {
                 val bitmap = withContext(Dispatchers.IO) {
                     runCatching { Images.decodeUri(context, uri) }.getOrNull()
                 }
-                if (bitmap != null) vm.identify(bitmap, sourceUri = uri)
+                if (bitmap != null) {
+                    if (natureKind == null) vm.identify(bitmap, sourceUri = uri)
+                    else { nature.identify(bitmap, natureKind, uri); vm.navigate(Screen.NatureIdentify) }
+                }
                 else Toast.makeText(context, "Couldn't open that photo", Toast.LENGTH_SHORT).show()
             }
         }
@@ -143,6 +153,17 @@ fun CameraScreen(vm: TreeViewModel) {
         }
 
         Column(
+            Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 64.dp),
+        ) {
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                listOf("tree" to "Trees", "flower" to "Flowers", "mushroom" to "Mushrooms").forEach { (key, label) ->
+                    FilterChip(selected = photoMode == key, onClick = { if (!capturing) photoMode = key }, label = { Text(label) },
+                        colors = FilterChipDefaults.filterChipColors(containerColor = Color(0xff202820), labelColor = Color.White))
+                }
+            }
+        }
+
+        Column(
             Modifier.align(Alignment.BottomCenter).fillMaxWidth().navigationBarsPadding()
                 .padding(bottom = 24.dp),
             horizontalAlignment = Alignment.CenterHorizontally,
@@ -157,7 +178,11 @@ fun CameraScreen(vm: TreeViewModel) {
                 }
             }
             Text(
-                "Fill the square with one leaf, a needle cluster, bark, flowers, or fruit",
+                    when (natureKind) {
+                        NatureKind.FLOWER -> "Center one flower and nearby leaves in good light"
+                        NatureKind.MUSHROOM -> "Center one mushroom. Compare cap, underside and stem. Never use this app to decide what to eat."
+                        null -> "Fill the square with one leaf, a needle cluster, bark, flowers, or fruit"
+                    },
                 color = Color.White,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
@@ -174,7 +199,11 @@ fun CameraScreen(vm: TreeViewModel) {
                     capturing = true
                     takePhoto(
                         context, capture,
-                        onPhotoReady = { capturing = false; vm.identify(it) },
+                        onPhotoReady = {
+                            capturing = false
+                            if (natureKind == null) vm.identify(it)
+                            else { nature.identify(it, natureKind); vm.navigate(Screen.NatureIdentify) }
+                        },
                         onFailure = {
                             capturing = false
                             Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
@@ -184,7 +213,10 @@ fun CameraScreen(vm: TreeViewModel) {
 
             }
             Spacer(Modifier.height(12.dp))
-            FilledTonalButton(onClick = { vm.navigate(Screen.BirdRecord) }) { Text("Bird calls") }
+            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                FilledTonalButton(onClick = { vm.navigate(Screen.BirdRecord) }) { Text("Bird calls") }
+                FilledTonalButton(onClick = { vm.navigate(Screen.NatureObservations) }) { Text("Flowers & fungi") }
+            }
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,

@@ -46,11 +46,14 @@ sealed interface Screen {
     data class SpeciesDetail(val key: String) : Screen
     data object About : Screen
     data object Sightings : Screen
-    data class SightingMap(val focusId: Long? = null, val focusBirdId: Long? = null) : Screen
+    data class SightingMap(val focusId: Long? = null, val focusBirdId: Long? = null, val focusNatureId: Long? = null) : Screen
     data class SightingDetail(val id: Long) : Screen
     data object BirdRecord : Screen
     data object BirdObservations : Screen
     data class BirdDetail(val id: Long) : Screen
+    data object NatureIdentify : Screen
+    data object NatureObservations : Screen
+    data class NatureDetail(val id: Long) : Screen
 }
 
 /** A photo and, once the model has run, what it thinks the photo shows. */

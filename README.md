@@ -134,6 +134,26 @@ BirdNET model and labels: **CC BY-NC-SA 4.0**, for noncommercial use unless sepa
 licensed. Credits, source, hashes and the complete license are bundled and readable from
 **Bird calls → credits and license**. See the [implementation and test checklist](docs/tasks/offline-birdnet.md).
 
+## Flowers and mushrooms (v0.5.0)
+
+Choose **Flowers** or **Mushrooms** above the camera, then take a photo or select **Photos**.
+Identification runs offline using the bundled iNaturalist Small 2 model. This first catalog
+covers **174 flowering plants**, including some trees/shrubs, and **18 mushroom/fungus taxa**.
+Use **See supported species** on the result screen to browse the exact list. This is the
+public small model, not the full Seek/iNaturalist catalog; unsupported species can be
+misidentified and there is no regional filter.
+
+Explicitly choose a suggestion or **Unknown**, add notes and optionally include GPS, then
+save. **Flowers & fungi** opens saved observations for viewing, correction and deletion.
+Their GPS pins appear with trees and birds on the existing offline map. Photos and records
+stay in private storage excluded from backup. Original photos remain untouched. Existing
+CSV/GeoJSON exports still contain tree sightings only.
+
+**Never eat a mushroom based on this app.** Photo suggestions and model scores cannot
+determine edibility. Use independent expert identification for consumption decisions.
+The model and taxonomy are MIT-licensed; credits and license are readable offline from
+the results. See [coverage, implementation and test checklist](docs/tasks/offline-flowers-mushrooms.md).
+
 ## How it's built
 
 | Path | What's there |
@@ -150,8 +170,9 @@ licensed. Credits, source, hashes and the complete license are bundled and reada
 2. ✅ Save sightings with GPS location and notes (offline), browse/edit/delete, export CSV/GeoJSON
 3. ✅ Illustrated seasonal field guide and offline sightings map, with raster MBTiles import
 4. ✅ Offline BirdNET call identification, confirmed observations, local recordings and map pins
-5. Field-test v0.4.0 on the XCover: real calls, GPS, interruption handling, accuracy and battery; finish v0.3 guide/map acceptance
-6. More accurate tree model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
+5. ✅ Offline flower and mushroom photo suggestions, local observations and map pins (limited catalog)
+6. Field-test v0.5.0 on the XCover: flowers/mushrooms, real bird calls, GPS, accuracy and battery; finish guide/map acceptance
+7. Expand flower/fungus coverage with validated models; improve the tree model with a full GPU fine-tune (`training/finetune_colab.ipynb`)
 
 ## Credits
 
