@@ -49,7 +49,7 @@ separate permission. No Merlin assets or proprietary API are used.
   passing when it is blocked by the host's loopback connection error.
 - Device tests (synthetic audio, no microphone): install the release and test APKs with
   the shared test signature, then run
-  `adb shell am instrument -w com.chrysalis.treeid.test/android.test.InstrumentationTestRunner`.
+  `adb shell am instrument -w com.chrysalis.treeid.test/androidx.test.runner.AndroidJUnitRunner`.
   This checks native inference, private audio/database persistence, and installed permissions.
 
 ## Manual acceptance checklist

@@ -3,7 +3,8 @@ package com.chrysalis.treeid.birds
 import android.Manifest
 import android.content.pm.ApplicationInfo
 import android.content.pm.PackageManager
-import android.test.InstrumentationTestCase
+import androidx.test.ext.junit.runners.AndroidJUnit4
+import androidx.test.platform.app.InstrumentationRegistry
 import androidx.room.Room
 import com.chrysalis.treeid.data.sightings.SightingLocation
 import kotlinx.coroutines.runBlocking
@@ -11,11 +12,15 @@ import java.io.File
 import java.util.UUID
 import kotlin.math.PI
 import kotlin.math.sin
+import org.junit.Assert.*
+import org.junit.Test
+import org.junit.runner.RunWith
 
 /** Runs against the installed app on an actual phone. Does not open the microphone. */
-@Suppress("DEPRECATION")
-class BirdDeviceTest : InstrumentationTestCase() {
-    fun testBundledModelRunsOnThePhone() = runBlocking {
+@RunWith(AndroidJUnit4::class)
+class BirdDeviceTest {
+    private val instrumentation get() = InstrumentationRegistry.getInstrumentation()
+    @Test fun bundledModelRunsOnThePhone() = runBlocking {
         val context = instrumentation.targetContext
         val catalog = BirdCatalog.load(context)
         BirdClassifier.load(context, catalog).use { classifier ->
@@ -26,7 +31,7 @@ class BirdDeviceTest : InstrumentationTestCase() {
         }
     }
 
-    fun testPrivateDatabaseAudioAndGpsRoundTrip() = runBlocking {
+    @Test fun privateDatabaseAudioAndGpsRoundTrip() = runBlocking {
         val context = instrumentation.targetContext
         val directory = File(context.noBackupFilesDir, "device-test-${UUID.randomUUID()}").apply { mkdirs() }
         val path = File(directory, "test.db").absolutePath
@@ -50,7 +55,7 @@ class BirdDeviceTest : InstrumentationTestCase() {
         } finally { db.close(); directory.deleteRecursively() }
     }
 
-    fun testInstalledAppStaysOfflineAndPrivate() {
+    @Test fun installedAppStaysOfflineAndPrivate() {
         val context = instrumentation.targetContext
         val permissions = context.packageManager.getPackageInfo(context.packageName, PackageManager.GET_PERMISSIONS).requestedPermissions.orEmpty()
         assertFalse(permissions.contains(Manifest.permission.INTERNET))
