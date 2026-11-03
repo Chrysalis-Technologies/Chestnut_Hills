@@ -96,7 +96,7 @@ def build(source: Path) -> None:
         labels = (folder / 'labels.txt').read_text(encoding='utf-8').splitlines()
         if len(labels) != size or len(set(labels)) != size:
             raise ValueError(f'{pack}: invalid label order/length')
-        metadata = json.loads((folder / 'model.json').read_text()) if pack == 'iris' else None
+        metadata = json.loads((folder / 'model.json').read_text(encoding='utf-8')) if pack == 'iris' else None
         names = [metadata['species'][label] for label in labels] if metadata else labels
         result[pack] = [decorate(name, i, 'flower' if pack == 'iris' else 'mushroom',
                                  f'{pack}:{label}', expanded=True) for i, (name, label) in enumerate(zip(names, labels))]
