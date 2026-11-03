@@ -54,7 +54,12 @@ android {
     // The field guide (species/nys_trees.json) lives at the repo root and is shared with training.
     sourceSets { getByName("main") { assets.srcDir("../../species") } }
 
-    testOptions { unitTests.isIncludeAndroidResources = true }
+    testOptions {
+        unitTests.isIncludeAndroidResources = true
+        unitTests.all {
+            it.testLogging.exceptionFormat = org.gradle.api.tasks.testing.logging.TestExceptionFormat.FULL
+        }
+    }
 }
 
 ksp { arg("room.schemaLocation", "$projectDir/schemas") }
