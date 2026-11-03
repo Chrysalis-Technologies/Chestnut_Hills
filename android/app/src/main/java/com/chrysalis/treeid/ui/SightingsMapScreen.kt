@@ -34,7 +34,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.chrysalis.treeid.Screen
 import com.chrysalis.treeid.TreeViewModel
 import com.chrysalis.treeid.data.maps.*
-import com.chrysalis.treeid.data.sightings.Sighting
+import com.chrysalis.treeid.birds.BirdViewModel
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
@@ -43,24 +43,29 @@ import kotlin.math.*
 
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
-fun SightingsMapScreen(vm: TreeViewModel, focusId: Long?) {
+fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, focusId: Long?, focusBirdId: Long?) {
     val sightings by vm.sightings.collectAsStateWithLifecycle()
-    val located = remember(sightings) { sightings.orEmpty().filter(MapGeometry::located) }
+    val birdObservations by birds.observations.collectAsStateWithLifecycle()
+    val markers = remember(sightings, birdObservations) {
+        (sightings.orEmpty().map { ObservationMarker.tree(it, vm.catalog) } +
+            birdObservations.orEmpty().map { ObservationMarker.bird(it, birds.catalog) }).sortedByDescending { it.time }
+    }
+    val located = remember(markers) { markers.filter { it.located } }
     val points = remember(located) { located.map { MapGeometry.project(it.latitude!!, it.longitude!!) } }
     var centerX by rememberSaveable { mutableStateOf(MapGeometry.NEW_YORK.x) }
     var centerY by rememberSaveable { mutableStateOf(MapGeometry.NEW_YORK.y) }
     var zoom by rememberSaveable { mutableStateOf(6.0) }
     var initialized by rememberSaveable { mutableStateOf(false) }
     var canvasSize by remember { mutableStateOf(IntSize.Zero) }
-    var tappedIds by remember { mutableStateOf<List<Long>>(emptyList()) }
+    var tappedIds by remember { mutableStateOf<List<String>>(emptyList()) }
     var confirmRemove by remember { mutableStateOf(false) }
     var tileError by remember { mutableStateOf<String?>(null) }
     val viewport = MapViewport(centerX, centerY, zoom)
     fun update(next: MapViewport) { centerX = next.x; centerY = next.y; zoom = next.zoom }
     fun fit() { update(MapGeometry.fit(points, canvasSize.width.toFloat(), canvasSize.height.toFloat())) }
-    LaunchedEffect(sightings, canvasSize) {
-        if (!initialized && sightings != null && canvasSize.width > 0) {
-            val focus = located.indexOfFirst { it.id == focusId }
+    LaunchedEffect(sightings, birdObservations, canvasSize) {
+        if (!initialized && sightings != null && birdObservations != null && canvasSize.width > 0) {
+            val focus = located.indexOfFirst { it.key == if (focusBirdId != null) "bird:$focusBirdId" else "tree:$focusId" }
             if (focus >= 0) update(MapViewport(points[focus].x, points[focus].y, 16.0)) else fit()
             initialized = true
         }
@@ -112,11 +117,12 @@ fun SightingsMapScreen(vm: TreeViewModel, focusId: Long?) {
                 TextButton(onClick = { update(viewport.move(0.0, 0.0, 0.5)) }) { Text("−") }
                 TextButton(onClick = { update(viewport.move(0.0, 0.0, 2.0)) }) { Text("+") }
             }
-            Text(if (sightings == null) "Loading sightings…" else "${located.size} mapped · ${sightings.orEmpty().size - located.size} without a location",
+            Text(if (sightings == null || birdObservations == null) "Loading sightings…" else "${located.size} mapped · ${markers.size - located.size} without a location",
                 Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
+            Text("Green: trees · Blue: bird calls · Gray: unknown", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
             Text(vm.mapInfo?.name ?: "New York overview · no street detail", Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.labelMedium)
-            (vm.mapError ?: tileError ?: vm.sightingsError)?.let {
+            (vm.mapError ?: tileError ?: vm.sightingsError ?: birds.error)?.let {
                 Text(it, Modifier.padding(horizontal = 16.dp), color = MaterialTheme.colorScheme.error, style = MaterialTheme.typography.bodySmall)
             }
             if (vm.mapInfo != null && tiles.isEmpty() && tileError == null) {
@@ -135,7 +141,7 @@ fun SightingsMapScreen(vm: TreeViewModel, focusId: Long?) {
                         tappedIds = currentLocated.filter { sighting ->
                             val p = currentViewport.screen(MapGeometry.project(sighting.latitude!!, sighting.longitude!!), size.width.toFloat(), size.height.toFloat())
                             hypot(p.x - tap.x, p.y - tap.y) <= 32.dp.toPx()
-                        }.map { it.id }
+                        }.map { it.key }
                     }
                 }) {
                 drawRect(Color(0xffe4edf0))
@@ -164,7 +170,7 @@ fun SightingsMapScreen(vm: TreeViewModel, focusId: Long?) {
                     if (point.x in -24.0..(size.width + 24.0) && point.y in -24.0..(size.height + 24.0)) {
                         val p = Offset(point.x.toFloat(), point.y.toFloat())
                         drawCircle(Color.White, 16.dp.toPx(), p)
-                        drawCircle(if (sighting.treeKey == null) Color(0xff686868) else Color(0xff245c3a), 14.dp.toPx(), p)
+                        drawCircle(if (sighting.unknown) Color(0xff686868) else if (sighting.bird) Color(0xff245ca0) else Color(0xff245c3a), 14.dp.toPx(), p)
                         drawContext.canvas.nativeCanvas.drawText("${index + 1}", p.x, p.y - (paint.ascent() + paint.descent()) / 2, paint)
                     }
                 }
@@ -173,24 +179,24 @@ fun SightingsMapScreen(vm: TreeViewModel, focusId: Long?) {
                 it.attribution.ifBlank { "Imported map: no attribution supplied in file" }
             }).joinToString("\n"), Modifier.fillMaxWidth().heightIn(max = 70.dp).verticalScroll(rememberScrollState())
                 .padding(horizontal = 12.dp), style = MaterialTheme.typography.labelSmall)
-            if (located.isEmpty()) Text("Save a sighting with GPS to add a pin. Sightings without coordinates stay in the Sightings list.", Modifier.padding(16.dp))
+            if (located.isEmpty()) Text("Save a tree sighting or bird observation with GPS to add a pin. Unlocated records remain in their lists.", Modifier.padding(16.dp))
             else LazyColumn(Modifier.fillMaxWidth().heightIn(max = 180.dp)) {
-                itemsIndexed(located, key = { _, s -> s.id }) { index, sighting ->
-                    ListItem(headlineContent = { Text("${index + 1}. ${sighting.treeKey?.let { vm.catalog[it]?.commonName } ?: "Unknown tree"}") },
-                        supportingContent = { Text(sightingDate(sighting.observedAt)) },
+                itemsIndexed(located, key = { _, s -> s.key }) { index, sighting ->
+                    ListItem(headlineContent = { Text("${index + 1}. ${sighting.name}") },
+                        supportingContent = { Text("${if (sighting.bird) "Bird call" else "Tree"} · ${sightingDate(sighting.time)}") },
                         trailingContent = { TextButton(onClick = { update(MapViewport(points[index].x, points[index].y, 16.0)) }) { Text("Locate") } },
-                        modifier = Modifier.clickable { vm.navigate(Screen.SightingDetail(sighting.id)) })
+                        modifier = Modifier.clickable { vm.navigate(sighting.destination) })
                 }
             }
         }
     }
-    val tapped = located.filter { it.id in tappedIds }
+    val tapped = located.filter { it.key in tappedIds }
     if (tapped.isNotEmpty()) AlertDialog(onDismissRequest = { tappedIds = emptyList() },
         title = { Text(if (tapped.size == 1) "Sighting" else "Sightings at this location") }, text = {
             LazyColumn(Modifier.heightIn(max = 360.dp)) {
-                itemsIndexed(tapped, key = { _, s -> s.id }) { _, sighting ->
-                    TextButton(onClick = { tappedIds = emptyList(); vm.navigate(Screen.SightingDetail(sighting.id)) }) {
-                        Text("${sighting.treeKey?.let { vm.catalog[it]?.commonName } ?: "Unknown tree"}\n${sightingDate(sighting.observedAt)}\n${sightingPlace(sighting)}")
+                itemsIndexed(tapped, key = { _, s -> s.key }) { _, sighting ->
+                    TextButton(onClick = { tappedIds = emptyList(); vm.navigate(sighting.destination) }) {
+                        Text("${sighting.name}\n${if (sighting.bird) "Bird call" else "Tree"} · ${sightingDate(sighting.time)}\n${sighting.place}")
                     }
                 }
             }

@@ -17,6 +17,10 @@ import com.chrysalis.treeid.ui.SightingDetailScreen
 import com.chrysalis.treeid.ui.SightingsScreen
 import com.chrysalis.treeid.ui.SightingsMapScreen
 import com.chrysalis.treeid.ui.TreeIdTheme
+import com.chrysalis.treeid.birds.BirdViewModel
+import com.chrysalis.treeid.ui.BirdRecordScreen
+import com.chrysalis.treeid.ui.BirdObservationsScreen
+import com.chrysalis.treeid.ui.BirdDetailScreen
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,6 +36,7 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun TreeIdApp(vm: TreeViewModel) {
+    val birds: BirdViewModel = viewModel()
     BackHandler(enabled = vm.backStack.size > 1) { vm.back() }
     val stateHolder = rememberSaveableStateHolder()
     val screen = vm.current
@@ -43,8 +48,11 @@ fun TreeIdApp(vm: TreeViewModel) {
             is Screen.SpeciesDetail -> SpeciesScreen(vm, screen.key)
             Screen.About -> AboutScreen(vm)
             Screen.Sightings -> SightingsScreen(vm)
-            is Screen.SightingMap -> SightingsMapScreen(vm, screen.focusId)
+            is Screen.SightingMap -> SightingsMapScreen(vm, birds, screen.focusId, screen.focusBirdId)
             is Screen.SightingDetail -> SightingDetailScreen(vm, screen.id)
+            Screen.BirdRecord -> BirdRecordScreen(vm, birds)
+            Screen.BirdObservations -> BirdObservationsScreen(vm, birds)
+            is Screen.BirdDetail -> BirdDetailScreen(vm, birds, screen.id)
         }
     }
 }

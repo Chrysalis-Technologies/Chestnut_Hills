@@ -184,6 +184,7 @@ fun CameraScreen(vm: TreeViewModel) {
 
             }
             Spacer(Modifier.height(12.dp))
+            FilledTonalButton(onClick = { vm.navigate(Screen.BirdRecord) }) { Text("Bird calls") }
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,

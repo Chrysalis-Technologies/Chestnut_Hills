@@ -109,6 +109,31 @@ There are no downloads, map servers or additional location requests in this scre
 Guide imagery and seasonal text are supplemental assets; the model, labels, original
 species list and image preprocessing are unchanged. See [content provenance](docs/field-guide-content.md).
 
+## Bird calls (v0.4.0)
+
+Open **Bird calls** from the camera screen to record twelve seconds and identify calls
+entirely on the phone with bundled **BirdNET 2.4**. Microphone permission is requested
+when you tap **Record bird call**. GPS is optional; it uses the device GPS during capture.
+Denied location permission or no fix still allows an unlocated observation. Recording
+cancels when you leave the screen or lock the phone; there is no background listening.
+
+Replay the clip, select a suggested species or **Unknown call**, then **Confirm and save**.
+**Saved bird observations** lets you replay recordings, edit notes, correct a species,
+and delete observations. Bird pins appear alongside trees on **Map of sightings**.
+Green pins are trees, blue pins are bird calls, and gray pins have an unknown identification.
+
+Scores rank suggestions and are not calibrated probabilities. Check what you heard and
+the species' range; some other animal calls are included, with no regional filter.
+The model is bundled: there are no downloads, cloud identification, or uploads.
+Recordings and the bird database are private and excluded from backup. Automatic Android
+backup/device transfer is disabled for app data; clearing data or uninstalling removes
+saved records. Unsaved clips do not survive process exit. Existing CSV/GeoJSON exports
+remain **tree sightings only**.
+
+BirdNET model and labels: **CC BY-NC-SA 4.0**, for noncommercial use unless separately
+licensed. Credits, source, hashes and the complete license are bundled and readable from
+**Bird calls → credits and license**. See the [implementation and test checklist](docs/tasks/offline-birdnet.md).
+
 ## How it's built
 
 | Path | What's there |
@@ -124,8 +149,9 @@ species list and image preprocessing are unchanged. See [content provenance](doc
 1. ✅ Offline identification + field guide
 2. ✅ Save sightings with GPS location and notes (offline), browse/edit/delete, export CSV/GeoJSON
 3. ✅ Illustrated seasonal field guide and offline sightings map, with raster MBTiles import
-4. Field-test v0.3.0 on a device (including upgrade, GPS pins, guide readability and map imports)
-5. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
+4. ✅ Offline BirdNET call identification, confirmed observations, local recordings and map pins
+5. Field-test v0.4.0 on the XCover: real calls, GPS, interruption handling, accuracy and battery; finish v0.3 guide/map acceptance
+6. More accurate tree model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
 
 ## Credits
 
