@@ -29,8 +29,19 @@ class OfflineMapStoreTest {
         store = OfflineMapStore(context)
     }
     @After fun cleanup() {
-        store.close(); sources.forEach { it.delete() }
+        store.close(); sources.forEach { SQLiteDatabase.deleteDatabase(it) }
         File(context.filesDir, "offline-maps").deleteRecursively()
+    }
+
+    private fun assertOnlyActiveDatabaseRemains() {
+        val files = File(context.filesDir, "offline-maps").listFiles()!!.toList()
+        val databases = files.filter { it.extension == "mbtiles" }
+        assertEquals(files.map { it.name }.toString(), 1, databases.size)
+        val name = databases.single().name
+        // SQLite may keep journal/WAL/shared-memory files beside the open database.
+        // Companion files from rejected or replaced imports must not remain.
+        val allowed = setOf(name, "$name-journal", "$name-wal", "$name-shm")
+        assertTrue(files.map { it.name }.toString(), files.all { it.name in allowed })
     }
     private fun map(name: String = "Local woodland", format: String = "png", empty: Boolean = false): File {
         val file = File(context.cacheDir, "test-${UUID.randomUUID()}.mbtiles").also { sources.add(it) }
@@ -76,7 +87,7 @@ class OfflineMapStoreTest {
             assertEquals("Local woodland", store.openSaved()!!.name)
             assertEquals(1, store.tiles(2, 1, 0, 1, 0).size)
         }
-        assertEquals(1, File(context.filesDir, "offline-maps").listFiles()!!.size)
+        assertOnlyActiveDatabaseRemains()
     }
 
     @Test fun replacementKeepsOnlyNewPrivateCopyAndOriginals() = runBlocking {
@@ -84,7 +95,7 @@ class OfflineMapStoreTest {
         first.inputStream().use { store.importStream(it) }
         second.inputStream().use { store.importStream(it) }
         assertEquals("Second", store.openSaved()!!.name)
-        assertEquals(1, File(context.filesDir, "offline-maps").listFiles()!!.size)
+        assertOnlyActiveDatabaseRemains()
         assertTrue(first.exists() && second.exists())
     }
 }

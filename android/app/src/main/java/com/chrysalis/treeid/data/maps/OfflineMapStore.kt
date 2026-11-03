@@ -66,18 +66,22 @@ class OfflineMapStore(private val context: Context) : AutoCloseable {
                     check(preferences.edit().putString("active", candidate.name).commit()) { "Cannot save map selection" }
                     database?.close()
                     database = db; info = validated; cache.evictAll(); adopted = true
-                    if (previous != null && previous.matches(Regex("map-[a-f0-9-]+\\.mbtiles"))) File(directory, previous).delete()
+                    if (previous != null && previous.matches(Regex("map-[a-f0-9-]+\\.mbtiles"))) {
+                        SQLiteDatabase.deleteDatabase(File(directory, previous))
+                    }
                 }
                 validated
             } finally { if (!adopted) db.close() }
-        } finally { if (!adopted) candidate.delete() }
+        } finally { if (!adopted) SQLiteDatabase.deleteDatabase(candidate) }
     }
 
     @Synchronized fun useOverview() {
         val previous = preferences.getString("active", null)
         check(preferences.edit().remove("active").commit()) { "Cannot save map selection" }
         database?.close(); database = null; info = null; cache.evictAll()
-        if (previous != null && previous.matches(Regex("map-[a-f0-9-]+\\.mbtiles"))) File(directory, previous).delete()
+        if (previous != null && previous.matches(Regex("map-[a-f0-9-]+\\.mbtiles"))) {
+            SQLiteDatabase.deleteDatabase(File(directory, previous))
+        }
     }
 
     @Synchronized fun tiles(zoom: Int, left: Int, top: Int, right: Int, bottom: Int): List<MapTile> {
