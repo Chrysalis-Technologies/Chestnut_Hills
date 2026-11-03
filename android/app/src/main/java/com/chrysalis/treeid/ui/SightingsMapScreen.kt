@@ -123,7 +123,7 @@ fun SightingsMapScreen(vm: TreeViewModel, birds: BirdViewModel, nature: NatureVi
             }
             Text(if (sightings == null || birdObservations == null || natureObservations == null) "Loading sightings…" else "${located.size} mapped · ${markers.size - located.size} without a location",
                 Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
-            Text("Green: trees · Blue: birds · Purple: flowers · Brown: mushrooms · Gray: unknown", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
+            Text("Green: trees · Blue: birds · Purple: plants\nTeal: ferns · Olive: vines · Brown: mushrooms · Gray: unknown", Modifier.padding(horizontal = 16.dp), style = MaterialTheme.typography.bodySmall)
             Text(vm.mapInfo?.name ?: "New York overview · no street detail", Modifier.padding(horizontal = 16.dp),
                 style = MaterialTheme.typography.labelMedium)
             (vm.mapError ?: tileError ?: vm.sightingsError ?: birds.error ?: nature.observationError)?.let {

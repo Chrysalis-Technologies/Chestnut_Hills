@@ -28,7 +28,9 @@ class NatureRepositoryTest {
     private lateinit var repository: NatureRepository
     private lateinit var photo: Bitmap
     private val catalog = NatureCatalog(listOf(NatureTaxon(0, "flower", "Flower", "Flower", NatureKind.FLOWER),
-        NatureTaxon(1, "fungus", "Fungus", "Fungus", NatureKind.MUSHROOM)))
+        NatureTaxon(1, "fungus", "Fungus", "Fungus", NatureKind.MUSHROOM),
+        NatureTaxon(2, "fern", "Fern", "Fern", NatureKind.FLOWER, fern = true),
+        NatureTaxon(3, "vine", "Vine", "Vine", NatureKind.FLOWER, vine = true)))
     private fun open() = Room.databaseBuilder(context, NatureDatabase::class.java, File(root, "test.db").absolutePath).build()
     @Before fun setup() {
         context = RuntimeEnvironment.getApplication()
@@ -69,6 +71,28 @@ class NatureRepositoryTest {
         val failing = object : NatureDao by db.nature() { override suspend fun insert(row: NatureObservation): Long = throw IOException("disk full") }
         try { NatureRepository(failing, photos, catalog, File(root, "photos")).save(photo, NatureKind.FLOWER, "flower", 0.8f, 100, null, ""); fail("Expected failure") }
         catch (_: IOException) { assertTrue(File(root, "photos").listFiles().orEmpty().isEmpty()) }
+    }
+    @Test fun newKindsAndModelProvenanceSurviveReopen() = runBlocking {
+        val fern = repository.save(photo, NatureKind.FERN, "fern", 0.9f, 100, null, "Fern notes", ExpandedNatureClassifier.PLANTS_VERSION)
+        val vine = repository.save(photo, NatureKind.VINE, "vine", 0.8f, 200,
+            SightingLocation(44.0, -75.0, 4f, "gps"), "Vine notes", ExpandedNatureClassifier.PLANTS_VERSION)
+        db.close(); db = open()
+        assertEquals("fern", db.nature().find(fern)!!.kind)
+        assertEquals("vine", db.nature().find(vine)!!.kind)
+        assertEquals(ExpandedNatureClassifier.PLANTS_VERSION, db.nature().find(fern)!!.modelVersion)
+        assertEquals(44.0, db.nature().find(vine)!!.latitude)
+        repository = NatureRepository(db.nature(), photos, catalog, File(root, "photos"))
+        try { repository.update(fern, "vine", "Wrong category"); fail("Expected invalid category") }
+        catch (_: IllegalArgumentException) { assertEquals("fern", db.nature().find(fern)!!.taxonKey) }
+    }
+    @Test fun legacyFlowerRowsAcceptPlantSubgroupsWithoutChangingStoredKindOrModel() = runBlocking {
+        val id = repository.save(photo, NatureKind.FLOWER, "flower", 0.8f, 100, null, "Old record")
+        repository.update(id, "vine", "Corrected plant")
+        val row = db.nature().find(id)!!
+        assertEquals("flower", row.kind); assertEquals("vine", row.taxonKey)
+        assertEquals(NatureClassifier.VERSION, row.modelVersion); assertNull(row.score)
+        repository.update(id, "fern", "Another correction")
+        assertEquals("fern", db.nature().find(id)!!.taxonKey)
     }
     @Test fun failedDatabaseDeleteKeepsPhotoAndRow() = runBlocking {
         val id = repository.save(photo, NatureKind.FLOWER, "flower", 0.8f, 100, null, "")

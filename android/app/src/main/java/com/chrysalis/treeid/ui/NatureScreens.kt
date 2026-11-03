@@ -46,16 +46,17 @@ fun NatureResultScreen(vm: TreeViewModel, nature: NatureViewModel) {
     Scaffold(topBar = { BackTopBar(result?.kind?.title ?: "Photo identification", ::back) }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding).verticalScroll(rememberScrollState()).padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(12.dp)) {
-            if (result == null) Text("Choose a flower or mushroom photo from the camera screen.")
+            if (result == null) Text("Choose a plant or mushroom photo from the camera screen.")
             else {
                 NatureCaution(result.kind)
                 Image(result.photo.asImageBitmap(), "Photo being identified", Modifier.fillMaxWidth().height(240.dp), contentScale = ContentScale.Fit)
-                Text("${nature.catalog.supported(result.kind).size} supported ${if (result.kind == NatureKind.FLOWER) "flowering plants (including some trees and shrubs)" else "mushroom/fungus taxa"}. Species outside this catalog may be misidentified.", style = MaterialTheme.typography.bodySmall)
+                Text("${nature.catalog.supported(result.kind).size} supported taxa; ${nature.catalog.supported(result.kind, true).size} have New York records in the bundled snapshot. Species outside this catalog may be misidentified.", style = MaterialTheme.typography.bodySmall)
                 TextButton(onClick = { showCoverage = true }) { Text("See supported species") }
                 if (result.analyzing) { CircularProgressIndicator(); Text("Identifying on this phone…") }
                 else {
                     result.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
                     Text("Possible matches", style = MaterialTheme.typography.titleMedium)
+                    Text(result.modelVersion, style = MaterialTheme.typography.bodySmall)
                     Text("Model scores rank suggestions; they are not a measured chance of being correct. Compare the whole specimen before choosing a label.", style = MaterialTheme.typography.bodySmall)
                     if (result.predictions.isEmpty()) Text("No clear match in this category. Try a closer photo with the subject centered, or save as Unknown.")
                     val selectable = nature.saveStage == NatureSaveStage.IDLE
@@ -66,6 +67,7 @@ fun NatureResultScreen(vm: TreeViewModel, nature: NatureViewModel) {
                             Column(Modifier.padding(vertical = 8.dp)) {
                                 Text(prediction.taxon.commonName)
                                 Text("${prediction.taxon.scientificName} · score ${natureScore(prediction.score)}", style = MaterialTheme.typography.bodySmall)
+                                Text(nyRecordLabel(prediction.taxon), style = MaterialTheme.typography.bodySmall)
                             }
                         }
                     }
@@ -95,7 +97,7 @@ fun NatureResultScreen(vm: TreeViewModel, nature: NatureViewModel) {
                     }
                 }
                 nature.error?.let { Text(it, color = MaterialTheme.colorScheme.error) }
-                TextButton(onClick = { vm.navigate(Screen.NatureObservations) }, enabled = nature.saveStage == NatureSaveStage.IDLE) { Text("Saved flowers and mushrooms") }
+                TextButton(onClick = { vm.navigate(Screen.NatureObservations) }, enabled = nature.saveStage == NatureSaveStage.IDLE) { Text("Saved plants and mushrooms") }
                 TextButton(onClick = { showLicense = true }) { Text("Model credits and coverage") }
             }
         }
@@ -108,20 +110,21 @@ fun NatureResultScreen(vm: TreeViewModel, nature: NatureViewModel) {
 fun NatureObservationsScreen(vm: TreeViewModel, nature: NatureViewModel) {
     val records by nature.observations.collectAsStateWithLifecycle()
     var filter by rememberSaveable { mutableStateOf<String?>(null) }
-    Scaffold(topBar = { BackTopBar("Flowers & mushrooms") { vm.back() } }) { padding ->
+    Scaffold(topBar = { BackTopBar("Plants & mushrooms") { vm.back() } }) { padding ->
         Column(Modifier.fillMaxSize().padding(padding)) {
+            (listOf<NatureKind?>(null) + NatureKind.entries).chunked(3).forEach { kinds ->
             Row(Modifier.padding(horizontal = 8.dp), horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                FilterChip(filter == null, onClick = { filter = null }, label = { Text("All") })
-                NatureKind.entries.forEach { kind -> FilterChip(filter == kind.key, onClick = { filter = kind.key }, label = { Text(kind.title) }) }
+                kinds.forEach { kind -> FilterChip(filter == kind?.key, onClick = { filter = kind?.key }, label = { Text(kind?.title ?: "All") }) }
+            }
             }
             TextButton(onClick = { vm.navigate(Screen.SightingMap()) }) { Text("Map of sightings") }
             (nature.observationError ?: nature.error)?.let { Text(it, Modifier.padding(16.dp), color = MaterialTheme.colorScheme.error) }
             val visible = records.orEmpty().filter { filter == null || it.kind == filter }
             if (records == null) Text("Loading…", Modifier.padding(16.dp))
-            else if (visible.isEmpty()) Text("No saved observations in this category yet. Choose Flowers or Mushrooms on the camera screen.", Modifier.padding(16.dp))
+            else if (visible.isEmpty()) Text("No saved observations in this category yet. Choose a category on the camera screen.", Modifier.padding(16.dp))
             LazyColumn {
                 items(visible, key = { it.id }) { row ->
-                    ListItem(headlineContent = { Text(nature.catalog[row.taxonKey]?.commonName ?: "Unknown ${row.kind}") },
+                    ListItem(headlineContent = { Text(nature.catalog[row.taxonKey]?.commonName ?: "Unknown ${NatureKind.fromKey(row.kind).singular.lowercase()}") },
                         supportingContent = { Text("${NatureKind.fromKey(row.kind).singular} · ${sightingDate(row.observedAt)} · ${if (row.latitude != null) "GPS" else "No location"}") },
                         modifier = Modifier.clickable { vm.navigate(Screen.NatureDetail(row.id)) })
                 }
@@ -150,7 +153,7 @@ fun NatureDetailScreen(vm: TreeViewModel, nature: NatureViewModel, id: Long) {
                 val kind = NatureKind.fromKey(row.kind)
                 NatureCaution(kind)
                 Text(nature.catalog[key]?.commonName ?: "Unknown ${kind.singular.lowercase()}", style = MaterialTheme.typography.headlineSmall)
-                nature.catalog[key]?.let { Text(it.scientificName) }
+                nature.catalog[key]?.let { Text(it.scientificName); Text(nyRecordLabel(it), style = MaterialTheme.typography.bodySmall) }
                 Text(sightingDate(row.observedAt))
                 bitmap?.let { Image(it.asImageBitmap(), "Saved observation photo", Modifier.fillMaxWidth().height(240.dp), contentScale = ContentScale.Fit) }
                     ?: Text("Photo unavailable")
@@ -185,16 +188,19 @@ private fun NatureCaution(kind: NatureKind) {
 @Composable
 private fun NatureTaxonPicker(catalog: NatureCatalog, kind: NatureKind, choose: ((String?) -> Unit)?, close: () -> Unit) {
     var query by remember { mutableStateOf("") }
-    val matches = remember(query, kind) { catalog.supported(kind).filter { it.commonName.contains(query, true) || it.scientificName.contains(query, true) }.sortedBy { it.commonName } }
+    var newYorkOnly by remember { mutableStateOf(true) }
+    val matches = remember(query, kind, newYorkOnly) { catalog.supported(kind, newYorkOnly).filter { it.commonName.contains(query, true) || it.scientificName.contains(query, true) }.sortedBy { it.commonName } }
     AlertDialog(onDismissRequest = close, title = { Text("Supported ${kind.title.lowercase()}") }, text = {
         Column {
-            Text("${catalog.supported(kind).size} taxa in this model. No regional filtering.", style = MaterialTheme.typography.bodySmall)
+            Text("${catalog.supported(kind, true).size} taxa with New York records; ${catalog.supported(kind).size} supported in total.", style = MaterialTheme.typography.bodySmall)
+            Row { Checkbox(newYorkOnly, { newYorkOnly = it }); Text("NY records only", Modifier.padding(top = 12.dp)) }
+            Text("iNaturalist research-grade records, ${catalog.snapshotDate}. Includes introduced and occasional plants. These records do not establish native status, local presence, or model accuracy.", style = MaterialTheme.typography.bodySmall)
             OutlinedTextField(query, { query = it }, label = { Text("Search names") })
             if (choose != null) TextButton(onClick = { choose(null) }) { Text("Unknown ${kind.singular.lowercase()}") }
             LazyColumn(Modifier.heightIn(max = 320.dp)) {
                 items(matches, key = { it.key }) { taxon ->
-                    if (choose != null) TextButton(onClick = { choose(taxon.key) }) { Text("${taxon.commonName}\n${taxon.scientificName}") }
-                    else Text("${taxon.commonName}\n${taxon.scientificName}", Modifier.padding(vertical = 8.dp), style = MaterialTheme.typography.bodySmall)
+                    if (choose != null) TextButton(onClick = { choose(taxon.key) }) { Text("${taxon.commonName}\n${taxon.scientificName}\n${nyRecordLabel(taxon)}") }
+                    else Text("${taxon.commonName}\n${taxon.scientificName}\n${nyRecordLabel(taxon)}", Modifier.padding(vertical = 8.dp), style = MaterialTheme.typography.bodySmall)
                 }
             }
         }
@@ -204,10 +210,13 @@ private fun NatureTaxonPicker(catalog: NatureCatalog, kind: NatureKind, choose: 
 @Composable
 private fun NatureLicense(close: () -> Unit) {
     val context = LocalContext.current
-    val text = remember { listOf("nature/NOTICE.txt", "nature/LICENSE.txt").joinToString("\n\n") { name -> context.assets.open(name).bufferedReader().use { it.readText() } } }
+    val text = remember { listOf("nature-expanded/NOTICE.txt", "nature-expanded/LICENSE-CC-BY-4.0.txt",
+        "nature-expanded/LICENSE-DINOv3.md", "nature-expanded/LICENSE-CC-BY-NC-SA-4.0.txt",
+        "nature/NOTICE.txt", "nature/LICENSE.txt").joinToString("\n\n") { name -> context.assets.open(name).bufferedReader().use { it.readText() } } }
     AlertDialog(onDismissRequest = close, title = { Text("Model credits") }, text = {
         Text(text, Modifier.heightIn(max = 420.dp).verticalScroll(rememberScrollState()), style = MaterialTheme.typography.bodySmall)
     }, confirmButton = { TextButton(onClick = close) { Text("Close") } })
 }
 
 private fun natureScore(score: Float) = String.format(Locale.US, "%.2f", score)
+private fun nyRecordLabel(taxon: NatureTaxon) = taxon.nyObservations?.let { "NY observation records: $it" } ?: "No NY record in bundled snapshot"

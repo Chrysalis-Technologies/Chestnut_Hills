@@ -15,8 +15,8 @@ class NatureAssetsTest {
     private val context: Context get() = RuntimeEnvironment.getApplication()
     @Test fun catalogPreservesOutputOrderAndSeparatesSupportedGroups() {
         val catalog = NatureCatalog.load(context)
-        assertEquals(174, catalog.supported(NatureKind.FLOWER).size)
-        assertEquals(18, catalog.supported(NatureKind.MUSHROOM).size)
+        assertEquals(174, catalog.taxa.count { it.kind == NatureKind.FLOWER })
+        assertEquals(18, catalog.taxa.count { it.kind == NatureKind.MUSHROOM })
         assertEquals("Trifolium pratense", catalog.taxa[135].scientificName)
         assertEquals("Amanita muscaria", catalog.taxa[53].scientificName)
         assertEquals(NatureKind.MUSHROOM, catalog["48715"]?.kind)

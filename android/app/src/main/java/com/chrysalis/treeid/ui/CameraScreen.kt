@@ -129,7 +129,7 @@ fun CameraScreen(vm: TreeViewModel, nature: NatureViewModel) {
                 horizontalAlignment = Alignment.CenterHorizontally,
             ) {
                 Text(
-                    "Camera access lets you photograph a tree to identify it. " +
+                    "Camera access lets you photograph a specimen to identify it. " +
                         "Photos never leave your phone.",
                     color = Color.White,
                     textAlign = TextAlign.Center,
@@ -154,12 +154,16 @@ fun CameraScreen(vm: TreeViewModel, nature: NatureViewModel) {
 
         Column(
             Modifier.align(Alignment.TopCenter).statusBarsPadding().padding(top = 64.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
+            listOf(listOf("tree" to "Trees", "flower" to "Plants", "mushroom" to "Mushrooms"),
+                listOf("fern" to "Ferns & allies", "vine" to "Vines")).forEach { modes ->
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                listOf("tree" to "Trees", "flower" to "Flowers", "mushroom" to "Mushrooms").forEach { (key, label) ->
+                modes.forEach { (key, label) ->
                     FilterChip(selected = photoMode == key, onClick = { if (!capturing) photoMode = key }, label = { Text(label) },
                         colors = FilterChipDefaults.filterChipColors(containerColor = Color(0xff202820), labelColor = Color.White))
                 }
+            }
             }
         }
 
@@ -179,8 +183,10 @@ fun CameraScreen(vm: TreeViewModel, nature: NatureViewModel) {
             }
             Text(
                     when (natureKind) {
-                        NatureKind.FLOWER -> "Center one flower and nearby leaves in good light"
+                        NatureKind.FLOWER -> "Center one plant and its leaves; include flowers when present"
                         NatureKind.MUSHROOM -> "Center one mushroom. Compare cap, underside and stem. Never use this app to decide what to eat."
+                        NatureKind.FERN -> "Center a frond. Compare its underside and how the fronds grow."
+                        NatureKind.VINE -> "Include leaves and the climbing stem; photograph flowers or fruit when present."
                         null -> "Fill the square with one leaf, a needle cluster, bark, flowers, or fruit"
                     },
                 color = Color.White,
@@ -215,7 +221,7 @@ fun CameraScreen(vm: TreeViewModel, nature: NatureViewModel) {
             Spacer(Modifier.height(12.dp))
             Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
                 FilledTonalButton(onClick = { vm.navigate(Screen.BirdRecord) }) { Text("Bird calls") }
-                FilledTonalButton(onClick = { vm.navigate(Screen.NatureObservations) }) { Text("Flowers & fungi") }
+                FilledTonalButton(onClick = { vm.navigate(Screen.NatureObservations) }) { Text("Plants & fungi") }
             }
             Row(
                 Modifier.fillMaxWidth().padding(horizontal = 16.dp),
