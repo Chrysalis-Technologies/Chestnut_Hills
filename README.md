@@ -64,6 +64,22 @@ Colab) is the next accuracy step.
 * Similar species (red vs. black oak, white vs. green ash, the spruces) are the hardest.
   The result screen lists what to check and the usual look-alikes.
 
+## Sightings (v0.2.0)
+
+After identification, tap a candidate (or **Unknown tree**) and choose **Save sighting**.
+Location permission is requested only when saving. The app prefers GPS embedded in a selected
+original photo; otherwise it uses the device GPS, waits up to 20 seconds, and still saves if
+permission is denied or no fix arrives. **Save without location** skips the wait. Approximate-only
+permission cannot provide a GPS fix. Photos opens the local document picker to retain original
+photo metadata where the provider allows it.
+
+Open **Sightings** beside Photos/Guide to browse saved photos, edit notes, change the tree,
+or delete a sighting. Photos are copied to app-private storage, limited to 1024 pixels on the
+long side. **Export** offers CSV and GeoJSON through the Android share sheet. Only the selected
+export is shared; unlocated sightings have blank CSV coordinates and null GeoJSON geometry.
+CSV dates use UTC, coordinates are decimal degrees, and accuracy is in meters. Spreadsheet-like
+formulas in text fields are prefixed with an apostrophe; GeoJSON keeps the original notes.
+
 ## How it's built
 
 | Path | What's there |
@@ -77,8 +93,9 @@ Colab) is the next accuracy step.
 ## Roadmap
 
 1. ✅ Offline identification + field guide
-2. ⏭️ Save sightings with GPS location and notes (offline), browse them on a list or map
+2. ✅ Save sightings with GPS location and notes (offline), browse/edit/delete, export CSV/GeoJSON
 3. More accurate model: full fine-tune on a GPU (`training/finetune_colab.ipynb`)
+4. Offline maps for sightings (separate future task)
 
 ## Credits
 

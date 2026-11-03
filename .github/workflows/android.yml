@@ -59,9 +59,16 @@ jobs:
           distribution: temurin
           java-version: "17"
       - uses: gradle/actions/setup-gradle@v4
-      - name: Build APK
+      - name: Test and build APK
         working-directory: android
-        run: ./gradlew --no-daemon --stacktrace assembleRelease
+        run: ./gradlew --no-daemon --stacktrace testReleaseUnitTest assembleRelease
+      - name: Verify the APK stays offline
+        run: |
+          permissions=$("$ANDROID_HOME/build-tools/35.0.0/aapt" dump permissions android/app/build/outputs/apk/release/app-release.apk)
+          if echo "$permissions" | grep -q 'android.permission.INTERNET'; then
+            echo "::error::The APK must never request INTERNET"
+            exit 1
+          fi
       - name: Rename APK
         run: |
           mkdir -p dist
